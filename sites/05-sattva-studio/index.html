@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sattva Studio — Yoga & Wellness in Bloomington</title>
+<meta name="description" content="Sattva Studio is a calm, welcoming yoga and wellness studio in Bloomington. Vinyasa, Yin, Restorative and Prenatal classes with experienced teachers.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%238a9a7b'/%3E%3Cpath d='M16 6c3 4 3 8 0 12-3-4-3-8 0-12z' fill='%23f4efe7'/%3E%3Cpath d='M16 12c4 1 6 4 6 9-4-1-6-4-6-9z' fill='%23e7ddcf'/%3E%3Cpath d='M16 12c-4 1-6 4-6 9 4-1 6-4 6-9z' fill='%23e7ddcf'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --sage:#8a9a7b;
+    --sage-deep:#6f7f61;
+    --sand:#e7ddcf;
+    --sand-soft:#f1eadd;
+    --offwhite:#faf7f1;
+    --paper:#fffdf9;
+    --charcoal:#3a3c37;
+    --muted:#6b6d64;
+    --line:#e4ddce;
+    --shadow:0 18px 45px -24px rgba(58,60,55,.35);
+    --shadow-soft:0 10px 30px -18px rgba(58,60,55,.30);
+    --radius:26px;
+    --radius-sm:16px;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --sans:"Avenir Next","Segoe UI",Helvetica,Arial,system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--charcoal);
+    background:var(--offwhite);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.15;letter-spacing:.2px;margin:0;text-wrap:balance;}
+  p{margin:0 0 1rem;}
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  section[id],main[id]{scroll-margin-top:84px;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+  .wrap{width:min(1160px,92vw);margin-inline:auto;}
+  .eyebrow{
+    font-family:var(--sans);
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    font-size:.72rem;
+    font-weight:600;
+    color:var(--sage-deep);
+    margin:0 0 .9rem;
+    display:inline-block;
+  }
+  .section{padding:clamp(3.5rem,8vw,6.5rem) 0;position:relative;}
+  .lead{font-size:1.08rem;color:var(--muted);max-width:56ch;text-wrap:pretty;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;gap:.55rem;
+    font-family:var(--sans);font-weight:600;font-size:.95rem;
+    padding:.85rem 1.6rem;border-radius:999px;cursor:pointer;
+    border:1px solid transparent;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,color .25s ease;
+    will-change:transform;
+  }
+  .btn-primary{background:var(--sage);color:#fff;box-shadow:0 12px 26px -14px rgba(111,127,97,.85);}
+  .btn-primary:hover{background:var(--sage-deep);transform:translateY(-2px);box-shadow:0 18px 32px -14px rgba(111,127,97,.9);}
+  .btn-ghost{background:transparent;color:var(--charcoal);border-color:var(--line);}
+  .btn-ghost:hover{background:var(--paper);border-color:var(--sage);transform:translateY(-2px);}
+  .btn:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid rgba(138,154,123,.55);outline-offset:3px;}
+
+  /* Header */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,247,241,.82);
+    backdrop-filter:saturate(140%) blur(12px);
+    border-bottom:1px solid rgba(228,221,206,.7);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0;}
+  .brand{display:flex;align-items:center;gap:.7rem;font-family:var(--serif);font-size:1.35rem;font-weight:600;transition:opacity .2s ease;}
+  .brand:hover{opacity:.82;}
+  .brand .mark{width:40px;height:40px;flex:0 0 auto;}
+  .brand small{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--sage-deep);margin-top:-2px;}
+  .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;margin:0;padding:0;}
+  .nav-links a{font-size:.95rem;color:var(--muted);position:relative;transition:color .2s ease;}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--sage);border-radius:2px;transition:width .28s ease;}
+  .nav-links a:hover{color:var(--charcoal);}
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{display:flex;align-items:center;gap:1rem;}
+  .menu-toggle{display:none;background:none;border:1px solid var(--line);border-radius:12px;padding:.5rem .6rem;cursor:pointer;}
+  .menu-toggle svg{width:22px;height:22px;stroke:var(--charcoal);}
+
+  /* Hero */
+  .hero{position:relative;overflow:hidden;}
+  .hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center;padding:clamp(3rem,7vw,5.5rem) 0 clamp(3.5rem,7vw,6rem);}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.3rem);letter-spacing:-.5px;}
+  .hero h1 em{font-style:italic;color:var(--sage-deep);}
+  .hero .lead{font-size:1.18rem;margin-top:1.4rem;max-width:44ch;}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;}
+  .hero-meta{display:flex;gap:2.2rem;margin-top:2.6rem;flex-wrap:wrap;}
+  .hero-meta div{display:flex;flex-direction:column;}
+  .hero-meta strong{font-family:var(--serif);font-size:1.7rem;color:var(--charcoal);font-variant-numeric:tabular-nums;}
+  .hero-meta span{font-size:.82rem;color:var(--muted);letter-spacing:.04em;}
+  .hero-art{position:relative;}
+  .hero-art svg{width:100%;height:auto;filter:drop-shadow(0 30px 50px rgba(111,127,97,.22));}
+  .blob-bg{position:absolute;z-index:0;pointer-events:none;}
+  .blob-1{top:-160px;right:-160px;width:520px;opacity:.55;}
+  .blob-2{bottom:-220px;left:-180px;width:480px;opacity:.4;}
+
+  /* Marquee / trust strip */
+  .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--sand-soft);}
+  .trust-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2.4rem;padding:1.4rem 0;text-align:center;}
+  .trust-inner span{font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);display:flex;align-items:center;gap:.6rem;font-weight:600;}
+  .trust-inner svg{width:18px;height:18px;stroke:var(--sage-deep);fill:none;stroke-width:1.9;}
+
+  .section-head{max-width:60ch;margin-bottom:2.8rem;}
+  .section-head.center{margin-inline:auto;text-align:center;}
+  .section-head h2{font-size:clamp(2rem,4.5vw,2.9rem);}
+  .section-head p{margin-top:.8rem;}
+
+  /* Classes */
+  .classes{background:var(--paper);}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem;}
+  .class-card{
+    background:var(--offwhite);border:1px solid var(--line);border-radius:var(--radius);
+    padding:1.8rem 1.6rem;position:relative;overflow:hidden;
+    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+  }
+  .class-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:transparent;}
+  .class-icon{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;background:var(--sand-soft);margin-bottom:1.2rem;}
+  .class-icon svg{width:34px;height:34px;stroke:var(--sage-deep);fill:none;stroke-width:1.6;}
+  .class-card h3{font-size:1.4rem;margin-bottom:.4rem;}
+  .class-card p{font-size:.95rem;color:var(--muted);margin-bottom:1.2rem;}
+  .tags{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .tag{font-size:.74rem;font-weight:600;letter-spacing:.03em;padding:.3rem .7rem;border-radius:999px;background:rgba(138,154,123,.14);color:var(--sage-deep);}
+
+  /* Schedule */
+  .schedule{background:var(--offwhite);}
+  .table-scroll{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow-soft);}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:.94rem;font-variant-numeric:tabular-nums;}
+  thead th{background:var(--sage);color:#fff;font-family:var(--sans);font-weight:600;text-align:left;padding:1rem 1.2rem;letter-spacing:.03em;}
+  thead th:first-child{border-top-left-radius:var(--radius);}
+  thead th:last-child{border-top-right-radius:var(--radius);}
+  tbody td{padding:.95rem 1.2rem;border-bottom:1px solid var(--line);vertical-align:top;transition:background .2s ease;}
+  tbody tr:nth-child(even){background:rgba(138,154,123,.05);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--sand-soft);}
+  .cell-class{font-weight:600;color:var(--charcoal);}
+  .cell-time{color:var(--sage-deep);font-weight:600;white-space:nowrap;}
+  .cell-teacher{color:var(--muted);font-size:.86rem;}
+  .cell-empty{color:#bcb6a5;}
+
+  /* Teachers */
+  .teachers{background:var(--paper);}
+  .teacher-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.6rem;}
+  .teacher{background:var(--offwhite);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem;text-align:center;transition:transform .3s ease,box-shadow .3s ease;}
+  .teacher:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .avatar{width:120px;height:120px;margin:0 auto 1.2rem;border-radius:50%;overflow:hidden;box-shadow:0 10px 24px -14px rgba(58,60,55,.5);}
+  .teacher h3{font-size:1.3rem;}
+  .teacher .role{color:var(--sage-deep);font-weight:600;font-size:.86rem;letter-spacing:.04em;margin:.2rem 0 .8rem;}
+  .teacher p{font-size:.9rem;color:var(--muted);margin-bottom:1rem;}
+  .cert{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:.9rem;}
+
+  /* Memberships */
+  .pricing{background:var(--sand-soft);position:relative;overflow:hidden;}
+  .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;position:relative;z-index:1;}
+  .price-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:2.1rem 1.8rem;display:flex;flex-direction:column;transition:transform .3s ease,box-shadow .3s ease;}
+  .price-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .price-card.featured{background:var(--sage);color:#fff;border-color:var(--sage);box-shadow:var(--shadow);}
+  .price-card.featured .price-amt,.price-card.featured h3{color:#fff;}
+  .price-card.featured .price-list li{color:rgba(255,255,255,.92);}
+  .price-card.featured .price-list svg{stroke:#fff;}
+  .price-card.featured .lead,.price-card.featured .per{color:rgba(255,255,255,.85);}
+  .badge{align-self:flex-start;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.2);color:#fff;padding:.35rem .8rem;border-radius:999px;margin-bottom:1rem;}
+  .price-card h3{font-size:1.35rem;margin-bottom:.3rem;}
+  .price-card .sub{font-size:.9rem;color:var(--muted);margin-bottom:1.2rem;}
+  .price-amt{font-family:var(--serif);font-size:2.6rem;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;}
+  .per{font-size:.85rem;color:var(--muted);margin-bottom:1.4rem;}
+  .price-list{list-style:none;padding:0;margin:0 0 1.6rem;display:flex;flex-direction:column;gap:.7rem;}
+  .price-list li{display:flex;align-items:flex-start;gap:.6rem;font-size:.92rem;color:var(--muted);}
+  .price-list svg{width:18px;height:18px;stroke:var(--sage);flex:0 0 auto;margin-top:2px;fill:none;stroke-width:2;}
+  .price-card .btn{width:100%;justify-content:center;margin-top:auto;}
+  .price-card.featured .btn-primary{background:#fff;color:var(--sage-deep);}
+  .price-card.featured .btn-primary:hover{background:var(--offwhite);}
+  @media(min-width:820px){
+    .price-card.featured{transform:translateY(-10px);}
+    .price-card.featured:hover{transform:translateY(-16px);}
+  }
+
+  /* Testimonial */
+  .quote{background:var(--offwhite);text-align:center;}
+  .quote-card{max-width:760px;margin-inline:auto;position:relative;padding:0 1rem;}
+  .quote-mark{font-family:var(--serif);font-size:5rem;color:var(--sage);opacity:.35;line-height:.4;height:2.4rem;}
+  .quote blockquote{font-family:var(--serif);font-size:clamp(1.4rem,3vw,2rem);font-style:italic;line-height:1.4;margin:0 0 1.6rem;color:var(--charcoal);}
+  .quote figcaption{display:flex;align-items:center;justify-content:center;gap:.9rem;}
+  .quote .mini-avatar{width:52px;height:52px;border-radius:50%;overflow:hidden;box-shadow:0 8px 18px -12px rgba(58,60,55,.5);}
+  .quote cite{font-style:normal;text-align:left;}
+  .quote cite strong{display:block;font-family:var(--sans);}
+  .quote cite span{font-size:.84rem;color:var(--muted);}
+  .stars{display:flex;justify-content:center;gap:.25rem;margin-bottom:1.4rem;}
+  .stars svg{width:20px;height:20px;fill:#d8a94a;}
+
+  /* Visit */
+  .visit{background:var(--paper);}
+  .visit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:stretch;}
+  .visit-info h3{font-size:1.5rem;margin-bottom:1.2rem;}
+  .info-row{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);}
+  .info-row:last-of-type{border-bottom:none;}
+  .info-row .ico{width:44px;height:44px;flex:0 0 auto;border-radius:14px;background:var(--sand-soft);display:grid;place-items:center;}
+  .info-row .ico svg{width:22px;height:22px;stroke:var(--sage-deep);fill:none;stroke-width:1.7;}
+  .info-row h4{font-family:var(--sans);font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.25rem;font-weight:600;}
+  .info-row p{margin:0;color:var(--charcoal);}
+  .hours-card{background:var(--offwhite);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem;box-shadow:var(--shadow-soft);}
+  .hours-card h3{font-size:1.3rem;margin-bottom:1.2rem;}
+  .hours-row{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px dashed var(--line);font-size:.94rem;font-variant-numeric:tabular-nums;}
+  .hours-row:last-child{border-bottom:none;}
+  .hours-row span:first-child{color:var(--muted);}
+  .hours-row span:last-child{font-weight:600;color:var(--charcoal);}
+  .hours-row.today{color:var(--sage-deep);}
+  .hours-row.today span{color:var(--sage-deep);}
+  .map-mock{margin-top:1.4rem;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line);}
+  .map-mock svg{width:100%;height:180px;display:block;}
+
+  /* CTA band */
+  .cta-band{background:var(--sage);color:#fff;text-align:center;position:relative;overflow:hidden;}
+  .cta-band h2{font-size:clamp(2rem,4.5vw,3rem);color:#fff;}
+  .cta-band p{color:rgba(255,255,255,.9);max-width:52ch;margin:1rem auto 2rem;}
+  .cta-band .btn-primary{background:#fff;color:var(--sage-deep);}
+  .cta-band .btn-primary:hover{background:var(--offwhite);}
+  .cta-band .btn-ghost{color:#fff;border-color:rgba(255,255,255,.5);}
+  .cta-band .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff;}
+
+  /* Footer */
+  footer.site{background:var(--charcoal);color:#d8d6ce;padding:3.5rem 0 2rem;}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:2rem;margin-bottom:2.5rem;}
+  footer .brand{color:#fff;}
+  footer .brand small{color:#a9b39a;}
+  footer p{color:#a9a7a0;font-size:.92rem;max-width:34ch;}
+  footer h5{font-family:var(--sans);text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;color:#fff;margin:0 0 1rem;font-weight:600;}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.6rem;}
+  footer ul a{color:#a9a7a0;font-size:.92rem;transition:color .2s ease;}
+  footer ul a:hover{color:#fff;}
+  .socials{display:flex;gap:.7rem;margin-top:1rem;}
+  .socials a{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);display:grid;place-items:center;transition:background .2s ease,border-color .2s ease;}
+  .socials a:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);}
+  .socials svg{width:18px;height:18px;stroke:#d8d6ce;fill:none;stroke-width:1.7;}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);padding-top:1.6rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.84rem;color:#8f8d86;}
+  .foot-bottom a{color:#8f8d86;}
+  .foot-bottom a:hover{color:#fff;}
+  .foot-news{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.4rem 2.6rem;padding-bottom:2.6rem;margin-bottom:2.6rem;border-bottom:1px solid rgba(255,255,255,.12);}
+  .foot-news h4{font-family:var(--serif);color:#fff;font-size:1.4rem;margin:0 0 .35rem;}
+  .foot-news .news-copy p{color:#a9a7a0;font-size:.92rem;margin:0;max-width:38ch;}
+  .news-field{display:flex;gap:.6rem;flex-wrap:wrap;}
+  .news-field input{
+    font-family:var(--sans);font-size:.95rem;color:#fff;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);
+    border-radius:999px;padding:.82rem 1.3rem;min-width:230px;flex:1 1 230px;
+    transition:border-color .2s ease,background .2s ease;
+  }
+  .news-field input::placeholder{color:#8b897f;}
+  .news-field input:focus{outline:none;border-color:var(--sage);background:rgba(255,255,255,.11);}
+  .news-field .btn-primary{background:var(--sage);color:#fff;box-shadow:none;}
+  .news-field .btn-primary:hover{background:#9aab8a;box-shadow:none;}
+  .news-note{color:#8f8d86;font-size:.82rem;margin:.75rem 0 0;min-height:1.15rem;transition:color .2s ease;}
+  .news-note.ok{color:#b9c8a7;}
+
+  /* Entrance animation */
+  .reveal{opacity:0;translate:0 22px;transition:opacity .7s ease,translate .7s ease;}
+  .reveal.in{opacity:1;translate:0 0;}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;translate:none;transition:none;}
+    html{scroll-behavior:auto;}
+    .btn,.class-card,.teacher,.price-card{transition:none;}
+  }
+
+  /* Responsive */
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr;text-align:center;}
+    .hero .lead{margin-inline:auto;}
+    .hero-actions,.hero-meta{justify-content:center;}
+    .hero-art{order:-1;max-width:440px;margin-inline:auto;}
+    .visit-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .nav-links{
+      position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;align-items:stretch;gap:0;
+      background:var(--paper);border-bottom:1px solid var(--line);
+      padding:.5rem 6vw 1.2rem;box-shadow:var(--shadow-soft);
+      display:none;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links li{border-bottom:1px solid var(--line);}
+    .nav-links a{display:block;padding:.9rem .2rem;}
+    .nav-links a::after{display:none;}
+    .nav-cta .btn-ghost{display:none;}
+    .menu-toggle{display:inline-flex;}
+    .hero-meta{gap:1.6rem;}
+    .foot-grid{grid-template-columns:1fr;}
+    .foot-bottom{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site">
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Sattva Studio home">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="12" fill="#8a9a7b"/>
+        <path d="M20 8c3.6 4.8 3.6 9.6 0 14.4-3.6-4.8-3.6-9.6 0-14.4z" fill="#f4efe7"/>
+        <path d="M20 15c4.8 1.2 7.2 4.8 7.2 10.8-4.8-1.2-7.2-4.8-7.2-10.8z" fill="#e7ddcf"/>
+        <path d="M20 15c-4.8 1.2-7.2 4.8-7.2 10.8 4.8-1.2 7.2-4.8 7.2-10.8z" fill="#e7ddcf"/>
+      </svg>
+      <span>Sattva Studio<small>Yoga &amp; Wellness</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="navlinks">
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#teachers">Teachers</a></li>
+        <li><a href="#pricing">Membership</a></li>
+        <li><a href="#visit">Visit</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a href="#pricing" class="btn btn-ghost">Membership</a>
+      <a href="#visit" class="btn btn-primary">Book a class</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navlinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <svg class="blob-bg blob-1" viewBox="0 0 600 600" aria-hidden="true"><path fill="#e7ddcf" d="M441,320Q414,390,352,430Q290,470,222,441Q154,412,110,352Q66,292,101,224Q136,156,197,113Q258,70,330,94Q402,118,443,180Q484,242,441,320Z"/></svg>
+  <svg class="blob-bg blob-2" viewBox="0 0 600 600" aria-hidden="true"><path fill="#8a9a7b" d="M420,300Q420,370,360,410Q300,450,235,425Q170,400,130,340Q90,280,120,215Q150,150,215,120Q280,90,345,120Q410,150,420,225Q430,300,420,300Z"/></svg>
+  <div class="wrap hero-inner">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Bloomington &middot; Est. 2016</span>
+      <h1>Come home to your <em>breath</em>.</h1>
+      <p class="lead">A light-filled studio where slow mornings, honest movement, and quiet stillness meet. Whatever brought you here, there is a mat waiting.</p>
+      <div class="hero-actions">
+        <a href="#visit" class="btn btn-primary">Book a class
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#classes" class="btn btn-ghost">Explore classes</a>
+      </div>
+      <div class="hero-meta">
+        <div><strong>18</strong><span>Weekly classes</span></div>
+        <div><strong>3</strong><span>Certified teachers</span></div>
+        <div><strong>4.9</strong><span>Google rating</span></div>
+      </div>
+    </div>
+    <div class="hero-art reveal" aria-hidden="true">
+      <svg viewBox="0 0 460 460" role="img" aria-label="Illustration of a person seated in a calm meditation pose">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f4efe7"/>
+            <stop offset="1" stop-color="#e7ddcf"/>
+          </linearGradient>
+          <linearGradient id="robe" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9aab8a"/>
+            <stop offset="1" stop-color="#6f7f61"/>
+          </linearGradient>
+        </defs>
+        <circle cx="230" cy="230" r="220" fill="url(#sky)"/>
+        <circle cx="230" cy="150" r="150" fill="#f6f2ea" opacity=".6"/>
+        <!-- sun rays -->
+        <g stroke="#cdbfa6" stroke-width="3" stroke-linecap="round" opacity=".6">
+          <path d="M230 44v-26"/><path d="M320 70l14-22"/><path d="M140 70l-14-22"/><path d="M372 150l24-10"/><path d="M88 150l-24-10"/>
+        </g>
+        <!-- ground shadow -->
+        <ellipse cx="230" cy="392" rx="150" ry="24" fill="#cdbfa6" opacity=".45"/>
+        <!-- crossed legs -->
+        <path d="M118 372q-6-46 44-58q52-12 68 14q16-26 68-14q50 12 44 58q-4 26-112 26t-112-26z" fill="url(#robe)"/>
+        <path d="M150 356q40-20 80-20t80 20" fill="none" stroke="#5f6e52" stroke-width="3" opacity=".5"/>
+        <!-- body / robe -->
+        <path d="M162 356q-8-96 68-96t68 96z" fill="url(#robe)"/>
+        <path d="M230 264q-30 0-40 40h80q-10-40-40-40z" fill="#5f6e52" opacity=".45"/>
+        <!-- arms resting -->
+        <path d="M170 320q-24 6-30 40q22 8 42 2q-8-24-12-42z" fill="#9aab8a"/>
+        <path d="M290 320q24 6 30 40q-22 8-42 2q8-24 12-42z" fill="#9aab8a"/>
+        <circle cx="150" cy="360" r="12" fill="#e9c9a8"/>
+        <circle cx="310" cy="360" r="12" fill="#e9c9a8"/>
+        <!-- neck + head -->
+        <rect x="218" y="212" width="24" height="34" rx="12" fill="#e9c9a8"/>
+        <circle cx="230" cy="196" r="40" fill="#e9c9a8"/>
+        <!-- hair -->
+        <path d="M190 196a40 40 0 0 1 80 0q0-46-40-46t-40 46z" fill="#4c4a44"/>
+        <path d="M190 196q0 14 6 24q-18-4-16-26q1-16 10-14z" fill="#4c4a44"/>
+        <path d="M270 196q0 14-6 24q18-4 16-26q-1-16-10-14z" fill="#4c4a44"/>
+        <!-- serene face -->
+        <path d="M216 194q6 5 12 0" fill="none" stroke="#6f5a45" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M232 194q6 5 12 0" fill="none" stroke="#6f5a45" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M222 214q8 5 16 0" fill="none" stroke="#c99a76" stroke-width="2.4" stroke-linecap="round"/>
+        <!-- little leaf accent -->
+        <path d="M340 250q26 4 30 30q-26 0-34-14q-4-10 4-16z" fill="#8a9a7b" opacity=".85"/>
+        <path d="M344 256q14 8 22 22" fill="none" stroke="#5f6e52" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<div class="trust">
+  <div class="wrap trust-inner">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.5 7.1 18.2 8 12.7 4 8.8 9.5 8z"/></svg>All levels welcome</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg>Small, mindful classes</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.5-9 9-9 9z"/></svg>Trauma-informed teaching</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>Mats &amp; props provided</span>
+  </div>
+</div>
+
+<!-- ============ CLASSES ============ -->
+<section class="section classes" id="classes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What we offer</span>
+      <h2>Classes for every body &amp; season</h2>
+      <p class="lead">From dynamic flow to deep rest, each class is built to meet you where you are. New here? Start with an All-Levels Vinyasa or a Restorative evening.</p>
+    </div>
+    <div class="card-grid">
+
+      <article class="class-card reveal">
+        <div class="class-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14c4-8 12-8 16 0"/><path d="M4 14c4 4 12 4 16 0"/><path d="M12 6v14"/></svg></div>
+        <h3>Vinyasa Flow</h3>
+        <p>Breath-linked movement that builds heat, strength and a quiet, moving meditation. Playlists optional, presence guaranteed.</p>
+        <div class="tags"><span class="tag">All levels</span><span class="tag">60 min</span></div>
+      </article>
+
+      <article class="class-card reveal">
+        <div class="class-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></div>
+        <h3>Yin &amp; Stillness</h3>
+        <p>Long, supported holds that reach the deep connective tissue. A slow evening practice for releasing what the day left behind.</p>
+        <div class="tags"><span class="tag">Gentle</span><span class="tag">75 min</span></div>
+      </article>
+
+      <article class="class-card reveal">
+        <div class="class-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M6 12a6 6 0 0 1 12 0"/><path d="M9 12a3 3 0 0 1 6 0"/></svg></div>
+        <h3>Restorative</h3>
+        <p>Fully propped, deeply held shapes with bolsters and blankets. Nothing to achieve — just rest, warmth and the nervous system settling.</p>
+        <div class="tags"><span class="tag">Beginner</span><span class="tag">60 min</span></div>
+      </article>
+
+      <article class="class-card reveal">
+        <div class="class-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-5-4-9 0-13 4 4 4 8 0 13z"/><circle cx="12" cy="5" r="2"/></svg></div>
+        <h3>Prenatal Yoga</h3>
+        <p>Safe, nurturing movement for every trimester — building strength, ease and community with other expecting parents.</p>
+        <div class="tags"><span class="tag">Prenatal</span><span class="tag">50 min</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section class="section schedule" id="schedule">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Weekly rhythm</span>
+      <h2>This week on the mat</h2>
+      <p class="lead">Drop-ins welcome when space allows — members reserve first. Doors open 15 minutes before each class.</p>
+    </div>
+    <div class="table-scroll reveal">
+      <table>
+        <caption class="sr-only">Weekly class schedule by day and time</caption>
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-time">7:00 AM</td>
+            <td><span class="cell-class">Sunrise Vinyasa</span><br><span class="cell-teacher">Maya Ellison</span></td>
+            <td><span class="cell-class">Sunrise Vinyasa</span><br><span class="cell-teacher">Maya Ellison</span></td>
+            <td><span class="cell-class">Slow Flow</span><br><span class="cell-teacher">Devi Ramachandran</span></td>
+            <td><span class="cell-class">Weekend Flow</span><br><span class="cell-teacher">Maya Ellison</span></td>
+          </tr>
+          <tr>
+            <td class="cell-time">9:30 AM</td>
+            <td><span class="cell-class">Gentle Restorative</span><br><span class="cell-teacher">Devi Ramachandran</span></td>
+            <td class="cell-empty">—</td>
+            <td><span class="cell-class">Prenatal Yoga</span><br><span class="cell-teacher">Devi Ramachandran</span></td>
+            <td><span class="cell-class">Family Yoga</span><br><span class="cell-teacher">Jonah Brooks</span></td>
+          </tr>
+          <tr>
+            <td class="cell-time">12:15 PM</td>
+            <td><span class="cell-class">Lunch Reset Flow</span><br><span class="cell-teacher">Jonah Brooks</span></td>
+            <td><span class="cell-class">Lunch Reset Flow</span><br><span class="cell-teacher">Jonah Brooks</span></td>
+            <td class="cell-empty">—</td>
+            <td><span class="cell-class">Yin &amp; Meditation</span><br><span class="cell-teacher">Devi Ramachandran</span></td>
+          </tr>
+          <tr>
+            <td class="cell-time">6:00 PM</td>
+            <td><span class="cell-class">Vinyasa Flow</span><br><span class="cell-teacher">Maya Ellison</span></td>
+            <td><span class="cell-class">Power Vinyasa</span><br><span class="cell-teacher">Jonah Brooks</span></td>
+            <td><span class="cell-class">Candlelit Yin</span><br><span class="cell-teacher">Maya Ellison</span></td>
+            <td class="cell-empty">—</td>
+          </tr>
+          <tr>
+            <td class="cell-time">7:45 PM</td>
+            <td><span class="cell-class">Restorative &amp; Sound</span><br><span class="cell-teacher">Devi Ramachandran</span></td>
+            <td class="cell-empty">—</td>
+            <td><span class="cell-class">Deep Rest</span><br><span class="cell-teacher">Jonah Brooks</span></td>
+            <td class="cell-empty">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEACHERS ============ -->
+<section class="section teachers" id="teachers">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Your guides</span>
+      <h2>Meet the teachers</h2>
+      <p class="lead" style="margin-inline:auto;">A small, devoted team who teach from years of their own practice — steady, warm and endlessly patient.</p>
+    </div>
+    <div class="teacher-grid">
+
+      <article class="teacher reveal">
+        <div class="avatar">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Portrait illustration of Maya Ellison">
+            <rect width="120" height="120" fill="#e7ddcf"/>
+            <circle cx="60" cy="122" r="52" fill="#8a9a7b"/>
+            <path d="M60 108c-20 0-34-8-34-8 2-16 16-24 34-24s32 8 34 24c0 0-14 8-34 8z" fill="#9aab8a"/>
+            <circle cx="60" cy="58" r="30" fill="#e6c6a4"/>
+            <path d="M30 56a30 30 0 0 1 60 0c0-30-14-40-30-40S30 26 30 56z" fill="#3f3b36"/>
+            <path d="M30 56c-4 18 6 30 6 30-14-6-14-28-6-30zM90 56c4 18-6 30-6 30 14-6 14-28 6-30z" fill="#3f3b36"/>
+            <path d="M48 56q5 4 10 0M62 56q5 4 10 0" fill="none" stroke="#5c4632" stroke-width="2" stroke-linecap="round"/>
+            <path d="M53 70q7 5 14 0" fill="none" stroke="#c58f66" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Maya Ellison</h3>
+        <div class="role">Founder &amp; Lead Vinyasa</div>
+        <p>Maya opened Sattva after a decade of teaching across Portland and Rishikesh. Her flows are musical, grounded and quietly demanding.</p>
+        <div class="cert">RYT-500 &middot; Yoga Medicine&reg; trained</div>
+      </article>
+
+      <article class="teacher reveal">
+        <div class="avatar">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Portrait illustration of Devi Ramachandran">
+            <rect width="120" height="120" fill="#e7ddcf"/>
+            <circle cx="60" cy="122" r="52" fill="#6f7f61"/>
+            <path d="M60 108c-20 0-34-8-34-8 2-16 16-24 34-24s32 8 34 24c0 0-14 8-34 8z" fill="#7f8f6f"/>
+            <circle cx="60" cy="58" r="30" fill="#c99668"/>
+            <path d="M28 60c-2-32 16-44 32-44s34 12 32 44c-6-10-6-20-10-24-8 6-36 6-44 0-4 4-4 14-10 24z" fill="#2b2723"/>
+            <path d="M30 58q-6 22 8 34-16-4-14-30zM90 58q6 22-8 34 16-4 14-30z" fill="#2b2723"/>
+            <path d="M48 56q5 4 10 0M62 56q5 4 10 0" fill="none" stroke="#5c4632" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="46" r="2.4" fill="#b5484a"/>
+            <path d="M53 70q7 5 14 0" fill="none" stroke="#a56f4a" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Devi Ramachandran</h3>
+        <div class="role">Yin, Prenatal &amp; Restorative</div>
+        <p>Devi holds space like few others — slow, precise and deeply kind. A doula and prenatal specialist, she makes every student feel held.</p>
+        <div class="cert">RPYT &middot; Yin certified &middot; Doula</div>
+      </article>
+
+      <article class="teacher reveal">
+        <div class="avatar">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Portrait illustration of Jonah Brooks">
+            <rect width="120" height="120" fill="#e7ddcf"/>
+            <circle cx="60" cy="122" r="52" fill="#8a9a7b"/>
+            <path d="M60 108c-20 0-34-8-34-8 2-16 16-24 34-24s32 8 34 24c0 0-14 8-34 8z" fill="#9aab8a"/>
+            <circle cx="60" cy="60" r="30" fill="#e2b487"/>
+            <path d="M32 52c0-20 12-30 28-30s28 10 28 30c-4-6-6-12-10-14-6 6-30 6-36 0-4 2-6 8-10 14z" fill="#6a4a30"/>
+            <path d="M40 82c-6-4-8-12-8-12l4-4M80 82c6-4 8-12 8-12l-4-4" fill="none" stroke="#6a4a30" stroke-width="3" stroke-linecap="round"/>
+            <path d="M47 84q13 8 26 0" fill="none" stroke="#6a4a30" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M48 58q5 4 10 0M62 58q5 4 10 0" fill="none" stroke="#5c4632" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Jonah Brooks</h3>
+        <div class="role">Power Vinyasa &amp; Breathwork</div>
+        <p>Former endurance athlete turned breath nerd. Jonah's classes are strong and playful, with an emphasis on the breath beneath the effort.</p>
+        <div class="cert">RYT-200 &middot; Pranayama &amp; mobility</div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIPS ============ -->
+<section class="section pricing" id="pricing">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Membership &amp; passes</span>
+      <h2>Practice on your terms</h2>
+      <p class="lead" style="margin-inline:auto;">No lock-in contracts, ever. Pause or cancel anytime. Your first class is always on us.</p>
+    </div>
+    <div class="price-grid">
+
+      <article class="price-card reveal">
+        <h3>Drop-In</h3>
+        <p class="sub">For the occasional visit</p>
+        <div class="price-amt">$22</div>
+        <div class="per">per class</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Any single class</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Mat &amp; props included</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Reserve up to 3 days ahead</li>
+        </ul>
+        <a href="#visit" class="btn btn-ghost">Book a drop-in</a>
+      </article>
+
+      <article class="price-card featured reveal">
+        <span class="badge">Most loved</span>
+        <h3>Unlimited Monthly</h3>
+        <p class="sub" style="color:rgba(255,255,255,.85)">For the devoted practitioner</p>
+        <div class="price-amt">$139</div>
+        <div class="per">per month</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Unlimited classes &amp; workshops</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Priority booking window</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>2 guest passes each month</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>15% off retail &amp; retreats</li>
+        </ul>
+        <a href="#visit" class="btn btn-primary">Start unlimited</a>
+      </article>
+
+      <article class="price-card reveal">
+        <h3>Ten-Class Pack</h3>
+        <p class="sub">Flexible &amp; shareable</p>
+        <div class="price-amt">$180</div>
+        <div class="per">$18 per class</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>10 classes, valid 4 months</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Share with a partner</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>Mat &amp; props included</li>
+        </ul>
+        <a href="#visit" class="btn btn-ghost">Buy a pack</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIAL ============ -->
+<section class="section quote">
+  <div class="wrap">
+    <figure class="quote-card reveal">
+      <div class="stars" aria-label="Five out of five stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 6 20.5l1.4-6.8L2.3 9.1l6.9-.8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 6 20.5l1.4-6.8L2.3 9.1l6.9-.8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 6 20.5l1.4-6.8L2.3 9.1l6.9-.8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 6 20.5l1.4-6.8L2.3 9.1l6.9-.8z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.6 1.4 6.8L12 17.8 6 20.5l1.4-6.8L2.3 9.1l6.9-.8z"/></svg>
+      </div>
+      <div class="quote-mark" aria-hidden="true">&ldquo;</div>
+      <blockquote>I walked in wound tight from a hard year and slowly, class by class, remembered how to breathe. Sattva feels less like a gym and more like being welcomed home.</blockquote>
+      <figcaption>
+        <div class="mini-avatar">
+          <svg viewBox="0 0 60 60" aria-hidden="true">
+            <rect width="60" height="60" fill="#e7ddcf"/>
+            <circle cx="30" cy="62" r="26" fill="#8a9a7b"/>
+            <circle cx="30" cy="28" r="15" fill="#e6c6a4"/>
+            <path d="M15 27a15 15 0 0 1 30 0c0-16-8-20-15-20s-15 4-15 20z" fill="#5a4636"/>
+            <path d="M24 28q3 2 6 0M30 28q3 2 6 0" fill="none" stroke="#5c4632" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <cite><strong>Priya Sundaram</strong><span>Member since 2021</span></cite>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section class="section visit" id="visit">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Come see us</span>
+      <h2>Visit the studio</h2>
+      <p class="lead">Tucked just off the downtown square, with a tea nook, cubbies and everything you need already here. Bring water and an open mind.</p>
+    </div>
+    <div class="visit-grid">
+      <div class="visit-info reveal">
+        <div class="info-row">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div><h4>Address</h4><p>214 Kirkwood Avenue, Suite 2<br>Bloomington, IN 47408</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c0 9 6 15 15 15l1.5-3.5-4-2-2 2c-2.5-1-4.5-3-5.5-5.5l2-2-2-4z"/></svg></div>
+          <div><h4>Phone</h4><p>(812) 555-0148</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg></div>
+          <div><h4>Email</h4><p>hello@sattvastudio.com</p></div>
+        </div>
+        <div class="info-row">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4M16 3v4M4 9h16M5 6h14v14H5z"/></svg></div>
+          <div><h4>New students</h4><p>Your first class is free — arrive 15 minutes early to settle in.</p></div>
+        </div>
+        <div style="margin-top:1.6rem;">
+          <a href="#pricing" class="btn btn-primary">Reserve your first class</a>
+        </div>
+      </div>
+
+      <aside class="hours-card reveal">
+        <h3>Studio hours</h3>
+        <div class="hours-row" data-day="1"><span>Monday</span><span>6:30 AM &ndash; 9:00 PM</span></div>
+        <div class="hours-row" data-day="2"><span>Tuesday</span><span>8:00 AM &ndash; 7:00 PM</span></div>
+        <div class="hours-row" data-day="3"><span>Wednesday</span><span>6:30 AM &ndash; 8:00 PM</span></div>
+        <div class="hours-row" data-day="4"><span>Thursday</span><span>8:00 AM &ndash; 7:00 PM</span></div>
+        <div class="hours-row" data-day="5"><span>Friday</span><span>6:30 AM &ndash; 9:00 PM</span></div>
+        <div class="hours-row" data-day="6"><span>Saturday</span><span>7:00 AM &ndash; 3:00 PM</span></div>
+        <div class="hours-row" data-day="0"><span>Sunday</span><span>Community &amp; rest</span></div>
+        <div class="map-mock" role="img" aria-label="Stylized map showing the studio near Kirkwood Avenue">
+          <svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="180" fill="#eae3d5"/>
+            <path d="M0 60h400M0 120h400" stroke="#ddd3c1" stroke-width="10"/>
+            <path d="M120 0v180M270 0v180" stroke="#ddd3c1" stroke-width="10"/>
+            <path d="M0 40 C120 40 140 140 400 150" stroke="#c9d1bd" stroke-width="8" fill="none"/>
+            <rect x="30" y="70" width="70" height="40" rx="4" fill="#d7cdb9"/>
+            <rect x="150" y="10" width="90" height="40" rx="4" fill="#d7cdb9"/>
+            <rect x="300" y="70" width="70" height="40" rx="4" fill="#d7cdb9"/>
+            <rect x="150" y="130" width="90" height="40" rx="4" fill="#d7cdb9"/>
+            <circle cx="200" cy="90" r="16" fill="#8a9a7b"/>
+            <path d="M200 74c7 8 7 15 0 22-7-7-7-14 0-22z" fill="#faf7f1"/>
+          </svg>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="section cta-band">
+  <svg class="blob-bg" style="top:-140px;left:-120px;width:380px;opacity:.18;" viewBox="0 0 400 400" aria-hidden="true"><path fill="#fff" d="M300 200q0 60-50 90t-100 0q-50-30-50-90t50-90 100 0 50 90z"/></svg>
+  <div class="wrap">
+    <h2 class="reveal">Your first class is on us</h2>
+    <p class="reveal">Step in, roll out a mat, and see how you feel. No experience needed — just curiosity and a little time for yourself.</p>
+    <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a href="#pricing" class="btn btn-primary">Book a free class</a>
+      <a href="#schedule" class="btn btn-ghost">See the schedule</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site">
+  <div class="wrap">
+    <form class="foot-news" id="newsForm" novalidate>
+      <div class="news-copy">
+        <h4>The Sattva Letter</h4>
+        <p>Seasonal workshops, new class times, and a little breathing room in your inbox — once a month, never more.</p>
+      </div>
+      <div>
+        <div class="news-field">
+          <label for="newsEmail" class="sr-only">Email address</label>
+          <input id="newsEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </div>
+        <p class="news-note" id="newsNote" role="status" aria-live="polite">No spam, and you can unsubscribe anytime.</p>
+      </div>
+    </form>
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="brand" aria-label="Sattva Studio home">
+          <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+            <rect width="40" height="40" rx="12" fill="#8a9a7b"/>
+            <path d="M20 8c3.6 4.8 3.6 9.6 0 14.4-3.6-4.8-3.6-9.6 0-14.4z" fill="#f4efe7"/>
+            <path d="M20 15c4.8 1.2 7.2 4.8 7.2 10.8-4.8-1.2-7.2-4.8-7.2-10.8z" fill="#e7ddcf"/>
+            <path d="M20 15c-4.8 1.2-7.2 4.8-7.2 10.8 4.8-1.2 7.2-4.8 7.2-10.8z" fill="#e7ddcf"/>
+          </svg>
+          <span>Sattva Studio<small>Yoga &amp; Wellness</small></span>
+        </a>
+        <p style="margin-top:1rem;">A calm, welcoming studio in the heart of Bloomington. Come as you are — we'll take it slow.</p>
+        <div class="socials">
+          <a href="#visit" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"/><circle cx="12" cy="12" r="3.5"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#visit" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h-2a3 3 0 0 0-3 3v3H8v3h2v7h3v-7h2.5l.5-3H13V7a1 1 0 0 1 1-1h1z"/></svg></a>
+          <a href="#visit" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h5>Practice</h5>
+        <ul>
+          <li><a href="#classes">Classes</a></li>
+          <li><a href="#schedule">Weekly schedule</a></li>
+          <li><a href="#teachers">Our teachers</a></li>
+          <li><a href="#pricing">Membership</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul>
+          <li><a href="#visit">Visit us</a></li>
+          <li><a href="#visit">New students</a></li>
+          <li><a href="#pricing">Gift cards</a></li>
+          <li><a href="#visit">Private sessions</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Stay in touch</h5>
+        <ul>
+          <li><a href="mailto:hello@sattvastudio.com">hello@sattvastudio.com</a></li>
+          <li><a href="tel:+18125550148">(812) 555-0148</a></li>
+          <li>214 Kirkwood Avenue, Suite 2</li>
+          <li>Bloomington, IN 47408</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Sattva Studio, LLC. Made with care in Bloomington.</span>
+      <span><a href="#top">Privacy</a> &middot; <a href="#top">Studio etiquette</a> &middot; <a href="#top">Accessibility</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  (function(){
+    var btn = document.getElementById('menuToggle');
+    var links = document.getElementById('navlinks');
+    if(btn && links){
+      btn.addEventListener('click', function(){
+        var open = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function(e){
+        if(e.target.tagName === 'A'){
+          links.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+    }
+  })();
+
+  // Highlight today's hours row
+  (function(){
+    var today = new Date().getDay();
+    var row = document.querySelector('.hours-row[data-day="'+today+'"]');
+    if(row){ row.classList.add('today'); }
+  })();
+
+  // Gentle scroll-reveal
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+
+  // Newsletter signup — handled locally, no network request
+  (function(){
+    var form = document.getElementById('newsForm');
+    if(!form) return;
+    var input = document.getElementById('newsEmail');
+    var note = document.getElementById('newsNote');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var val = (input.value || '').trim();
+      var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if(valid){
+        note.textContent = 'You’re on the list — see you on the mat.';
+        note.classList.add('ok');
+        input.value = '';
+        input.blur();
+      } else {
+        note.textContent = 'Please enter a valid email address so we can reach you.';
+        note.classList.remove('ok');
+        input.focus();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

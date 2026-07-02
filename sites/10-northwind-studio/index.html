@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northwind Studio — Brand, Web &amp; Motion Design Agency</title>
+<meta name="description" content="Northwind is an independent brand, web and motion studio in Portland and Berlin, building bold identities and expressive digital work for ambitious companies.">
+<meta name="theme-color" content="#0b0a11">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffb057'/%3E%3Cstop offset='0.5' stop-color='%23ff5d73'/%3E%3Cstop offset='1' stop-color='%238a6bff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230b0a11'/%3E%3Cpath d='M18 46V18h5l18 20V18h5v28h-5L23 26v20z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+  :root{
+    /* Ground: deep polar night, violet-biased near-black (chosen, not pure) */
+    --bg:#0b0a11;
+    --bg-2:#13111d;
+    --raise:#181524;
+    /* Ink: warm bone paper against the aurora accents */
+    --ink:#f3f1ec;
+    --muted:#a6a1b4;
+    --faint:#6f6a83;
+    --line:#221f31;
+    --line-2:#332f47;
+    /* Aurora accents — concentrate boldness in coral, gradient used sparingly */
+    --amber:#ffb057;
+    --coral:#ff5d73;
+    --violet:#8a6bff;
+    --grad:linear-gradient(102deg,#ffb057 0%,#ff5d73 52%,#8a6bff 100%);
+    --grad-soft:linear-gradient(160deg,rgba(255,176,87,.10),rgba(255,93,115,.08) 55%,rgba(138,107,255,.12));
+
+    --display:'Helvetica Neue','Helvetica Now Display',Helvetica,'Arial Nova',Arial,sans-serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono','Cascadia Code','JetBrains Mono','Segoe UI Mono',Menlo,Consolas,monospace;
+
+    --radius:18px;
+    --maxw:1220px;
+    --gutter:clamp(20px,4vw,32px);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  /* Aurora atmosphere — the gradient reframed as northern light over polar night */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+      radial-gradient(72% 55% at 10% -12%,rgba(255,176,87,.15),transparent 60%),
+      radial-gradient(64% 52% at 90% -8%,rgba(138,107,255,.20),transparent 62%),
+      radial-gradient(90% 66% at 50% 120%,rgba(255,93,115,.11),transparent 60%),
+      var(--bg);
+  }
+  /* Plotting-paper grid — navigational texture, faded toward the horizon */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background-image:
+      linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+    background-size:60px 60px;
+    -webkit-mask-image:radial-gradient(130% 92% at 50% 0%,#000 28%,transparent 82%);
+    mask-image:radial-gradient(130% 92% at 50% 0%,#000 28%,transparent 82%);
+    pointer-events:none;
+  }
+
+  a{color:inherit;text-decoration:none}
+  a:focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:5px}
+  img,svg{display:block;max-width:100%}
+  ::selection{background:rgba(255,93,115,.34);color:#fff}
+
+  h1,h2,h3{
+    font-family:var(--display);
+    font-weight:800;
+    letter-spacing:-.03em;
+    line-height:1.03;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+
+  .grad-text{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  /* ---------- Mono utility label ---------- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:11px;
+    font-family:var(--mono);
+    font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";width:24px;height:1px;background:var(--coral);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    font-weight:600;font-size:15px;letter-spacing:.005em;
+    padding:13px 22px;border-radius:999px;
+    border:1px solid transparent;cursor:pointer;
+    transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s,background .28s,color .28s;
+    white-space:nowrap;
+  }
+  .btn:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+  .btn-primary{
+    color:#22110c;background:var(--grad);
+    box-shadow:0 12px 34px -12px rgba(255,93,115,.62);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 46px -14px rgba(255,93,115,.78)}
+  .btn-ghost{color:var(--ink);border-color:var(--line-2);background:rgba(255,255,255,.018)}
+  .btn-ghost:hover{transform:translateY(-2px);border-color:var(--coral);background:rgba(255,93,115,.07)}
+  .btn svg{width:16px;height:16px;transition:transform .28s var(--ease)}
+  .btn:hover svg{transform:translateX(3px)}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    background:rgba(11,10,17,.64);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:13px;font-family:var(--display);font-weight:700;letter-spacing:-.01em;font-size:19px;line-height:1}
+  .brand .logo{width:38px;height:38px;flex:0 0 auto}
+  .brand span{display:flex;flex-direction:column}
+  .brand small{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;margin-top:3px}
+  .nav-links{display:flex;align-items:center;gap:34px}
+  .nav-links a{font-size:15px;color:var(--muted);font-weight:500;position:relative;transition:color .2s}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:-7px;height:2px;width:0;border-radius:2px;
+    background:var(--coral);transition:width .28s var(--ease);
+  }
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a:hover::after{width:100%}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  .menu-btn{display:none;background:rgba(255,255,255,.02);border:1px solid var(--line-2);border-radius:12px;padding:9px;cursor:pointer;transition:border-color .2s}
+  .menu-btn:hover{border-color:var(--coral)}
+  .menu-btn svg{width:22px;height:22px;stroke:var(--ink)}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:clamp(72px,11vw,116px) 0 clamp(60px,8vw,84px);position:relative}
+  .tagpill{
+    display:inline-flex;align-items:center;gap:10px;padding:7px 15px 7px 10px;border-radius:999px;
+    border:1px solid var(--line-2);background:rgba(255,255,255,.025);
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.02em;color:var(--muted);margin-bottom:32px;
+  }
+  .tagpill .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(255,176,87,.16)}
+  .hero h1{
+    font-size:clamp(46px,8.6vw,108px);
+    line-height:.96;letter-spacing:-.04em;font-weight:800;margin:0 0 28px;
+    max-width:15ch;
+  }
+  .hero p.lead{font-size:clamp(17px,2.05vw,21px);color:var(--muted);max-width:54ch;margin:0 0 38px;text-wrap:pretty}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .hero-actions .note{font-family:var(--mono);font-size:13px;color:var(--faint);margin-left:4px}
+
+  .hero-strip{
+    margin-top:clamp(52px,7vw,74px);display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;
+    padding-top:30px;border-top:1px solid var(--line);color:var(--faint);
+    font-size:14px;letter-spacing:.01em;
+  }
+  .hero-strip .cap{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint)}
+  .hero-strip .logos{display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center}
+  .hero-strip .logos span{color:var(--muted);font-weight:600;font-size:15px;letter-spacing:-.01em}
+
+  /* ---------- Section scaffolding ---------- */
+  section{position:relative}
+  .sec{padding:clamp(72px,10vw,116px) 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:clamp(40px,6vw,56px);flex-wrap:wrap}
+  .sec-head .lede{max-width:36ch}
+  .sec-head h2{font-size:clamp(30px,4.5vw,52px);letter-spacing:-.035em;font-weight:800;margin:18px 0 0;max-width:16ch}
+  .sec-head p{color:var(--muted);max-width:42ch;margin:0;font-size:16px}
+
+  /* ---------- Services ---------- */
+  .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .card{
+    position:relative;border:1px solid var(--line);border-radius:var(--radius);
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.006));
+    padding:26px 24px;overflow:hidden;
+    transition:transform .32s var(--ease),border-color .32s,background .32s;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;opacity:0;transition:opacity .38s;
+    background:var(--grad-soft);
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--line-2)}
+  .card:hover::before{opacity:1}
+  .card>*{position:relative}
+  .svc-ico{
+    width:50px;height:50px;border-radius:13px;display:grid;place-items:center;margin-bottom:22px;
+    color:var(--muted);border:1px solid var(--line-2);background:rgba(255,255,255,.025);
+    transition:color .32s,border-color .32s,background .32s;
+  }
+  .card:hover .svc-ico{color:var(--coral);border-color:rgba(255,93,115,.5);background:rgba(255,93,115,.08)}
+  .svc-ico svg{width:26px;height:26px}
+  .card h3{font-size:20px;letter-spacing:-.015em;margin:0 0 9px}
+  .card p{color:var(--muted);font-size:14.5px;margin:0 0 18px;line-height:1.55}
+  .svc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .svc-list li{font-family:var(--mono);font-size:12.5px;letter-spacing:.01em;color:var(--faint);display:flex;align-items:center;gap:10px}
+  .svc-list li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--coral);flex:0 0 auto}
+
+  /* ---------- Selected Work ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .work{
+    border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--bg-2);
+    transition:transform .35s var(--ease),border-color .35s;
+  }
+  .work:hover{transform:translateY(-6px);border-color:var(--line-2)}
+  .cover{position:relative;aspect-ratio:16/10;overflow:hidden}
+  .cover svg{position:absolute;inset:0;width:100%;height:100%;transition:transform .6s var(--ease)}
+  .work:hover .cover svg{transform:scale(1.045)}
+  .cover .cat{
+    position:absolute;top:15px;left:15px;z-index:2;
+    font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    padding:6px 11px;border-radius:999px;background:rgba(11,10,17,.55);
+    border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;
+  }
+  .work-body{padding:22px 24px 26px}
+  .work-body .client{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .work-body .client .yr{color:var(--muted)}
+  .work-body h3{font-size:21px;letter-spacing:-.02em;margin:0 0 14px;line-height:1.18}
+  .work-body .result{
+    display:flex;align-items:baseline;gap:11px;font-size:14.5px;color:var(--muted);
+    padding-top:15px;border-top:1px solid var(--line);
+  }
+  .work-body .result b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+  .work-body .result .arrow{color:var(--coral);font-weight:700}
+
+  /* ---------- Metrics ---------- */
+  .metrics{
+    border:1px solid var(--line);border-radius:22px;overflow:hidden;
+    background:linear-gradient(120deg,rgba(255,176,87,.06),rgba(255,93,115,.045),rgba(138,107,255,.07));
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .metric{padding:clamp(30px,4vw,42px) 26px;border-right:1px solid var(--line);text-align:center}
+  .metric:last-child{border-right:none}
+  .metric .num{font-family:var(--display);font-size:clamp(40px,5.6vw,62px);font-weight:800;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums}
+  .metric .lbl{font-family:var(--mono);color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-top:14px}
+
+  /* ---------- Process ---------- */
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .step{position:relative;padding-top:28px}
+  .step .n{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase}
+  .step .n b{color:var(--coral);font-weight:600;margin-right:2px}
+  .step h3{font-size:19px;margin:15px 0 10px;letter-spacing:-.02em}
+  .step p{color:var(--muted);font-size:14.5px;margin:0;line-height:1.55}
+  .step::before{
+    content:"";position:absolute;top:0;left:0;width:100%;height:2px;border-radius:2px;background:var(--line);
+  }
+  .step::after{
+    content:"";position:absolute;top:0;left:0;height:2px;border-radius:2px;width:25%;background:var(--grad);
+  }
+  .step:nth-child(2)::after{width:50%}
+  .step:nth-child(3)::after{width:75%}
+  .step:nth-child(4)::after{width:100%}
+
+  /* ---------- Marquee ---------- */
+  .marquee-sec{padding:clamp(48px,7vw,64px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .marquee-cap{font-family:var(--mono);text-align:center;color:var(--faint);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:34px}
+  .marquee{position:relative;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  }
+  .marquee-track{display:flex;width:max-content;gap:64px;animation:scroll 42s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .marquee-track svg{height:29px;width:auto;opacity:.55;transition:opacity .3s;flex:0 0 auto}
+  .marquee-track svg:hover{opacity:1}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- Testimonial ---------- */
+  .quote-wrap{max-width:880px;margin-inline:auto;text-align:center}
+  .quote-wrap blockquote{
+    font-family:var(--display);
+    font-size:clamp(23px,3.5vw,38px);line-height:1.24;letter-spacing:-.025em;font-weight:700;margin:0 0 32px;text-wrap:balance;
+  }
+  .quote-wrap .who{display:flex;align-items:center;justify-content:center;gap:14px}
+  .avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;border:1px solid var(--line-2);flex:0 0 auto}
+  .quote-wrap .who .meta{text-align:left}
+  .quote-wrap .who .meta b{display:block;font-size:15px}
+  .quote-wrap .who .meta span{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--faint)}
+
+  /* ---------- Contact CTA ---------- */
+  .cta{
+    position:relative;border-radius:30px;overflow:hidden;
+    border:1px solid var(--line-2);
+    padding:clamp(56px,8vw,78px) clamp(28px,5vw,40px);text-align:center;
+    background:radial-gradient(92% 130% at 50% 0%,rgba(255,93,115,.18),transparent 58%),var(--bg-2);
+  }
+  .cta::before{
+    content:"";position:absolute;inset:-2px;z-index:0;opacity:.45;
+    background:conic-gradient(from 180deg at 50% 40%,rgba(255,176,87,0),rgba(255,93,115,.32),rgba(138,107,255,.32),rgba(255,176,87,0));
+    filter:blur(46px);
+  }
+  .cta>*{position:relative}
+  .cta h2{font-size:clamp(34px,6vw,70px);line-height:.98;letter-spacing:-.04em;font-weight:800;margin:0 0 20px}
+  .cta p{color:var(--muted);max-width:46ch;margin:0 auto 34px;font-size:18px;text-wrap:pretty}
+  .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line);margin-top:clamp(72px,10vw,110px);padding:clamp(52px,7vw,66px) 0 40px}
+  .foot-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:40px;margin-bottom:clamp(40px,6vw,54px)}
+  .foot-brand p{color:var(--muted);font-size:14.5px;max-width:34ch;margin:18px 0 22px;line-height:1.55}
+  .socials{display:flex;gap:11px}
+  .socials a{
+    width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+    border:1px solid var(--line-2);color:var(--muted);transition:color .25s,border-color .25s,transform .25s var(--ease);
+  }
+  .socials a:hover{color:var(--ink);border-color:var(--coral);transform:translateY(-2px)}
+  .socials svg{width:18px;height:18px}
+  .foot-col h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:0 0 18px}
+  .foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .foot-col a{color:var(--muted);font-size:14.5px;transition:color .2s}
+  .foot-col a:hover{color:var(--ink)}
+  .foot-bottom{
+    display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    padding-top:28px;border-top:1px solid var(--line);color:var(--faint);font-size:13.5px;
+  }
+  .foot-bottom .locs{display:flex;gap:26px;flex-wrap:wrap}
+  .foot-bottom .locs span{display:inline-flex;align-items:center;gap:9px}
+  .foot-bottom .locs .geo{font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--coral);opacity:.9}
+
+  /* ---------- Reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:1000px){
+    .services-grid,.process-grid{grid-template-columns:repeat(2,1fr)}
+    .metrics{grid-template-columns:repeat(2,1fr)}
+    .metric:nth-child(2){border-right:none}
+    .metric:nth-child(1),.metric:nth-child(2){border-bottom:1px solid var(--line)}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:760px){
+    body{font-size:16px}
+    .nav-links{
+      position:fixed;inset:74px 0 auto 0;flex-direction:column;gap:0;align-items:stretch;
+      background:rgba(11,10,17,.98);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--line);padding:8px var(--gutter) 22px;
+      transform:translateY(-140%);transition:transform .4s var(--ease);z-index:40;
+    }
+    .nav-links.open{transform:none}
+    .nav-links a{padding:15px 0;border-bottom:1px solid var(--line);font-size:17px}
+    .nav-links a::after{display:none}
+    .menu-btn{display:block}
+    .nav-right .btn-primary{display:none}
+    .work-grid{grid-template-columns:1fr}
+    .sec-head{align-items:flex-start}
+  }
+  @media(max-width:480px){
+    .services-grid,.process-grid{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr}
+    .metric{border-right:none;border-bottom:1px solid var(--line)}
+    .metric:nth-child(2){border-right:none}
+    .metric:last-child{border-bottom:none}
+    .foot-grid{grid-template-columns:1fr}
+    .foot-bottom{justify-content:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Northwind Studio home">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffb057"/><stop offset=".5" stop-color="#ff5d73"/><stop offset="1" stop-color="#8a6bff"/>
+          </linearGradient>
+        </defs>
+        <rect width="64" height="64" rx="16" fill="#17142a"/>
+        <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="#332f47"/>
+        <path d="M18 46V18h5l18 20V18h5v28h-5L23 26v20z" fill="url(#lg)"/>
+      </svg>
+      <span>Northwind<small>Design Studio</small></span>
+    </a>
+    <nav class="nav-links" id="navlinks" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#studio">Studio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="#contact">Start a project
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="navlinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="tagpill"><span class="dot"></span> Independent studio · Est. 2014 · Portland &amp; Berlin</span>
+      <h1>We build brands that <span class="grad-text">refuse to blend in.</span></h1>
+      <p class="lead">Northwind is a brand, web and motion studio for founders who'd rather set the pace than follow it. We turn sharp positioning into identities, products and stories people actually remember.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Start a project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#work">View selected work</a>
+        <span class="note">Booking from Sept 2026 · 2 slots open</span>
+      </div>
+      <div class="hero-strip">
+        <span class="cap">Trusted by teams at</span>
+        <div class="logos">
+          <span>Lumen Robotics</span>
+          <span>Ferrowave</span>
+          <span>Halcyon Bank</span>
+          <span>Nimbus &amp; Co.</span>
+          <span>Orchard Health</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="lede">
+          <span class="eyebrow">What we do</span>
+          <h2>Four disciplines, one relentless standard.</h2>
+        </div>
+        <p>We work end to end — from the first strategy workshop to the last shipped pixel and animation frame.</p>
+      </div>
+      <div class="services-grid">
+
+        <article class="card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18"/>
+            </svg>
+          </div>
+          <h3>Brand Identity</h3>
+          <p>Positioning, naming and visual systems built to scale from a business card to a stadium.</p>
+          <ul class="svc-list">
+            <li>Strategy &amp; messaging</li>
+            <li>Logo &amp; visual system</li>
+            <li>Guidelines &amp; toolkits</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8M12 18v3"/>
+            </svg>
+          </div>
+          <h3>Web &amp; Product</h3>
+          <p>Marketing sites and product UI engineered for speed, clarity and conversion.</p>
+          <ul class="svc-list">
+            <li>UX &amp; interface design</li>
+            <li>Design systems</li>
+            <li>Front-end build</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 5v14l11-7z"/><path d="M3 5v14"/>
+            </svg>
+          </div>
+          <h3>Motion &amp; Film</h3>
+          <p>Brand animation, product explainers and social-first video that stops the scroll.</p>
+          <ul class="svc-list">
+            <li>Logo &amp; UI animation</li>
+            <li>Explainer &amp; launch films</li>
+            <li>Social content systems</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="svc-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 20h18"/><path d="M6 20V10M12 20V4M18 20v-7"/>
+            </svg>
+          </div>
+          <h3>Strategy</h3>
+          <p>Research, workshops and roadmaps that make sure the beautiful work also does the job.</p>
+          <ul class="svc-list">
+            <li>Market &amp; audience research</li>
+            <li>Naming &amp; architecture</li>
+            <li>Go-to-market</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SELECTED WORK ============ -->
+  <section class="sec" id="work">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="lede">
+          <span class="eyebrow">Selected work</span>
+          <h2>Recent projects we're proud of.</h2>
+        </div>
+        <p>A small sample of the identities, products and campaigns shipped over the last two years.</p>
+      </div>
+      <div class="work-grid">
+
+        <!-- Work 1 -->
+        <article class="work reveal">
+          <div class="cover">
+            <span class="cat">Brand Identity</span>
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract concentric rings artwork for Ferrowave">
+              <defs><radialGradient id="w1" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ffb057"/><stop offset=".5" stop-color="#ff5d73"/><stop offset="1" stop-color="#2a1740"/></radialGradient></defs>
+              <rect width="400" height="250" fill="url(#w1)"/>
+              <g fill="none" stroke="#ffffff" stroke-opacity=".55">
+                <circle cx="150" cy="120" r="30"/><circle cx="150" cy="120" r="60"/><circle cx="150" cy="120" r="90"/><circle cx="150" cy="120" r="120"/>
+              </g>
+              <circle cx="150" cy="120" r="16" fill="#0b0a11"/>
+              <path d="M270 40 L360 40 L360 210 Z" fill="#0b0a11" fill-opacity=".35"/>
+            </svg>
+          </div>
+          <div class="work-body">
+            <div class="client"><span>Ferrowave — Clean energy storage</span><span class="yr">2025</span></div>
+            <h3>A charged-up rebrand for a grid-scale battery pioneer</h3>
+            <div class="result"><span class="arrow">→</span><span><b>+180% inbound</b> from investors within one quarter of launch</span></div>
+          </div>
+        </article>
+
+        <!-- Work 2 -->
+        <article class="work reveal">
+          <div class="cover">
+            <span class="cat">Web &amp; Product</span>
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract layered mesh artwork for Halcyon Bank">
+              <defs><linearGradient id="w2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a6bff"/><stop offset="1" stop-color="#14122a"/></linearGradient></defs>
+              <rect width="400" height="250" fill="url(#w2)"/>
+              <g stroke="#ff5d73" stroke-opacity=".7" fill="none" stroke-width="1.4">
+                <path d="M0 60 Q100 20 200 60 T400 60"/><path d="M0 100 Q100 60 200 100 T400 100"/>
+                <path d="M0 140 Q100 100 200 140 T400 140"/><path d="M0 180 Q100 140 200 180 T400 180"/>
+              </g>
+              <g fill="#ffc98a"><circle cx="80" cy="80" r="4"/><circle cx="200" cy="100" r="4"/><circle cx="320" cy="140" r="4"/></g>
+              <rect x="40" y="30" width="90" height="10" rx="5" fill="#fff" fill-opacity=".85"/>
+            </svg>
+          </div>
+          <div class="work-body">
+            <div class="client"><span>Halcyon Bank — Digital banking</span><span class="yr">2025</span></div>
+            <h3>Rebuilding an onboarding flow that finally converts</h3>
+            <div class="result"><span class="arrow">→</span><span><b>2.4× signups</b> and a 31% drop in support tickets</span></div>
+          </div>
+        </article>
+
+        <!-- Work 3 -->
+        <article class="work reveal">
+          <div class="cover">
+            <span class="cat">Motion &amp; Film</span>
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract sunburst artwork for Nimbus and Co">
+              <defs><linearGradient id="w3" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ff5d73"/><stop offset="1" stop-color="#ffb057"/></linearGradient></defs>
+              <rect width="400" height="250" fill="#12101d"/>
+              <g transform="translate(200,125)">
+                <g stroke="url(#w3)" stroke-width="8" stroke-linecap="round">
+                  <line x1="0" y1="-40" x2="0" y2="-110"/><line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(45)"/>
+                  <line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(90)"/><line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(135)"/>
+                  <line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(180)"/><line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(225)"/>
+                  <line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(270)"/><line x1="0" y1="-40" x2="0" y2="-110" transform="rotate(315)"/>
+                </g>
+                <circle r="30" fill="url(#w3)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="work-body">
+            <div class="client"><span>Nimbus &amp; Co. — Consumer app</span><span class="yr">2024</span></div>
+            <h3>A launch film that took a weather app viral</h3>
+            <div class="result"><span class="arrow">→</span><span><b>4.1M views</b> and #2 on the App Store in launch week</span></div>
+          </div>
+        </article>
+
+        <!-- Work 4 -->
+        <article class="work reveal">
+          <div class="cover">
+            <span class="cat">Brand &amp; Strategy</span>
+            <svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract grid and node artwork for Orchard Health">
+              <defs><linearGradient id="w4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2440"/><stop offset="1" stop-color="#3a1b40"/></linearGradient></defs>
+              <rect width="400" height="250" fill="url(#w4)"/>
+              <g stroke="#8a6bff" stroke-opacity=".45"><path d="M0 0 L400 250 M0 250 L400 0 M200 0 V250 M0 125 H400"/></g>
+              <g>
+                <circle cx="200" cy="125" r="46" fill="none" stroke="#ffb057" stroke-width="2"/>
+                <path d="M200 96 C220 110 220 140 200 154 C180 140 180 110 200 96 Z" fill="#ff5d73"/>
+                <circle cx="120" cy="70" r="7" fill="#ffc98a"/><circle cx="300" cy="185" r="7" fill="#c4b5fd"/>
+              </g>
+            </svg>
+          </div>
+          <div class="work-body">
+            <div class="client"><span>Orchard Health — Preventive care</span><span class="yr">2024</span></div>
+            <h3>Naming and identity for a new kind of clinic</h3>
+            <div class="result"><span class="arrow">→</span><span><b>$12M Series A</b> raised months after the rebrand</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METRICS ============ -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap">
+      <div class="metrics reveal">
+        <div class="metric"><div class="num grad-text">27</div><div class="lbl">Industry awards</div></div>
+        <div class="metric"><div class="num grad-text">140+</div><div class="lbl">Clients shipped</div></div>
+        <div class="metric"><div class="num grad-text">12</div><div class="lbl">Years independent</div></div>
+        <div class="metric"><div class="num grad-text">98%</div><div class="lbl">Would refer us</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROCESS ============ -->
+  <section class="sec" id="process">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="lede">
+          <span class="eyebrow">How we work</span>
+          <h2>A process built for momentum.</h2>
+        </div>
+        <p>No black boxes. You'll always know where the work is, why it looks the way it does, and what's next.</p>
+      </div>
+      <div class="process-grid">
+        <div class="step reveal"><div class="n"><b>01</b> Discover</div><h3>Dig in</h3><p>Workshops, research and audits to find the sharp, ownable truth at the center of your brand.</p></div>
+        <div class="step reveal"><div class="n"><b>02</b> Define</div><h3>Set the direction</h3><p>Positioning, territories and a creative platform everyone can rally behind before we design a thing.</p></div>
+        <div class="step reveal"><div class="n"><b>03</b> Design</div><h3>Make it real</h3><p>Identity, interface and motion crafted in tight loops, with you in the room the whole way.</p></div>
+        <div class="step reveal"><div class="n"><b>04</b> Deliver</div><h3>Ship &amp; support</h3><p>Production-ready files, living guidelines and a team on call for the launch and beyond.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLIENTS MARQUEE ============ -->
+  <section class="marquee-sec reveal">
+    <p class="marquee-cap">Partners we've built alongside</p>
+    <div class="marquee">
+      <div class="marquee-track" aria-label="Client logos">
+        <!-- set A -->
+        <svg viewBox="0 0 160 34" role="img" aria-label="Lumen Robotics"><g fill="#f3f1ec"><circle cx="16" cy="17" r="9" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><circle cx="16" cy="17" r="3"/></g><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="800" fill="#f3f1ec" letter-spacing="-.5">LUMEN</text></svg>
+        <svg viewBox="0 0 150 34" role="img" aria-label="Ferrowave"><path d="M8 8 L26 8 L26 13 L14 13 L14 15 L23 15 L23 20 L14 20 L14 26 L8 26 Z" fill="#f3f1ec"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#f3f1ec" letter-spacing=".5">Ferrowave</text></svg>
+        <svg viewBox="0 0 150 34" role="img" aria-label="Halcyon Bank"><rect x="8" y="9" width="16" height="16" rx="4" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><path d="M12 17 h8 M16 13 v8" stroke="#f3f1ec" stroke-width="2.4"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600" fill="#f3f1ec">Halcyon</text></svg>
+        <svg viewBox="0 0 150 34" role="img" aria-label="Nimbus and Co"><path d="M10 20 a6 6 0 0 1 2-11 a7 7 0 0 1 13 2 a5 5 0 0 1 -1 9 Z" fill="none" stroke="#f3f1ec" stroke-width="2.2"/><text x="36" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#f3f1ec" font-style="italic">Nimbus</text></svg>
+        <svg viewBox="0 0 150 34" role="img" aria-label="Orchard Health"><circle cx="16" cy="17" r="9" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><path d="M16 11 c4 3 4 9 0 12 c-4 -3 -4 -9 0 -12" fill="#f3f1ec"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600" fill="#f3f1ec">Orchard</text></svg>
+        <svg viewBox="0 0 150 34" role="img" aria-label="Northpeak"><path d="M8 26 L16 9 L24 26 Z" fill="none" stroke="#f3f1ec" stroke-width="2.2"/><path d="M12.5 18 L16 11 L19.5 18 Z" fill="#f3f1ec"/><text x="32" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="800" fill="#f3f1ec" letter-spacing="-.3">NORTHPEAK</text></svg>
+        <!-- set B (duplicate for seamless loop) -->
+        <svg viewBox="0 0 160 34" aria-hidden="true"><g fill="#f3f1ec"><circle cx="16" cy="17" r="9" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><circle cx="16" cy="17" r="3"/></g><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="17" font-weight="800" fill="#f3f1ec" letter-spacing="-.5">LUMEN</text></svg>
+        <svg viewBox="0 0 150 34" aria-hidden="true"><path d="M8 8 L26 8 L26 13 L14 13 L14 15 L23 15 L23 20 L14 20 L14 26 L8 26 Z" fill="#f3f1ec"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#f3f1ec" letter-spacing=".5">Ferrowave</text></svg>
+        <svg viewBox="0 0 150 34" aria-hidden="true"><rect x="8" y="9" width="16" height="16" rx="4" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><path d="M12 17 h8 M16 13 v8" stroke="#f3f1ec" stroke-width="2.4"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600" fill="#f3f1ec">Halcyon</text></svg>
+        <svg viewBox="0 0 150 34" aria-hidden="true"><path d="M10 20 a6 6 0 0 1 2-11 a7 7 0 0 1 13 2 a5 5 0 0 1 -1 9 Z" fill="none" stroke="#f3f1ec" stroke-width="2.2"/><text x="36" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="700" fill="#f3f1ec" font-style="italic">Nimbus</text></svg>
+        <svg viewBox="0 0 150 34" aria-hidden="true"><circle cx="16" cy="17" r="9" fill="none" stroke="#f3f1ec" stroke-width="2.4"/><path d="M16 11 c4 3 4 9 0 12 c-4 -3 -4 -9 0 -12" fill="#f3f1ec"/><text x="34" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="600" fill="#f3f1ec">Orchard</text></svg>
+        <svg viewBox="0 0 150 34" aria-hidden="true"><path d="M8 26 L16 9 L24 26 Z" fill="none" stroke="#f3f1ec" stroke-width="2.2"/><path d="M12.5 18 L16 11 L19.5 18 Z" fill="#f3f1ec"/><text x="32" y="23" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" font-weight="800" fill="#f3f1ec" letter-spacing="-.3">NORTHPEAK</text></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIAL / STUDIO ============ -->
+  <section class="sec" id="studio">
+    <div class="wrap">
+      <div class="quote-wrap reveal">
+        <span class="eyebrow" style="justify-content:center;margin-bottom:24px">From our clients</span>
+        <blockquote>"Northwind didn't just make us look better — they made us <span class="grad-text">understand ourselves</span>. Six weeks in, our whole team was pitching the brand the same way."</blockquote>
+        <div class="who">
+          <span class="avatar">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" fill="#2a2340"/><circle cx="24" cy="19" r="9" fill="#ffb057"/><path d="M8 44c2-10 10-13 16-13s14 3 16 13z" fill="#ff5d73"/></svg>
+          </span>
+          <div class="meta"><b>Priya Anand</b><span>VP Marketing, Ferrowave</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT CTA ============ -->
+  <section class="sec" id="contact" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta reveal">
+        <span class="eyebrow" style="justify-content:center;margin-bottom:22px">Let's build something</span>
+        <h2>Ready to stop<br><span class="grad-text">blending in?</span></h2>
+        <p>Tell us where you're headed. We'll send back a point of view, a rough plan and honest timing — usually within two business days.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="mailto:hello@northwind.studio">hello@northwind.studio
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="tel:+15035550142">+1 (503) 555-0142</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="Northwind Studio home">
+          <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+            <rect width="64" height="64" rx="16" fill="#17142a"/>
+            <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="#332f47"/>
+            <path d="M18 46V18h5l18 20V18h5v28h-5L23 26v20z" fill="url(#lg)"/>
+          </svg>
+          <span>Northwind<small>Design Studio</small></span>
+        </a>
+        <p>An independent brand, web and motion studio building work that refuses to blend in.</p>
+        <div class="socials">
+          <a href="#" aria-label="Northwind on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Northwind on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.4 8.65 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2-3.3s-2.3 1.57-2.3 3.2V21h-4z"/></svg></a>
+          <a href="#" aria-label="Northwind on Dribbble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M5 8c5 2 10 3 14 1M8.5 3.5C13 8 15 14 15.5 20.5M20 13c-6-1.5-11 .5-14 5"/></svg></a>
+          <a href="#" aria-label="Northwind on Behance"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 7H3v10h6.2c2.3 0 3.8-1.1 3.8-3 0-1.4-.8-2.3-2-2.6 1-.4 1.6-1.2 1.6-2.3C12.6 7.9 11.2 7 9 7zm-.4 4H5.4V9h3c.9 0 1.4.4 1.4 1s-.5 1-1.2 1zm.2 4H5.4v-2.2h3.3c1 0 1.6.4 1.6 1.1 0 .8-.6 1.1-1.5 1.1zM21 12.4c0-2.4-1.5-4-3.9-4-2.3 0-4 1.8-4 4.3s1.6 4.2 4.1 4.2c1.9 0 3.3-1 3.7-2.5h-2c-.3.6-.8.9-1.6.9-1 0-1.7-.6-1.8-1.7H21v-1.2zM15.4 11.5c.2-1 .8-1.5 1.7-1.5.9 0 1.5.6 1.5 1.5h-3.2zM15 7h4V8.4h-4z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#work">Selected work</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Our process</a></li>
+          <li><a href="#studio">About us</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Journal</a></li>
+          <li><a href="#">Press kit</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Get in touch</h4>
+        <ul>
+          <li><a href="mailto:hello@northwind.studio">hello@northwind.studio</a></li>
+          <li><a href="tel:+15035550142">+1 (503) 555-0142</a></li>
+          <li><a href="#">New business</a></li>
+          <li><a href="#">Book a call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Northwind Design Studio LLC. All rights reserved.</span>
+      <div class="locs">
+        <span><span class="geo">45.52°N</span> 1140 SE Grand Ave, Portland OR 97214</span>
+        <span><span class="geo">52.53°N</span> Prenzlauer Allee 18, 10405 Berlin</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    // Mobile menu
+    var btn = document.getElementById('menuBtn');
+    var links = document.getElementById('navlinks');
+    if(btn && links){
+      btn.addEventListener('click', function(){
+        var open = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function(e){
+        if(e.target.tagName === 'A'){
+          links.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+    }
+    // Scroll reveal
+    var els = document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, {threshold:.14, rootMargin:'0px 0px -40px 0px'});
+      els.forEach(function(el){ io.observe(el); });
+    } else {
+      els.forEach(function(el){ el.classList.add('in'); });
+    }
+  })();
+</script>
+
+</body>
+</html>

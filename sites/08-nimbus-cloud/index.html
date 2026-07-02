@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nimbus Cloud system status — real-time operational status, uptime metrics, and incident history for the Nimbus Cloud platform.">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nimbus Cloud Status — All Systems Operational">
+<meta property="og:description" content="Real-time operational status, 90-day uptime, and incident history for Nimbus Cloud compute, storage, databases, and edge network.">
+<title>Nimbus Cloud Status — All Systems Operational</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M10 20a5 5 0 0 1 .3-9.99A6 6 0 0 1 22 11.5a4 4 0 0 1-.5 8H10z' fill='white'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --blue:#2563eb;
+    --blue-dark:#1d4ed8;
+    --blue-050:#eff6ff;
+    --blue-100:#dbeafe;
+    --green:#16a34a;
+    --green-050:#f0fdf4;
+    --green-100:#dcfce7;
+    --amber:#d97706;
+    --amber-050:#fffbeb;
+    --slate-900:#0f172a;
+    --slate-800:#1e293b;
+    --slate-700:#334155;
+    --slate-600:#475569;
+    --slate-500:#64748b;
+    --slate-400:#94a3b8;
+    --slate-300:#cbd5e1;
+    --slate-200:#e2e8f0;
+    --slate-100:#f1f5f9;
+    --slate-050:#f8fafc;
+    --white:#ffffff;
+    --radius:10px;
+    --radius-sm:7px;
+    --shadow-sm:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.04);
+    --shadow:0 4px 6px -1px rgba(15,23,42,.06),0 2px 4px -2px rgba(15,23,42,.05);
+    --shadow-lg:0 12px 28px -8px rgba(15,23,42,.14),0 4px 10px -4px rgba(15,23,42,.08);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+    --mono:"SFMono-Regular",ui-monospace,"Cascadia Code","Consolas","Liberation Mono",Menlo,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    color:var(--slate-700);
+    background:var(--slate-050);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--blue-100);color:var(--slate-900)}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--white);
+    border-bottom:1px solid var(--slate-200);
+    position:sticky;top:0;z-index:50;
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;color:var(--slate-900);font-size:17px;letter-spacing:-.01em}
+  .brand svg{display:block;flex-shrink:0}
+  .brand .tag{
+    font-size:11px;font-weight:600;color:var(--slate-500);
+    background:var(--slate-100);border:1px solid var(--slate-200);
+    padding:2px 7px;border-radius:20px;letter-spacing:.02em;
+  }
+  .nav-links{display:flex;align-items:center;gap:4px}
+  .nav-links a{
+    font-size:14px;font-weight:500;color:var(--slate-600);
+    padding:8px 13px;border-radius:var(--radius-sm);transition:background .15s,color .15s;
+  }
+  .nav-links a:hover{background:var(--slate-100);color:var(--slate-900)}
+  .nav-cta{
+    background:var(--blue);color:#fff;font-weight:600;
+    padding:9px 16px;border-radius:var(--radius-sm);font-size:14px;
+    box-shadow:var(--shadow-sm);transition:background .15s,transform .1s;
+  }
+  .nav-cta:hover{background:var(--blue-dark)}
+  .nav-cta:active{transform:translateY(1px)}
+  .menu-btn{
+    display:none;background:none;border:1px solid var(--slate-200);
+    border-radius:var(--radius-sm);width:40px;height:40px;cursor:pointer;
+    align-items:center;justify-content:center;color:var(--slate-700);
+  }
+  .menu-btn:hover{background:var(--slate-100)}
+
+  /* ---------- Hero banner ---------- */
+  .hero{
+    background:linear-gradient(180deg,var(--white) 0%,var(--slate-050) 100%);
+    border-bottom:1px solid var(--slate-200);
+    padding:44px 0 40px;
+  }
+  .status-banner{
+    display:flex;align-items:center;gap:18px;
+    background:var(--green-050);
+    border:1px solid var(--green-100);
+    border-left:4px solid var(--green);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    box-shadow:var(--shadow-sm);
+  }
+  .status-banner .check{
+    flex-shrink:0;width:44px;height:44px;border-radius:50%;
+    background:var(--green);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 6px var(--green-100);
+  }
+  .status-banner h1{
+    font-size:22px;font-weight:700;color:var(--slate-900);letter-spacing:-.02em;line-height:1.2;
+  }
+  .status-banner p{font-size:14px;color:var(--slate-600);margin-top:2px}
+  .status-banner .updated{
+    margin-left:auto;text-align:right;font-size:12.5px;color:var(--slate-500);
+    display:flex;flex-direction:column;gap:2px;flex-shrink:0;
+  }
+  .status-banner .updated .dot{
+    display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--green);
+  }
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);position:relative}
+  .live-dot::after{
+    content:"";position:absolute;inset:-4px;border-radius:50%;
+    background:var(--green);opacity:.35;animation:ping 2s cubic-bezier(0,0,.2,1) infinite;
+  }
+  @keyframes ping{0%{transform:scale(.7);opacity:.5}80%,100%{transform:scale(2);opacity:0}}
+
+  .subscribe-row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13.5px;font-weight:600;color:var(--slate-700);
+    background:var(--white);border:1px solid var(--slate-200);
+    padding:9px 15px;border-radius:var(--radius-sm);transition:border-color .15s,background .15s;
+  }
+  .btn-ghost:hover{border-color:var(--slate-300);background:var(--slate-050)}
+  .btn-ghost svg{color:var(--slate-500)}
+
+  /* ---------- Section ---------- */
+  section{padding:40px 0}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;gap:16px;flex-wrap:wrap}
+  .sec-head h2{font-size:16px;font-weight:700;color:var(--slate-900);letter-spacing:-.01em}
+  .sec-head .legend{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--slate-500)}
+  .sec-head .legend span{display:inline-flex;align-items:center;gap:6px}
+  .lg-sq{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+  /* ---------- Status board ---------- */
+  .board{
+    background:var(--white);border:1px solid var(--slate-200);
+    border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;
+  }
+  .svc{
+    display:grid;grid-template-columns:1fr auto auto;
+    align-items:center;gap:22px;
+    padding:16px 22px;border-top:1px solid var(--slate-100);
+    transition:background .12s;
+  }
+  .svc:first-child{border-top:none}
+  .svc:hover{background:var(--slate-050)}
+  .svc-name{display:flex;align-items:center;gap:13px;min-width:0}
+  .svc-icon{
+    width:34px;height:34px;border-radius:8px;flex-shrink:0;
+    background:var(--blue-050);border:1px solid var(--blue-100);
+    display:flex;align-items:center;justify-content:center;color:var(--blue);
+  }
+  .svc-name .txt strong{display:block;font-size:14.5px;font-weight:600;color:var(--slate-900)}
+  .svc-name .txt small{font-size:12px;color:var(--slate-500)}
+  .uptime-bar{display:flex;align-items:center;gap:12px}
+  .uptime-bar .pct{font-family:var(--mono);font-size:12px;color:var(--slate-500);font-weight:500;min-width:52px;text-align:right}
+  .pill{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:12.5px;font-weight:600;
+    padding:5px 12px;border-radius:20px;white-space:nowrap;
+    background:var(--green-050);color:var(--green);border:1px solid var(--green-100);
+  }
+  .pill .d{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .pill.maint{background:var(--blue-050);color:var(--blue-dark);border-color:var(--blue-100)}
+
+  /* ---------- Stat tiles ---------- */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .tile{
+    background:var(--white);border:1px solid var(--slate-200);
+    border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm);
+    transition:transform .16s,box-shadow .16s,border-color .16s;
+  }
+  .tile:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--slate-300)}
+  .tile .label{font-size:12.5px;color:var(--slate-500);font-weight:500;display:flex;align-items:center;gap:6px}
+  .tile .value{font-family:var(--mono);font-size:29px;font-weight:600;color:var(--slate-900);margin-top:8px;letter-spacing:-.02em}
+  .tile .value.g{color:var(--green)}
+  .tile .sub{font-size:12px;color:var(--slate-500);margin-top:4px}
+  .tile .sub b{color:var(--green);font-weight:600}
+  .tile .sub b.dn{color:var(--slate-600)}
+
+  /* ---------- Docs / quickstart ---------- */
+  .docs-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:24px}
+  .doc-links{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+  .doc-card{
+    background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius);
+    padding:16px 17px;box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .doc-card:hover{border-color:var(--blue-100);transform:translateY(-2px);box-shadow:var(--shadow)}
+  .doc-card .di{width:32px;height:32px;border-radius:8px;background:var(--blue-050);color:var(--blue);display:flex;align-items:center;justify-content:center}
+  .doc-card strong{font-size:14px;color:var(--slate-900);font-weight:600;display:flex;align-items:center;gap:6px}
+  .doc-card p{font-size:12.5px;color:var(--slate-500);line-height:1.5}
+  .doc-card .arrow{color:var(--blue);transition:transform .15s}
+  .doc-card:hover .arrow{transform:translateX(3px)}
+
+  .code-panel{
+    background:var(--slate-900);border-radius:var(--radius);overflow:hidden;
+    box-shadow:var(--shadow-lg);border:1px solid var(--slate-800);
+    display:flex;flex-direction:column;
+  }
+  .code-head{
+    display:flex;align-items:center;gap:10px;
+    padding:11px 16px;background:#111a2e;border-bottom:1px solid #23304d;
+  }
+  .code-head .dots{display:flex;gap:6px}
+  .code-head .dots i{width:11px;height:11px;border-radius:50%;display:block}
+  .code-head .fname{font-family:var(--mono);font-size:12px;color:var(--slate-400);margin-left:6px}
+  .code-head .copy{
+    margin-left:auto;font-size:11.5px;color:var(--slate-400);
+    background:#1b2740;border:1px solid #2c3a5c;border-radius:6px;
+    padding:4px 10px;cursor:pointer;font-family:var(--sans);font-weight:600;transition:background .15s,color .15s;
+  }
+  .code-head .copy:hover{background:#243352;color:var(--slate-200)}
+  .code-body{
+    padding:18px 20px;font-family:var(--mono);font-size:12.8px;line-height:1.85;
+    overflow-x:auto;color:#c9d4e8;
+  }
+  .code-body pre{margin:0;white-space:pre}
+  .code-body .cm{color:#5f7191}
+  .code-body .fn{color:#7dd3fc}
+  .code-body .fl{color:#c084fc}
+  .code-body .st{color:#86efac}
+  .code-body .nm{color:#fca5a5}
+  .code-body .pr{color:#fcd34d}
+  .code-tabs{display:flex;gap:2px;padding:0 10px;background:#111a2e;border-bottom:1px solid #23304d}
+  .code-tabs button{
+    background:none;border:none;color:var(--slate-400);font-family:var(--mono);
+    font-size:12px;padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+  }
+  .code-tabs button.on{color:#fff;border-bottom-color:var(--blue)}
+  .code-tabs button:hover{color:var(--slate-200)}
+
+  /* ---------- Incident history ---------- */
+  .timeline{display:flex;flex-direction:column;gap:0}
+  .day-group{border-left:2px solid var(--slate-200);padding-left:22px;position:relative;padding-bottom:26px}
+  .day-group:last-child{padding-bottom:0}
+  .day-group::before{
+    content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;
+    background:var(--white);border:2px solid var(--slate-300);
+  }
+  .day-group.resolved::before{border-color:var(--green);background:var(--green-050)}
+  .day-date{font-size:13px;font-weight:700;color:var(--slate-900);margin-bottom:4px}
+  .incident{
+    background:var(--white);border:1px solid var(--slate-200);border-radius:var(--radius);
+    padding:16px 18px;margin-top:10px;box-shadow:var(--shadow-sm);
+  }
+  .incident h3{font-size:14.5px;font-weight:600;color:var(--slate-900);display:flex;align-items:center;gap:10px}
+  .badge{font-size:11px;font-weight:700;padding:2px 9px;border-radius:5px;letter-spacing:.02em;text-transform:uppercase}
+  .badge.res{background:var(--green-050);color:var(--green);border:1px solid var(--green-100)}
+  .badge.min{background:var(--amber-050);color:var(--amber);border:1px solid #fde68a}
+  .incident .meta{font-size:12px;color:var(--slate-500);margin-top:3px}
+  .incident .updates{margin-top:13px;display:flex;flex-direction:column;gap:11px}
+  .upd{display:grid;grid-template-columns:88px 1fr;gap:14px;font-size:13px;align-items:start}
+  .upd .stage{font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em;padding-top:1px}
+  .upd .stage.rs{color:var(--green)}
+  .upd .stage.mo{color:var(--blue)}
+  .upd .stage.iv{color:var(--amber)}
+  .upd .stage.id{color:var(--slate-500)}
+  .upd .body{color:var(--slate-600);line-height:1.55}
+  .upd .body time{display:block;font-size:11.5px;color:var(--slate-400);margin-top:3px;font-family:var(--mono)}
+  .no-incidents{
+    text-align:center;padding:34px 20px;background:var(--white);
+    border:1px dashed var(--slate-200);border-radius:var(--radius);
+    color:var(--slate-500);font-size:13.5px;
+  }
+  .no-incidents svg{color:var(--green);margin-bottom:8px}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--slate-900);color:var(--slate-400);padding:48px 0 30px;margin-top:24px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:34px;padding-bottom:34px;border-bottom:1px solid var(--slate-800)}
+  .foot-brand .brand{color:#fff}
+  .foot-brand p{font-size:13px;color:var(--slate-500);margin-top:14px;max-width:270px;line-height:1.6}
+  .foot-col h4{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-500);margin-bottom:14px;font-weight:700}
+  .foot-col a{display:block;font-size:13.5px;color:var(--slate-300);padding:5px 0;transition:color .15s}
+  .foot-col a:hover{color:#fff}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:22px;flex-wrap:wrap;gap:14px}
+  .foot-bottom p{font-size:12.5px;color:var(--slate-500)}
+  .foot-status{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--slate-300)}
+  .foot-social{display:flex;gap:10px}
+  .foot-social a{
+    width:34px;height:34px;border-radius:8px;background:var(--slate-800);
+    display:flex;align-items:center;justify-content:center;color:var(--slate-400);transition:background .15s,color .15s;
+  }
+  .foot-social a:hover{background:var(--blue);color:#fff}
+
+  /* entrance */
+  .reveal{opacity:0;transform:translateY(12px);animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.19s}.d4{animation-delay:.26s}
+
+  /* ---------- QA polish: rhythm, focus, motion ---------- */
+  main [id]{scroll-margin-top:78px}
+  .status-banner h1,.sec-head h2,.incident h3,.no-incidents div{text-wrap:balance}
+  .pct,.tile .value,.code-body,.upd .body time,.status-banner .updated,.foot-bottom p{font-variant-numeric:tabular-nums}
+  .uptime-bar svg{width:220px;max-width:100%;height:auto;min-width:0}
+  .uptime-bar rect{transition:opacity .12s}
+  .uptime-bar rect:hover{opacity:.68}
+  input[type=email]:focus-visible{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-100)}
+  .foot-col a:focus-visible,.nav-links a:focus-visible{outline-offset:1px}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .reveal{opacity:1!important;transform:none!important}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:860px){
+    .docs-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:26px}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media (max-width:720px){
+    .nav-links{
+      display:none;position:absolute;top:64px;left:0;right:0;
+      flex-direction:column;align-items:stretch;gap:2px;
+      background:var(--white);border-bottom:1px solid var(--slate-200);
+      padding:12px 16px;box-shadow:var(--shadow-lg);
+    }
+    .nav-links.open{display:flex}
+    .nav-links a{padding:11px 12px}
+    .nav-cta{text-align:center;margin-top:6px}
+    .menu-btn{display:flex}
+    .stats{grid-template-columns:1fr 1fr}
+    .status-banner{flex-wrap:wrap}
+    .status-banner .updated{margin-left:0;text-align:left;width:100%;flex-direction:row;justify-content:space-between;border-top:1px solid var(--green-100);padding-top:12px;margin-top:4px}
+    .svc{grid-template-columns:1fr auto;gap:14px}
+    .uptime-bar{grid-column:1/-1;justify-content:space-between}
+    .doc-links{grid-template-columns:1fr}
+  }
+  @media (max-width:440px){
+    .stats{grid-template-columns:1fr}
+    .brand .tag{display:none}
+    .upd{grid-template-columns:1fr;gap:2px}
+    .upd .stage{padding-top:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Nimbus Cloud home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#2563eb"/>
+        <path d="M10 20a5 5 0 0 1 .3-9.99A6 6 0 0 1 22 11.5a4 4 0 0 1-.5 8H10z" fill="#fff"/>
+      </svg>
+      Nimbus Cloud
+      <span class="tag">Status</span>
+    </a>
+    <nav class="nav-links" id="navlinks" aria-label="Primary">
+      <a href="#status">Status</a>
+      <a href="#docs">Docs</a>
+      <a href="#docs">API</a>
+      <a href="#incidents">Incidents</a>
+      <a href="https://support.nimbuscloud.io" class="nav-cta">Support</a>
+    </nav>
+    <button class="menu-btn" id="menubtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navlinks">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== HERO ===================== -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="status-banner reveal">
+        <span class="check" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </span>
+        <div>
+          <h1>All Systems Operational</h1>
+          <p>Every Nimbus Cloud service is running normally across all 18 regions.</p>
+        </div>
+        <div class="updated">
+          <span class="dot"><span class="live-dot" aria-hidden="true"></span> Live</span>
+          <span id="lastchecked">Last checked: Jul 3, 2026 · 14:42 UTC</span>
+          <span>Auto-refreshes every 60s</span>
+        </div>
+      </div>
+      <div class="subscribe-row reveal d1">
+        <a href="#subscribe" class="btn-ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          Subscribe to updates
+        </a>
+        <a href="#incidents" class="btn-ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+          Incident history
+        </a>
+        <a href="https://nimbuscloud.io/rss" class="btn-ghost">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg>
+          RSS feed
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== STATUS BOARD ===================== -->
+  <section id="status">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>System Status</h2>
+        <div class="legend" aria-hidden="true">
+          <span><i class="lg-sq" style="background:#16a34a"></i> Operational</span>
+          <span><i class="lg-sq" style="background:#2563eb"></i> Maintenance</span>
+          <span><i class="lg-sq" style="background:#d97706"></i> Degraded</span>
+          <span><i class="lg-sq" style="background:#dc2626"></i> Outage</span>
+          <span><i class="lg-sq" style="background:#cbd5e1"></i> No data</span>
+        </div>
+      </div>
+
+      <div class="board reveal">
+
+        <!-- API -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span>
+            <span class="txt"><strong>REST &amp; GraphQL API</strong><small>api.nimbuscloud.io</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 99.99% operational">
+              <g fill="#16a34a"></g>
+            </svg>
+            <span class="pct">99.99%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+            <span class="txt"><strong>Web Dashboard</strong><small>console.nimbuscloud.io</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 100% operational"><g fill="#16a34a"></g></svg>
+            <span class="pct">100%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Databases -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></span>
+            <span class="txt"><strong>Managed Databases</strong><small>PostgreSQL · Redis · MySQL</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 99.97% operational, one scheduled maintenance window"><g fill="#16a34a"></g></svg>
+            <span class="pct">99.97%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Object Storage -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2m18 0H3m18 0v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8m4 4h6"/></svg></span>
+            <span class="txt"><strong>Object Storage</strong><small>S3-compatible buckets</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 100% operational"><g fill="#16a34a"></g></svg>
+            <span class="pct">100%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- CDN -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.9 6 4 9-.1 3-1.5 6.3-4 9-2.5-2.7-3.9-6-4-9 .1-3 1.5-6.3 4-9z"/></svg></span>
+            <span class="txt"><strong>Edge CDN</strong><small>142 PoPs worldwide</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 99.98% operational, one degraded day"><g fill="#16a34a"></g></svg>
+            <span class="pct">99.98%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Auth -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor" stroke="none"/></svg></span>
+            <span class="txt"><strong>Authentication</strong><small>OAuth 2.0 · SSO · MFA</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 100% operational"><g fill="#16a34a"></g></svg>
+            <span class="pct">100%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Webhooks -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a3 3 0 1 0-2.8-4M9 12l3-5M6 16a3 3 0 1 0 4 2.8M9 16h6M15.5 16a3 3 0 1 0 1.2-5.6"/></svg></span>
+            <span class="txt"><strong>Webhooks &amp; Events</strong><small>Event delivery pipeline</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 99.95% operational, one degraded day"><g fill="#16a34a"></g></svg>
+            <span class="pct">99.95%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+        <!-- Compute -->
+        <div class="svc">
+          <div class="svc-name">
+            <span class="svc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></span>
+            <span class="txt"><strong>Compute Instances</strong><small>VMs · Kubernetes · Functions</small></span>
+          </div>
+          <div class="uptime-bar">
+            <svg width="220" height="30" viewBox="0 0 220 30" role="img" aria-label="90-day uptime: 99.96% operational"><g fill="#16a34a"></g></svg>
+            <span class="pct">99.96%</span>
+          </div>
+          <span class="pill"><span class="d"></span>Operational</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STAT TILES ===================== -->
+  <section aria-label="Uptime metrics" style="padding-top:8px">
+    <div class="wrap">
+      <div class="sec-head"><h2>Uptime &amp; Performance</h2><span style="font-size:12px;color:var(--slate-500)">Rolling 90-day window</span></div>
+      <div class="stats">
+        <div class="tile reveal d1">
+          <div class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg> Overall uptime</div>
+          <div class="value g">99.98%</div>
+          <div class="sub"><b>+0.03%</b> vs. previous quarter</div>
+        </div>
+        <div class="tile reveal d2">
+          <div class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg> Avg. API latency</div>
+          <div class="value">86<span style="font-size:16px;color:var(--slate-400)">ms</span></div>
+          <div class="sub"><b class="dn">p95 · 214ms</b> across regions</div>
+        </div>
+        <div class="tile reveal d3">
+          <div class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg> Requests / day</div>
+          <div class="value">4.2<span style="font-size:16px;color:var(--slate-400)">B</span></div>
+          <div class="sub"><b>99.999%</b> successful (2xx/3xx)</div>
+        </div>
+        <div class="tile reveal d4">
+          <div class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Incidents (90d)</div>
+          <div class="value">2</div>
+          <div class="sub"><b>0</b> currently open · both resolved</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DOCS / QUICKSTART ===================== -->
+  <section id="docs">
+    <div class="wrap">
+      <div class="sec-head"><h2>Developer Quickstart</h2><a href="https://docs.nimbuscloud.io" style="font-size:13px;font-weight:600;color:var(--blue)">Full documentation →</a></div>
+      <div class="docs-grid">
+
+        <div class="doc-links">
+          <a href="https://docs.nimbuscloud.io/quickstart" class="doc-card reveal d1">
+            <span class="di"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+            <strong>Quickstart <span class="arrow">→</span></strong>
+            <p>Provision your first instance and make an authenticated call in under five minutes.</p>
+          </a>
+          <a href="https://docs.nimbuscloud.io/api" class="doc-card reveal d2">
+            <span class="di"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/></svg></span>
+            <strong>API Reference <span class="arrow">→</span></strong>
+            <p>Complete REST and GraphQL reference with request and response schemas.</p>
+          </a>
+          <a href="https://docs.nimbuscloud.io/sdks" class="doc-card reveal d3">
+            <span class="di"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+            <strong>SDKs &amp; CLI <span class="arrow">→</span></strong>
+            <p>Official libraries for Go, Python, Node.js, Rust, and the nimbus CLI.</p>
+          </a>
+          <a href="https://docs.nimbuscloud.io/webhooks" class="doc-card reveal d4">
+            <span class="di"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a3 3 0 1 0-2.8-4M9 12l3-5M6 16a3 3 0 1 0 4 2.8M15.5 16a3 3 0 1 0 1.2-5.6"/></svg></span>
+            <strong>Webhooks Guide <span class="arrow">→</span></strong>
+            <p>Subscribe to platform events and verify signed payloads securely.</p>
+          </a>
+        </div>
+
+        <div class="code-panel reveal d2">
+          <div class="code-head">
+            <span class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span>
+            <span class="fname" id="codefile">nimbus-quickstart.sh</span>
+            <button class="copy" id="copybtn" type="button">Copy</button>
+          </div>
+          <div class="code-tabs" role="tablist">
+            <button class="on" data-tab="curl" role="tab" aria-selected="true">cURL</button>
+            <button data-tab="node" role="tab" aria-selected="false">Node.js</button>
+            <button data-tab="py" role="tab" aria-selected="false">Python</button>
+          </div>
+          <div class="code-body">
+            <pre id="code-curl"><span class="cm"># Provision a compute instance in us-east-1</span>
+<span class="fn">curl</span> https://api.nimbuscloud.io/v2/instances <span class="fl">\</span>
+  <span class="fl">-H</span> <span class="st">"Authorization: Bearer $NIMBUS_API_KEY"</span> <span class="fl">\</span>
+  <span class="fl">-H</span> <span class="st">"Content-Type: application/json"</span> <span class="fl">\</span>
+  <span class="fl">-d</span> <span class="st">'{
+    "region": "us-east-1",
+    "plan":   "nc-standard-4",
+    "image":  "ubuntu-24.04",
+    "label":  "web-prod-01"
+  }'</span>
+
+<span class="cm"># → 201 Created</span>
+<span class="cm"># { "id": "inst_7Qh2kf9wZ", "status": "provisioning" }</span></pre>
+
+            <pre id="code-node" hidden><span class="cm">// npm install @nimbuscloud/sdk</span>
+<span class="pr">import</span> { Nimbus } <span class="pr">from</span> <span class="st">"@nimbuscloud/sdk"</span>;
+
+<span class="pr">const</span> nimbus = <span class="pr">new</span> <span class="fn">Nimbus</span>(process.<span class="nm">env</span>.NIMBUS_API_KEY);
+
+<span class="pr">const</span> instance = <span class="pr">await</span> nimbus.instances.<span class="fn">create</span>({
+  region: <span class="st">"us-east-1"</span>,
+  plan:   <span class="st">"nc-standard-4"</span>,
+  image:  <span class="st">"ubuntu-24.04"</span>,
+  label:  <span class="st">"web-prod-01"</span>,
+});
+
+console.<span class="fn">log</span>(instance.id, instance.status);</pre>
+
+            <pre id="code-py" hidden><span class="cm"># pip install nimbuscloud</span>
+<span class="pr">import</span> os
+<span class="pr">from</span> nimbuscloud <span class="pr">import</span> Nimbus
+
+nimbus = <span class="fn">Nimbus</span>(api_key=os.<span class="nm">environ</span>[<span class="st">"NIMBUS_API_KEY"</span>])
+
+instance = nimbus.instances.<span class="fn">create</span>(
+    region=<span class="st">"us-east-1"</span>,
+    plan=<span class="st">"nc-standard-4"</span>,
+    image=<span class="st">"ubuntu-24.04"</span>,
+    label=<span class="st">"web-prod-01"</span>,
+)
+
+<span class="pr">print</span>(instance.id, instance.status)</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INCIDENT HISTORY ===================== -->
+  <section id="incidents">
+    <div class="wrap">
+      <div class="sec-head"><h2>Incident History</h2><span style="font-size:12px;color:var(--slate-500)">Past 90 days · all times UTC</span></div>
+
+      <div class="timeline">
+
+        <!-- Today -->
+        <div class="day-group resolved">
+          <div class="day-date">July 3, 2026 — Today</div>
+          <div class="no-incidents">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            <div>No incidents reported today. All systems operational.</div>
+          </div>
+        </div>
+
+        <!-- June 21 -->
+        <div class="day-group resolved">
+          <div class="day-date">June 21, 2026</div>
+          <div class="incident">
+            <h3>Elevated latency on Edge CDN in EU-Central <span class="badge min">Minor</span></h3>
+            <div class="meta">Affected: Edge CDN · Frankfurt &amp; Amsterdam PoPs · Duration 47 minutes</div>
+            <div class="updates">
+              <div class="upd"><span class="stage rs">Resolved</span><span class="body">A misbehaving upstream route has been withdrawn and cache hit rates have returned to baseline. We are adding an automated failover check to catch this class of issue sooner.<time>Jun 21, 2026 · 09:58 UTC</time></span></div>
+              <div class="upd"><span class="stage mo">Monitoring</span><span class="body">Traffic has been rerouted around the affected edge nodes. Latency is back to normal levels and we are monitoring for recurrence.<time>Jun 21, 2026 · 09:34 UTC</time></span></div>
+              <div class="upd"><span class="stage iv">Investigating</span><span class="body">We are investigating reports of increased response times for static assets served from EU-Central edge locations. Origin and API services are unaffected.<time>Jun 21, 2026 · 09:11 UTC</time></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- May 14 -->
+        <div class="day-group resolved">
+          <div class="day-date">May 14, 2026</div>
+          <div class="incident">
+            <h3>Delayed webhook delivery for a subset of accounts <span class="badge res">Resolved</span></h3>
+            <div class="meta">Affected: Webhooks &amp; Events · ~4% of endpoints · Duration 1h 12m</div>
+            <div class="updates">
+              <div class="upd"><span class="stage rs">Resolved</span><span class="body">The event delivery backlog has fully drained and all queued webhooks have been delivered. No events were lost; delayed messages were retried automatically. A postmortem will be published within five business days.<time>May 14, 2026 · 16:40 UTC</time></span></div>
+              <div class="upd"><span class="stage mo">Monitoring</span><span class="body">Queue depth is decreasing steadily after we scaled additional delivery workers. Endpoints should now be receiving events with only minor delay.<time>May 14, 2026 · 16:05 UTC</time></span></div>
+              <div class="upd"><span class="stage id">Identified</span><span class="body">We identified a slow database migration on the delivery scheduler that reduced worker throughput. The migration has been paused and workers are recovering.<time>May 14, 2026 · 15:41 UTC</time></span></div>
+              <div class="upd"><span class="stage iv">Investigating</span><span class="body">A backlog in the event delivery pipeline is causing webhooks to be delivered later than usual. Delivery is retried automatically and no events are being dropped.<time>May 14, 2026 · 15:28 UTC</time></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduled maintenance -->
+        <div class="day-group">
+          <div class="day-date">April 27, 2026</div>
+          <div class="incident">
+            <h3>Scheduled maintenance — database engine upgrade <span class="badge res">Completed</span></h3>
+            <div class="meta">Affected: Managed Databases · Maintenance window 02:00–03:30 UTC</div>
+            <div class="updates">
+              <div class="upd"><span class="stage rs">Completed</span><span class="body">The PostgreSQL 16.3 point-release upgrade completed successfully across all managed clusters with zero unplanned downtime. Failover replicas were promoted as designed.<time>Apr 27, 2026 · 03:12 UTC</time></span></div>
+              <div class="upd"><span class="stage mo">In progress</span><span class="body">Rolling upgrades are underway. Individual instances may briefly fail over to a standby replica; connections are retried transparently by the connection pooler.<time>Apr 27, 2026 · 02:00 UTC</time></span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="subscribe" style="margin-top:32px;background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid var(--blue-100);border-radius:var(--radius);padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap">
+        <div>
+          <strong style="display:block;font-size:16px;color:var(--slate-900);font-weight:700">Get notified about incidents</strong>
+          <span style="font-size:13.5px;color:var(--slate-600)">Subscribe by email, Slack, or SMS and hear about issues before your users do.</span>
+        </div>
+        <form style="display:flex;gap:8px;flex-wrap:wrap" onsubmit="return false">
+          <label for="subemail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+          <input id="subemail" type="email" placeholder="you@company.com" style="font:inherit;font-size:14px;padding:10px 14px;border:1px solid var(--slate-300);border-radius:var(--radius-sm);min-width:220px;background:#fff;color:var(--slate-800)">
+          <button type="submit" class="nav-cta" style="border:none;cursor:pointer">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand" style="color:#fff;font-size:17px">
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2563eb"/><path d="M10 20a5 5 0 0 1 .3-9.99A6 6 0 0 1 22 11.5a4 4 0 0 1-.5 8H10z" fill="#fff"/></svg>
+          Nimbus Cloud
+        </span>
+        <p>Global cloud infrastructure for teams that ship. Compute, storage, and databases across 18 regions with a 99.99% uptime SLA.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Platform</h4>
+        <a href="https://nimbuscloud.io/compute">Compute</a>
+        <a href="https://nimbuscloud.io/storage">Object Storage</a>
+        <a href="https://nimbuscloud.io/databases">Databases</a>
+        <a href="https://nimbuscloud.io/cdn">Edge CDN</a>
+        <a href="https://nimbuscloud.io/pricing">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <a href="https://docs.nimbuscloud.io">Documentation</a>
+        <a href="https://docs.nimbuscloud.io/api">API Reference</a>
+        <a href="https://nimbuscloud.io/changelog">Changelog</a>
+        <a href="https://nimbuscloud.io/sla">SLA &amp; Uptime</a>
+        <a href="#top">System Status</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="https://nimbuscloud.io/about">About</a>
+        <a href="https://nimbuscloud.io/security">Security &amp; Trust</a>
+        <a href="https://nimbuscloud.io/careers">Careers</a>
+        <a href="https://support.nimbuscloud.io">Support</a>
+        <a href="https://nimbuscloud.io/contact">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 Nimbus Cloud, Inc. · 340 Bryant Street, Suite 200, San Francisco, CA 94107</p>
+      <span class="foot-status"><span class="live-dot" aria-hidden="true"></span> All systems operational</span>
+      <div class="foot-social">
+        <a href="https://nimbuscloud.io/x" aria-label="Nimbus Cloud on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2h3.3l-7.2 8.3L23.5 22h-6.6l-5.2-6.8L5.7 22H2.4l7.7-8.8L1.9 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.1 3.9H5.2L17.7 20z"/></svg></a>
+        <a href="https://github.com/nimbuscloud" aria-label="Nimbus Cloud on GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 3.9-1.4 6.8-5.2 6.8-9.7C22 6.6 17.5 2 12 2z"/></svg></a>
+        <a href="https://nimbuscloud.io/rss" aria-label="Status RSS feed"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.6" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---- Mobile menu ----
+  (function(){
+    var btn = document.getElementById('menubtn');
+    var links = document.getElementById('navlinks');
+    btn.addEventListener('click', function(){
+      var open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function(e){
+      if(e.target.tagName === 'A'){ links.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+    });
+  })();
+
+  // ---- Build 90-day uptime bars (dates line up with the incident log) ----
+  (function(){
+    var DAYS = 90;
+    // index i: 0 = oldest (89 days ago), 89 = today. Anchors match logged incidents.
+    var patterns = {
+      0:{},                    // REST & GraphQL API — clean
+      1:{},                    // Web Dashboard
+      2:{22:'#2563eb'},        // Managed Databases — Apr 27 maintenance window
+      3:{},                    // Object Storage
+      4:{77:'#d97706'},        // Edge CDN — Jun 21 degraded (EU-Central)
+      5:{},                    // Authentication
+      6:{39:'#d97706'},        // Webhooks & Events — May 14 delayed delivery
+      7:{}                     // Compute Instances
+    };
+    var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var LABEL = {'#16a34a':'Operational','#d97706':'Degraded','#2563eb':'Maintenance','#dc2626':'Outage','#cbd5e1':'No data'};
+    var today = new Date();
+    var svgs = document.querySelectorAll('.uptime-bar svg');
+    var W = 220, H = 30, n = DAYS, gap = 1.4;
+    var bw = (W - gap*(n-1)) / n;
+    svgs.forEach(function(svg, si){
+      var map = patterns[si] || {};
+      var frag = '';
+      for(var i=0;i<n;i++){
+        var x = (i*(bw+gap)).toFixed(2);
+        var col = map[i] || '#16a34a';
+        var d = new Date(today);
+        d.setUTCDate(d.getUTCDate() - (n-1-i));
+        var day = MON[d.getUTCMonth()]+' '+d.getUTCDate()+', '+d.getUTCFullYear();
+        frag += '<rect x="'+x+'" y="0" width="'+bw.toFixed(2)+'" height="'+H+'" rx="1.3" fill="'+col+'"><title>'+day+' — '+(LABEL[col]||'Operational')+'</title></rect>';
+      }
+      svg.querySelector('g').innerHTML = frag;
+    });
+  })();
+
+  // ---- Code tab switcher ----
+  (function(){
+    var tabs = document.querySelectorAll('.code-tabs button');
+    var files = { curl:'nimbus-quickstart.sh', node:'quickstart.mjs', py:'quickstart.py' };
+    var panes = { curl:'code-curl', node:'code-node', py:'code-py' };
+    var fname = document.getElementById('codefile');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var key = tab.getAttribute('data-tab');
+        tabs.forEach(function(t){ t.classList.remove('on'); t.setAttribute('aria-selected','false'); });
+        tab.classList.add('on'); tab.setAttribute('aria-selected','true');
+        Object.keys(panes).forEach(function(k){ document.getElementById(panes[k]).hidden = (k!==key); });
+        fname.textContent = files[key];
+      });
+    });
+  })();
+
+  // ---- Copy button ----
+  (function(){
+    var btn = document.getElementById('copybtn');
+    btn.addEventListener('click', function(){
+      var pane = document.querySelector('.code-body pre:not([hidden])');
+      var text = pane ? pane.innerText : '';
+      var done = function(){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){btn.textContent=o;},1600); };
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, done); }
+      else { done(); }
+    });
+  })();
+
+  // ---- "Last checked" timestamp, driven by the local clock (no network) ----
+  (function(){
+    var el = document.getElementById('lastchecked');
+    if(!el) return;
+    var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function pad(n){ return n < 10 ? '0'+n : ''+n; }
+    function tick(){
+      var d = new Date();
+      el.textContent = 'Last checked: ' + MON[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', ' +
+        d.getUTCFullYear() + ' · ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ' UTC';
+    }
+    tick();
+    setInterval(tick, 60000);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lens &amp; Light — fine-art and landscape photography by Elias Vance, based in Portland, Oregon. Archival prints, portrait sessions, and editorial commissions.">
+<meta name="author" content="Elias Vance">
+<meta name="theme-color" content="#0f0d0a">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.lensandlight.studio/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lens &amp; Light">
+<meta property="og:title" content="Lens &amp; Light — Elias Vance, Fine-Art &amp; Landscape Photography">
+<meta property="og:description" content="Patient, single-exposure landscapes and portraits of the Pacific Northwest. Archival prints, portrait sessions, and commissions from a Southeast Portland studio.">
+<meta property="og:url" content="https://www.lensandlight.studio/">
+<meta property="og:image" content="/img/lens-and-light-social.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lens &amp; Light — Elias Vance, Fine-Art &amp; Landscape Photography">
+<meta name="twitter:description" content="Patient, single-exposure landscapes and portraits of the Pacific Northwest.">
+<title>Lens &amp; Light — Elias Vance, Fine-Art &amp; Landscape Photography</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230f0d0a'/%3E%3Ccircle cx='16' cy='12' r='6' fill='%23e6a84b'/%3E%3Cpath d='M1 31 L11 17 L17 24 L23 13 L31 31 Z' fill='%23ece8df'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Lens & Light Studio",
+  "image": "/img/lens-and-light-social.jpg",
+  "description": "Fine-art landscape and portrait photography by Elias Vance — patient, single-exposure studies of the Pacific Northwest, plus archival prints, portrait sessions and commissions.",
+  "url": "https://www.lensandlight.studio/",
+  "email": "elias@lensandlight.studio",
+  "telephone": "+1-503-555-0142",
+  "priceRange": "$$$",
+  "areaServed": "Pacific Northwest, United States",
+  "founder": { "@type": "Person", "name": "Elias Vance", "jobTitle": "Photographer" },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1123 SE Clay Street, Studio 4",
+    "addressLocality": "Portland",
+    "addressRegion": "OR",
+    "postalCode": "97214",
+    "addressCountry": "US"
+  }
+}
+</script>
+<style>
+  :root{
+    --bg:#0f0d0a;
+    --bg-2:#16130d;
+    --bg-3:#1e1a12;
+    --ink:#ece8df;
+    --ink-soft:#c9c4b8;
+    --muted:#948f83;
+    --amber:#e6a84b;
+    --amber-deep:#c98a2e;
+    --line:rgba(236,232,223,.10);
+    --line-2:rgba(236,232,223,.18);
+    --serif:Georgia,"Times New Roman",Times,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1240px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  img,svg{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;margin:0;line-height:1.08;text-wrap:balance}
+  p{margin:0 0 1.1rem;text-wrap:pretty}
+  ::selection{background:var(--amber);color:#1a1206}
+
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:.72rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin:0 0 1.2rem;
+    display:flex;align-items:center;gap:.9rem;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--amber);opacity:.7}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:.6em;
+    font-family:var(--sans);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;
+    padding:.95em 1.7em;border:1px solid var(--line-2);border-radius:2px;
+    color:var(--ink);background:transparent;cursor:pointer;
+    transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease);
+  }
+  .btn:hover{background:var(--amber);color:#160e02;border-color:var(--amber);transform:translateY(-2px);box-shadow:0 12px 30px -14px rgba(230,168,75,.55)}
+  .btn:active{transform:translateY(0);box-shadow:none}
+  .btn-solid{background:var(--amber);color:#160e02;border-color:var(--amber);box-shadow:0 10px 30px -18px rgba(230,168,75,.6)}
+  .btn-solid:hover{background:transparent;color:var(--ink);border-color:var(--amber);box-shadow:none}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.85rem clamp(20px,5vw,56px);
+    background:rgba(15,13,10,.55);
+    backdrop-filter:blur(14px) saturate(120%);
+    -webkit-backdrop-filter:blur(14px) saturate(120%);
+    border-bottom:1px solid transparent;
+    transition:background .4s var(--ease),border-color .4s var(--ease),padding .4s var(--ease);
+  }
+  header.site.scrolled{background:rgba(12,10,7,.92);border-bottom-color:var(--line);padding-top:.7rem;padding-bottom:.7rem}
+  .brand{display:flex;align-items:center;gap:.8rem}
+  .monogram{
+    width:38px;height:38px;border:1px solid var(--line-2);border-radius:50%;
+    display:grid;place-items:center;font-family:var(--serif);font-size:1rem;letter-spacing:.02em;
+    color:var(--amber);flex:none;transition:border-color .35s var(--ease)}
+  .brand:hover .monogram{border-color:var(--amber)}
+  .brand-name{font-family:var(--serif);font-size:1.06rem;letter-spacing:.02em;line-height:1}
+  .brand-name small{display:block;font-family:var(--sans);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+  nav.primary{display:flex;align-items:center;gap:2.1rem}
+  nav.primary a{
+    font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+    position:relative;padding:.3rem 0;transition:color .3s var(--ease)}
+  nav.primary a::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:1px;background:var(--amber);
+    transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease)}
+  nav.primary a:hover{color:var(--ink)}
+  nav.primary a:hover::after{transform:scaleX(1);transform-origin:left}
+  nav.primary a.active{color:var(--ink)}
+  nav.primary a.active::after{transform:scaleX(1);transform-origin:left}
+  nav.primary .btn{margin-left:.4rem;padding:.65em 1.3em}
+  nav.primary .btn.active::after{transform:scaleX(0)}
+
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;color:var(--ink)}
+  .menu-toggle svg{width:26px;height:26px}
+  .menu-toggle .i-close{display:none}
+  .menu-toggle[aria-expanded="true"] .i-open{display:none}
+  .menu-toggle[aria-expanded="true"] .i-close{display:block}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-art{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero-veil{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(15,13,10,.55) 0%,rgba(15,13,10,0) 26%,rgba(15,13,10,.12) 60%,rgba(15,13,10,.9) 100%)}
+  .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:clamp(40px,9vh,110px);padding-top:120px}
+  .hero-loc{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:1.4rem;
+    display:flex;align-items:center;gap:.7rem}
+  .hero-loc .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px rgba(230,168,75,.18)}
+  .hero h1{
+    font-size:clamp(3.1rem,10vw,8.2rem);line-height:.92;letter-spacing:-.02em;margin:0 0 1.4rem;
+    text-shadow:0 3px 40px rgba(0,0,0,.5)}
+  .hero h1 em{font-style:italic;color:var(--amber)}
+  .hero-tag{max-width:44ch;font-size:clamp(1.02rem,2.1vw,1.26rem);color:var(--ink-soft);margin-bottom:2.3rem;line-height:1.6}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+
+  .scrollcue{position:absolute;right:clamp(20px,5vw,56px);bottom:clamp(40px,9vh,110px);z-index:3;
+    display:flex;flex-direction:column;align-items:center;gap:1rem;color:var(--ink-soft)}
+  .scrollcue span{writing-mode:vertical-rl;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase}
+  .scrollcue .line{width:1px;height:64px;background:linear-gradient(var(--amber),transparent);position:relative;overflow:hidden}
+  .scrollcue .line::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:var(--amber);
+    animation:cue 2.4s var(--ease) infinite}
+  @keyframes cue{0%{top:-40%}60%,100%{top:110%}}
+
+  /* ---------- Section scaffolding ---------- */
+  section{position:relative}
+  section[id],footer[id]{scroll-margin-top:88px}
+  .sec-pad{padding:clamp(72px,12vh,140px) 0}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:clamp(38px,6vw,64px);flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(2rem,5.2vw,3.5rem)}
+  .sec-head .lead{max-width:42ch;color:var(--muted);font-size:1rem;margin:0}
+
+  /* ---------- Gallery ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:16px}
+  figure.piece{position:relative;margin:0;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--bg-2);
+    transition:border-color .5s var(--ease),box-shadow .5s var(--ease),transform .5s var(--ease)}
+  figure.piece:hover{border-color:var(--line-2);transform:translateY(-4px);box-shadow:0 22px 48px -26px rgba(0,0,0,.75)}
+  figure.piece .frame{position:absolute;inset:0;overflow:hidden}
+  figure.piece svg.art{width:100%;height:100%;transition:transform 1.1s var(--ease),filter 1.1s var(--ease);filter:saturate(1) contrast(1)}
+  figure.piece:hover svg.art{transform:scale(1.06);filter:saturate(1.08) contrast(1.04)}
+  figure.piece figcaption{
+    position:absolute;left:0;right:0;bottom:0;z-index:2;padding:1.4rem 1.4rem 1.15rem;
+    background:linear-gradient(180deg,rgba(13,13,15,0) 0%,rgba(9,9,11,.86) 74%,rgba(9,9,11,.95) 100%);
+    transform:translateY(12px);opacity:.86;transition:transform .5s var(--ease),opacity .5s var(--ease)}
+  figure.piece:hover figcaption{transform:translateY(0);opacity:1}
+  .cap-idx{font-size:.66rem;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;display:block;margin-bottom:.35rem}
+  .cap-title{font-family:var(--serif);font-size:1.28rem;line-height:1.1;display:block}
+  .cap-loc{font-size:.78rem;color:var(--ink-soft);letter-spacing:.02em;margin-top:.25rem;display:block}
+  .piece.feat{grid-column:span 2;grid-row:span 2}
+  .piece.tall{grid-column:span 1;grid-row:span 2}
+  .piece.wide{grid-column:span 2;grid-row:span 1}
+
+  .gallery-foot{margin-top:2.6rem;display:flex;justify-content:center}
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:clamp(32px,6vw,72px);align-items:center}
+  .portrait{position:relative;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--bg-2)}
+  .portrait svg{width:100%;height:auto;display:block}
+  .portrait .tag{position:absolute;left:16px;bottom:16px;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink);background:rgba(9,9,11,.6);border:1px solid var(--line-2);padding:.5em .9em;border-radius:2px;backdrop-filter:blur(6px)}
+  .about-body h2{font-size:clamp(1.9rem,4.6vw,3rem);margin-bottom:1.4rem}
+  .about-body p{color:var(--ink-soft);max-width:56ch}
+  .sig{font-family:var(--serif);font-style:italic;font-size:1.7rem;color:var(--amber);margin-top:.4rem}
+  .stats{display:flex;gap:clamp(24px,5vw,56px);margin-top:2.2rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:1.9rem}
+  .stat b{font-family:var(--serif);font-size:2.1rem;display:block;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .stat span{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.4rem;display:block}
+
+  /* ---------- Services ---------- */
+  .services{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .svc{border:1px solid var(--line);border-radius:3px;padding:2.2rem 1.9rem;background:var(--bg);position:relative;overflow:hidden;
+    transition:border-color .4s var(--ease),transform .4s var(--ease),background .4s var(--ease)}
+  .svc::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--amber);transform:scaleX(0);
+    transform-origin:left;transition:transform .5s var(--ease)}
+  .svc:hover{transform:translateY(-6px);border-color:var(--line-2);background:var(--bg-3)}
+  .svc:hover::before{transform:scaleX(1)}
+  .svc .ico{width:40px;height:40px;color:var(--amber);margin-bottom:1.5rem}
+  .svc h3{font-size:1.55rem;margin-bottom:.7rem}
+  .svc p{font-size:.94rem;color:var(--muted);margin-bottom:1.5rem}
+  .svc .price{font-family:var(--serif);font-size:1.05rem;color:var(--ink);border-top:1px solid var(--line);padding-top:1.2rem;font-variant-numeric:tabular-nums}
+  .svc .price b{color:var(--amber);font-weight:400}
+  .svc ul{list-style:none;margin:0 0 1.5rem;padding:0}
+  .svc ul li{font-size:.9rem;color:var(--ink-soft);padding:.4rem 0 .4rem 1.4rem;position:relative;border-bottom:1px solid var(--line)}
+  .svc ul li:last-child{border-bottom:0}
+  .svc ul li::before{content:"";position:absolute;left:0;top:.95em;width:7px;height:7px;border:1px solid var(--amber);transform:rotate(45deg)}
+
+  /* ---------- Quote ---------- */
+  .quote-sec{text-align:center;overflow:hidden}
+  .quote-mark{font-family:var(--serif);font-size:7rem;line-height:.4;color:var(--amber);opacity:.32;display:block;margin-bottom:1rem}
+  blockquote{margin:0 auto;max-width:22ch;font-family:var(--serif);font-size:clamp(1.7rem,4.6vw,3rem);line-height:1.28;
+    letter-spacing:-.01em;max-width:20ch}
+  blockquote em{color:var(--amber);font-style:italic}
+  .quote-cite{margin-top:2.2rem;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+  .quote-cite b{color:var(--ink);font-weight:600}
+
+  /* ---------- Exhibition strip ---------- */
+  .strip{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;justify-content:center;text-align:center;
+    border:1px solid var(--line);border-radius:3px;padding:1.4rem 1.8rem;background:var(--bg-2);margin-top:3.4rem}
+  .strip .pill{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:#160e02;background:var(--amber);
+    padding:.45em .9em;border-radius:100px;font-weight:600}
+  .strip p{margin:0;color:var(--ink-soft);font-size:.96rem}
+  .strip p b{color:var(--ink);font-weight:600}
+
+  /* ---------- Contact / Footer ---------- */
+  footer.site{background:var(--bg-2);border-top:1px solid var(--line);position:relative;overflow:hidden}
+  .contact-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,7vw,90px);align-items:start}
+  .contact-lead h2{font-size:clamp(2.2rem,6vw,4rem);margin-bottom:1.4rem;line-height:1}
+  .contact-lead p{color:var(--ink-soft);max-width:44ch}
+  .contact-meta{margin-top:2.6rem;display:grid;gap:1.5rem}
+  .cmeta{display:flex;gap:1rem;align-items:flex-start}
+  .cmeta .ico{width:22px;height:22px;color:var(--amber);flex:none;margin-top:3px}
+  .cmeta .k{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+  .cmeta a,.cmeta span{color:var(--ink);font-size:1rem}
+  .cmeta a:hover{color:var(--amber)}
+
+  form.booking{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:clamp(24px,4vw,38px)}
+  form.booking h3{font-size:1.5rem;margin-bottom:.4rem}
+  form.booking .fn{font-size:.88rem;color:var(--muted);margin-bottom:1.8rem}
+  .field{margin-bottom:1.25rem}
+  .field label{display:block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.55rem}
+  .field input,.field select,.field textarea{
+    width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:2px;color:var(--ink);
+    font-family:var(--sans);font-size:.96rem;padding:.85em 1em;transition:border-color .3s var(--ease),background .3s var(--ease)}
+  .field textarea{resize:vertical;min-height:110px}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--amber);background:var(--bg-3);outline:none}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  form.booking .btn{width:100%;justify-content:center;margin-top:.4rem}
+  .form-note{font-size:.76rem;color:var(--muted);margin-top:1rem;text-align:center}
+
+  .footer-bar{border-top:1px solid var(--line);margin-top:clamp(50px,8vw,84px);padding:2rem 0;
+    display:flex;justify-content:space-between;align-items:center;gap:1.4rem;flex-wrap:wrap}
+  .foot-social{display:flex;gap:1.4rem}
+  .foot-social a{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);transition:color .3s var(--ease)}
+  .foot-social a:hover{color:var(--amber)}
+  .copy{font-size:.78rem;color:var(--muted)}
+  .copy b{font-family:var(--serif);color:var(--ink-soft);font-weight:400}
+
+  /* ---------- Reveal on scroll ---------- */
+  [data-reveal]{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  [data-reveal].in{opacity:1;transform:none}
+  [data-reveal][data-d="1"]{transition-delay:.08s}
+  [data-reveal][data-d="2"]{transition-delay:.16s}
+  [data-reveal][data-d="3"]{transition-delay:.24s}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:1040px){
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px}
+    .piece.feat{grid-column:span 2;grid-row:span 2}
+    .piece.wide{grid-column:span 2}
+    .piece.tall{grid-column:span 1;grid-row:span 2}
+    .svc-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+    .about-grid{grid-template-columns:1fr;gap:40px}
+    .portrait{max-width:440px}
+    .contact-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:720px){
+    nav.primary{
+      position:fixed;top:0;right:0;height:100svh;width:min(80vw,320px);z-index:70;
+      flex-direction:column;align-items:flex-start;justify-content:center;gap:1.6rem;
+      background:rgba(12,10,7,.98);backdrop-filter:blur(20px);padding:0 2.4rem;
+      border-left:1px solid var(--line);transform:translateX(100%);transition:transform .5s var(--ease)}
+    nav.primary.open{transform:none}
+    nav.primary a{font-size:1.05rem}
+    nav.primary .btn{margin-left:0;margin-top:.6rem}
+    .menu-toggle{display:block;z-index:80;position:relative}
+    body.nav-open{overflow:hidden}
+    .nav-scrim{position:fixed;inset:0;z-index:65;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+    .nav-scrim.show{opacity:1;pointer-events:auto}
+  }
+  @media(max-width:560px){
+    body{font-size:16px}
+    .gallery{grid-template-columns:1fr;grid-auto-rows:260px}
+    .piece.feat,.piece.wide,.piece.tall{grid-column:span 1;grid-row:span 1}
+    .piece.feat{grid-row:span 1}
+    .field-row{grid-template-columns:1fr}
+    .scrollcue{display:none}
+    .sec-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+    [data-reveal]{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="site" id="top">
+  <a class="brand" href="#top" aria-label="Lens and Light — home">
+    <span class="monogram" aria-hidden="true">EV</span>
+    <span class="brand-name">Lens&nbsp;&amp;&nbsp;Light<small>Elias Vance · Photography</small></span>
+  </a>
+  <button class="menu-toggle" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+    <svg class="i-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <svg class="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg>
+  </button>
+  <nav class="primary" id="primaryNav" aria-label="Primary">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#services">Prints</a>
+    <a href="#contact" class="btn">Book a Session</a>
+  </nav>
+</header>
+<div class="nav-scrim" id="navScrim" hidden></div>
+
+<!-- ========== HERO ========== -->
+<section class="hero" aria-label="Introduction">
+  <svg class="hero-art" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A cinematic alpine dawn: a warm amber sun low over layered mountain ridges reflected in a still lake.">
+    <defs>
+      <linearGradient id="heroSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#07070a"/>
+        <stop offset="0.30" stop-color="#171123"/>
+        <stop offset="0.52" stop-color="#3c2333"/>
+        <stop offset="0.66" stop-color="#6f3a37"/>
+        <stop offset="0.80" stop-color="#b56a39"/>
+        <stop offset="0.90" stop-color="#e6a84b"/>
+        <stop offset="1" stop-color="#f4cd85"/>
+      </linearGradient>
+      <radialGradient id="heroSun" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#fff6e2"/>
+        <stop offset="0.30" stop-color="#f6cd82"/>
+        <stop offset="0.70" stop-color="#e6a84b" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#e6a84b" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="heroWater" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#d79a4f"/>
+        <stop offset="0.14" stop-color="#9b5b39"/>
+        <stop offset="0.45" stop-color="#241826"/>
+        <stop offset="1" stop-color="#0a0a0d"/>
+      </linearGradient>
+      <filter id="heroGrain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+    </defs>
+
+    <rect width="1600" height="1000" fill="url(#heroSky)"/>
+
+    <!-- stars -->
+    <g fill="#fff8ec">
+      <circle cx="120" cy="90" r="1.6" opacity=".9"/><circle cx="280" cy="150" r="1.1" opacity=".6"/>
+      <circle cx="420" cy="70" r="1.3" opacity=".7"/><circle cx="560" cy="130" r="1" opacity=".5"/>
+      <circle cx="720" cy="60" r="1.5" opacity=".8"/><circle cx="900" cy="110" r="1.1" opacity=".6"/>
+      <circle cx="1080" cy="70" r="1.4" opacity=".7"/><circle cx="1240" cy="140" r="1" opacity=".5"/>
+      <circle cx="1380" cy="80" r="1.6" opacity=".85"/><circle cx="1500" cy="150" r="1.1" opacity=".6"/>
+      <circle cx="200" cy="230" r="1" opacity=".4"/><circle cx="1000" cy="200" r="1" opacity=".45"/>
+      <circle cx="640" cy="210" r=".9" opacity=".4"/><circle cx="1320" cy="220" r="1" opacity=".5"/>
+    </g>
+
+    <!-- sun glow + disc -->
+    <circle cx="815" cy="595" r="420" fill="url(#heroSun)"/>
+    <circle cx="815" cy="600" r="82" fill="#fff1cf"/>
+
+    <!-- far ridge (hazy) -->
+    <path d="M0 640 L120 612 L300 636 L470 600 L640 628 L760 596 L880 622 L1040 588 L1220 626 L1400 604 L1600 634 L1600 700 L0 700 Z" fill="#8a5240" opacity="0.42"/>
+    <!-- mid ridge -->
+    <path d="M0 662 L180 636 L360 668 L520 630 L700 664 L815 636 L940 666 L1120 628 L1300 664 L1470 636 L1600 660 L1600 720 L0 720 Z" fill="#4b2a2e" opacity="0.72"/>
+    <!-- fog band -->
+    <ellipse cx="700" cy="646" rx="620" ry="26" fill="#f3d7a8" opacity="0.18"/>
+    <ellipse cx="1120" cy="656" rx="440" ry="20" fill="#f3d7a8" opacity="0.12"/>
+    <!-- near ridge (dark, sharp) with a hero peak -->
+    <path d="M0 700 L160 668 L300 690 L470 648 L560 672 L690 604 L760 640 L860 596 L980 654 L1150 616 L1320 660 L1470 632 L1600 668 L1600 700 Z" fill="#141017"/>
+    <path d="M0 700 L160 668 L300 690 L470 648 L560 672 L690 604 L760 640 L860 596 L980 654 L1150 616 L1320 660 L1470 632 L1600 668 L1600 705 L0 705 Z" fill="#0d0b10"/>
+
+    <!-- water -->
+    <rect x="0" y="700" width="1600" height="300" fill="url(#heroWater)"/>
+    <!-- sun reflection streak -->
+    <g fill="#f8d38a">
+      <rect x="770" y="712" width="90" height="7" rx="3" opacity=".8"/>
+      <rect x="758" y="732" width="114" height="6" rx="3" opacity=".6"/>
+      <rect x="742" y="756" width="146" height="6" rx="3" opacity=".45"/>
+      <rect x="726" y="786" width="178" height="6" rx="3" opacity=".32"/>
+      <rect x="708" y="822" width="214" height="6" rx="3" opacity=".22"/>
+      <rect x="690" y="866" width="250" height="6" rx="3" opacity=".14"/>
+    </g>
+    <!-- grain overlay -->
+    <rect width="1600" height="1000" filter="url(#heroGrain)" opacity="0.05" style="mix-blend-mode:soft-light"/>
+  </svg>
+
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-inner wrap">
+    <p class="hero-loc"><span class="dot" aria-hidden="true"></span> Based in Portland, Oregon · Working worldwide</p>
+    <h1>Light,<br>held <em>still</em>.</h1>
+    <p class="hero-tag">Fine-art landscape &amp; portrait photography by Elias Vance — patient studies of the Pacific Northwest, made one quiet frame at a time.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-solid">Selected Work</a>
+      <a href="#services" class="btn">Prints &amp; Sessions</a>
+    </div>
+  </div>
+
+  <a href="#work" class="scrollcue" aria-label="Scroll to selected work">
+    <span>Selected Work</span>
+    <span class="line" aria-hidden="true"></span>
+  </a>
+</section>
+
+<!-- ========== SELECTED WORK ========== -->
+<section id="work" class="sec-pad">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <p class="eyebrow">Portfolio · 2023–2026</p>
+        <h2>Selected Work</h2>
+      </div>
+      <p class="lead">A rotating edit of prints from the coast, the high desert, and the studio. Each frame is a single exposure — no composites, no borrowed skies.</p>
+    </div>
+
+    <div class="gallery">
+
+      <!-- 01 FEATURE — Cascade dawn -->
+      <figure class="piece feat" data-reveal>
+        <div class="frame">
+          <svg class="art" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A snow-capped volcanic peak catches the first pink light of dawn above a dark forested ridge.">
+            <defs>
+              <linearGradient id="p1sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#141026"/><stop offset="0.45" stop-color="#3a2542"/>
+                <stop offset="0.72" stop-color="#8a4a48"/><stop offset="0.9" stop-color="#e0925a"/><stop offset="1" stop-color="#f2c584"/>
+              </linearGradient>
+              <linearGradient id="p1snow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffe6d0"/><stop offset="1" stop-color="#c98f8a"/>
+              </linearGradient>
+            </defs>
+            <rect width="800" height="800" fill="url(#p1sky)"/>
+            <circle cx="600" cy="230" r="26" fill="#fff2df" opacity=".9"/>
+            <ellipse cx="400" cy="560" rx="520" ry="60" fill="#f2c584" opacity=".16"/>
+            <!-- peak -->
+            <path d="M180 560 L360 250 L410 300 L470 235 L640 560 Z" fill="url(#p1snow)"/>
+            <path d="M360 250 L410 300 L470 235 L448 300 L410 330 L372 300 Z" fill="#fff" opacity=".55"/>
+            <path d="M320 420 L360 250 L340 430 Z" fill="#a06d72" opacity=".5"/>
+            <path d="M470 235 L520 420 L490 430 Z" fill="#a06d72" opacity=".4"/>
+            <!-- dark forest ridge -->
+            <path d="M0 600 Q200 560 400 590 T800 580 L800 800 L0 800 Z" fill="#120e16"/>
+            <g fill="#0b0810">
+              <path d="M120 600 l10 -34 l10 34 z"/><path d="M170 604 l12 -40 l12 40 z"/>
+              <path d="M240 596 l9 -30 l9 30 z"/><path d="M560 598 l11 -36 l11 36 z"/>
+              <path d="M640 602 l10 -32 l10 32 z"/><path d="M700 598 l12 -38 l12 38 z"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">01</span>
+          <span class="cap-title">First Light on Wy'east</span>
+          <span class="cap-loc">Mount Hood, Oregon</span>
+        </figcaption>
+      </figure>
+
+      <!-- 02 TALL — duotone portrait -->
+      <figure class="piece tall" data-reveal data-d="1">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 500 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A duotone studio portrait in amber and shadow: a woman in profile, rim-lit against darkness.">
+            <defs>
+              <linearGradient id="p2bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1c130a"/><stop offset="1" stop-color="#0b0a0c"/>
+              </linearGradient>
+              <linearGradient id="p2skin" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#3a2412"/><stop offset="0.6" stop-color="#8a5a2c"/><stop offset="1" stop-color="#e6a84b"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="800" fill="url(#p2bg)"/>
+            <ellipse cx="360" cy="300" rx="260" ry="300" fill="#e6a84b" opacity=".07"/>
+            <!-- shoulders -->
+            <path d="M120 800 Q140 600 250 560 Q380 600 400 800 Z" fill="#1a120b"/>
+            <!-- head/profile facing right -->
+            <path d="M210 300
+                     Q205 210 285 195
+                     Q360 200 372 300
+                     Q378 372 350 420
+                     Q360 440 342 452
+                     Q356 470 330 480
+                     Q334 520 300 548
+                     Q250 566 232 520
+                     Q210 470 214 420
+                     Q196 372 210 300 Z" fill="url(#p2skin)"/>
+            <!-- hair -->
+            <path d="M198 320 Q188 200 292 182 Q392 190 372 300 Q360 250 300 236 Q236 236 224 320 Q216 380 226 430 Q198 400 198 320 Z" fill="#120b06"/>
+            <!-- rim light -->
+            <path d="M372 300 Q380 372 350 420 Q362 440 342 452 Q356 470 330 480 Q336 522 300 548 L306 540 Q338 512 330 476 Q352 466 340 448 Q360 434 348 416 Q374 366 366 300 Z" fill="#f6cf8e" opacity=".9"/>
+            <!-- eye hint -->
+            <path d="M300 320 q16 -6 26 2" stroke="#120b06" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">02</span>
+          <span class="cap-title">Maren, in Amber</span>
+          <span class="cap-loc">Studio · SE Portland</span>
+        </figcaption>
+      </figure>
+
+      <!-- 03 — Coast sea stacks -->
+      <figure class="piece" data-reveal data-d="2">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sea stacks stand in silhouette against a pale moonlit ocean, their forms mirrored on wet sand.">
+            <defs>
+              <linearGradient id="p3sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0f1622"/><stop offset="0.6" stop-color="#26313f"/><stop offset="1" stop-color="#8a97a2"/>
+              </linearGradient>
+              <linearGradient id="p3sand" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#9aa4ac"/><stop offset="1" stop-color="#161a1f"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="500" fill="url(#p3sky)"/>
+            <circle cx="360" cy="150" r="34" fill="#f2eede" opacity=".9"/>
+            <circle cx="360" cy="150" r="60" fill="#f2eede" opacity=".12"/>
+            <rect x="0" y="300" width="500" height="60" fill="#4a5560" opacity=".5"/>
+            <!-- stacks -->
+            <path d="M70 300 Q90 190 120 300 Z" fill="#0c0f13"/>
+            <path d="M180 300 Q210 150 250 300 Z" fill="#0a0d11"/>
+            <path d="M300 300 Q315 230 330 300 Z" fill="#0c0f13"/>
+            <!-- wet sand + reflections -->
+            <rect x="0" y="330" width="500" height="170" fill="url(#p3sand)"/>
+            <path d="M180 330 Q210 430 250 330 Z" fill="#0a0d11" opacity=".38"/>
+            <path d="M70 330 Q90 400 120 330 Z" fill="#0c0f13" opacity=".3"/>
+            <ellipse cx="360" cy="360" rx="14" ry="40" fill="#f2eede" opacity=".18"/>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">03</span>
+          <span class="cap-title">Moonrise, Low Tide</span>
+          <span class="cap-loc">Cannon Beach, Oregon</span>
+        </figcaption>
+      </figure>
+
+      <!-- 04 — Still life vessels -->
+      <figure class="piece" data-reveal data-d="3">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A minimal still life: three hand-thrown ceramic vessels on a shelf in warm side light.">
+            <defs>
+              <linearGradient id="p4bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#241d15"/><stop offset="1" stop-color="#100c08"/>
+              </linearGradient>
+              <linearGradient id="p4lit" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#e6a84b"/><stop offset="1" stop-color="#5c4423"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="500" fill="url(#p4bg)"/>
+            <ellipse cx="120" cy="200" rx="240" ry="220" fill="#e6a84b" opacity=".08"/>
+            <rect x="0" y="360" width="500" height="8" fill="#3a2c18"/>
+            <rect x="0" y="368" width="500" height="132" fill="#0d0a06"/>
+            <!-- tall bottle -->
+            <path d="M150 360 L150 210 Q150 190 168 185 Q150 178 150 160 L182 160 Q182 178 164 185 Q182 190 182 210 L182 360 Z" fill="url(#p4lit)"/>
+            <!-- round pot -->
+            <path d="M210 360 Q200 300 235 288 L235 270 L268 270 L268 288 Q303 300 293 360 Z" fill="url(#p4lit)"/>
+            <ellipse cx="251" cy="272" rx="18" ry="6" fill="#2a2012"/>
+            <!-- low bowl -->
+            <path d="M310 360 Q305 330 340 326 Q375 330 370 360 Z" fill="url(#p4lit)"/>
+            <ellipse cx="340" cy="327" rx="30" ry="7" fill="#2a2012"/>
+            <!-- highlights -->
+            <rect x="156" y="220" width="4" height="130" fill="#ffe6ba" opacity=".5"/>
+            <path d="M224 300 Q222 330 230 356" stroke="#ffe6ba" stroke-width="4" fill="none" opacity=".4"/>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">04</span>
+          <span class="cap-title">Three Vessels</span>
+          <span class="cap-loc">Still Life · No. 12</span>
+        </figcaption>
+      </figure>
+
+      <!-- 05 WIDE — Gorge layers -->
+      <figure class="piece wide" data-reveal>
+        <div class="frame">
+          <svg class="art" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Receding ridgelines fade into layers of morning fog in a river gorge, palest in the distance.">
+            <defs>
+              <linearGradient id="p5sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#c9975a"/><stop offset="0.5" stop-color="#e3c48e"/><stop offset="1" stop-color="#f3e3c4"/>
+              </linearGradient>
+            </defs>
+            <rect width="1000" height="500" fill="url(#p5sky)"/>
+            <circle cx="720" cy="150" r="70" fill="#fff6e6" opacity=".7"/>
+            <path d="M0 250 Q250 210 500 245 T1000 235 L1000 500 L0 500 Z" fill="#7a6a55" opacity=".28"/>
+            <path d="M0 300 Q250 262 500 296 T1000 286 L1000 500 L0 500 Z" fill="#5f513f" opacity=".38"/>
+            <path d="M0 350 Q250 314 520 346 T1000 338 L1000 500 L0 500 Z" fill="#443a2c" opacity=".55"/>
+            <path d="M0 400 Q250 366 520 398 T1000 388 L1000 500 L0 500 Z" fill="#2a2318" opacity=".78"/>
+            <path d="M0 452 Q260 420 540 450 T1000 442 L1000 500 L0 500 Z" fill="#14100a"/>
+            <!-- fog wisps -->
+            <ellipse cx="300" cy="330" rx="280" ry="16" fill="#f3e3c4" opacity=".4"/>
+            <ellipse cx="760" cy="372" rx="240" ry="14" fill="#f3e3c4" opacity=".34"/>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">05</span>
+          <span class="cap-title">Ridgelines &amp; Fog</span>
+          <span class="cap-loc">Columbia River Gorge</span>
+        </figcaption>
+      </figure>
+
+      <!-- 06 — Desert moon -->
+      <figure class="piece" data-reveal data-d="1">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A full moon hangs over the cracked flat playa of a high-desert lakebed at blue hour.">
+            <defs>
+              <linearGradient id="p6sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0b1020"/><stop offset="0.55" stop-color="#1d2340"/><stop offset="1" stop-color="#54506a"/>
+              </linearGradient>
+              <linearGradient id="p6floor" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#6a6474"/><stop offset="1" stop-color="#14121a"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="500" fill="url(#p6sky)"/>
+            <circle cx="150" cy="140" r="46" fill="#f4f1e6"/>
+            <circle cx="150" cy="140" r="80" fill="#f4f1e6" opacity=".1"/>
+            <circle cx="140" cy="130" r="8" fill="#dcd8c8" opacity=".5"/>
+            <circle cx="166" cy="150" r="5" fill="#dcd8c8" opacity=".4"/>
+            <rect x="0" y="300" width="500" height="8" fill="#3b3748" opacity=".6"/>
+            <rect x="0" y="308" width="500" height="192" fill="url(#p6floor)"/>
+            <!-- playa cracks -->
+            <g stroke="#0c0a10" stroke-width="1.4" fill="none" opacity=".6">
+              <path d="M40 360 L120 380 L90 430 M120 380 L200 400"/>
+              <path d="M260 350 L330 372 L300 420 M330 372 L410 392"/>
+              <path d="M180 440 L250 460 L340 448"/>
+              <path d="M60 470 L150 480 L230 470"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">06</span>
+          <span class="cap-title">Playa, Blue Hour</span>
+          <span class="cap-loc">Alvord Desert, Oregon</span>
+        </figcaption>
+      </figure>
+
+      <!-- 07 — Lone tree -->
+      <figure class="piece" data-reveal data-d="2">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A single wind-shaped pine stands on a hill against a graded gold-to-rose sky.">
+            <defs>
+              <linearGradient id="p7sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#402a3a"/><stop offset="0.5" stop-color="#b56a48"/><stop offset="1" stop-color="#f0be6f"/>
+              </linearGradient>
+            </defs>
+            <rect width="500" height="500" fill="url(#p7sky)"/>
+            <circle cx="250" cy="330" r="34" fill="#fff3d6" opacity=".85"/>
+            <circle cx="250" cy="330" r="70" fill="#fff3d6" opacity=".12"/>
+            <path d="M0 360 Q250 320 500 372 L500 500 L0 500 Z" fill="#1a1114"/>
+            <!-- tree -->
+            <g fill="#0d0a0c">
+              <rect x="196" y="240" width="8" height="130"/>
+              <path d="M200 250 q30 -6 44 -30 q-6 26 -30 40 z"/>
+              <path d="M200 280 q34 -4 52 -24 q-8 28 -40 38 z"/>
+              <path d="M200 230 q-24 -4 -36 -26 q4 22 24 34 z"/>
+              <path d="M200 260 q-30 -2 -44 -22 q8 24 36 32 z"/>
+              <path d="M200 210 q18 -4 26 -20 q-2 18 -18 28 z"/>
+            </g>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">07</span>
+          <span class="cap-title">The Last Larch</span>
+          <span class="cap-loc">Steens Mountain, Oregon</span>
+        </figcaption>
+      </figure>
+
+      <!-- 08 WIDE — misty forest / river -->
+      <figure class="piece wide" data-reveal data-d="1">
+        <div class="frame">
+          <svg class="art" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tall firs rise through drifting fog above a mirror-still river reflecting the pale morning.">
+            <defs>
+              <linearGradient id="p8bg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#c3c9b8"/><stop offset="0.6" stop-color="#9aa591"/><stop offset="1" stop-color="#5c6653"/>
+              </linearGradient>
+              <linearGradient id="p8water" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8f9a86"/><stop offset="1" stop-color="#20261d"/>
+              </linearGradient>
+            </defs>
+            <rect width="1000" height="500" fill="url(#p8bg)"/>
+            <!-- fir silhouettes at varying opacity for depth -->
+            <g fill="#3a4433">
+              <path d="M120 340 L140 180 L160 340 Z" opacity=".35"/>
+              <path d="M220 350 L245 150 L270 350 Z" opacity=".5"/>
+              <path d="M330 340 L350 200 L370 340 Z" opacity=".4"/>
+              <path d="M640 350 L665 160 L690 350 Z" opacity=".55"/>
+              <path d="M760 344 L782 190 L804 344 Z" opacity=".45"/>
+              <path d="M860 350 L885 170 L910 350 Z" opacity=".6"/>
+            </g>
+            <g fill="#1c231a">
+              <path d="M180 350 L206 120 L232 350 Z"/>
+              <path d="M470 350 L500 96 L530 350 Z"/>
+              <path d="M700 350 L728 128 L756 350 Z"/>
+            </g>
+            <!-- fog -->
+            <ellipse cx="500" cy="300" rx="560" ry="40" fill="#d7dccb" opacity=".5"/>
+            <ellipse cx="300" cy="270" rx="300" ry="24" fill="#e6ead9" opacity=".4"/>
+            <ellipse cx="780" cy="286" rx="300" ry="22" fill="#e6ead9" opacity=".35"/>
+            <!-- river -->
+            <rect x="0" y="350" width="1000" height="150" fill="url(#p8water)"/>
+            <g fill="#1c231a" opacity=".3">
+              <path d="M470 350 L500 470 L530 350 Z"/>
+              <path d="M700 350 L728 440 L756 350 Z"/>
+            </g>
+            <rect x="0" y="352" width="1000" height="2" fill="#eef1e4" opacity=".4"/>
+          </svg>
+        </div>
+        <figcaption>
+          <span class="cap-idx">08</span>
+          <span class="cap-title">Understory, First Fog</span>
+          <span class="cap-loc">Silver Falls, Oregon</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="gallery-foot" data-reveal>
+      <a href="#contact" class="btn">Enquire about a print</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about" class="sec-pad">
+  <div class="wrap about-grid">
+    <div class="portrait" data-reveal>
+      <svg viewBox="0 0 640 760" role="img" aria-label="A duotone portrait of photographer Elias Vance holding a rangefinder camera, lit warmly from the side.">
+        <defs>
+          <linearGradient id="pfbg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#20160c"/><stop offset="1" stop-color="#0b0a0c"/>
+          </linearGradient>
+          <linearGradient id="pfskin" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2e1d0f"/><stop offset="0.55" stop-color="#7a4f27"/><stop offset="1" stop-color="#d99a44"/>
+          </linearGradient>
+        </defs>
+        <rect width="640" height="760" fill="url(#pfbg)"/>
+        <ellipse cx="440" cy="250" rx="320" ry="340" fill="#e6a84b" opacity=".08"/>
+        <!-- shoulders / coat -->
+        <path d="M150 760 Q160 560 320 520 Q480 560 490 760 Z" fill="#171009"/>
+        <path d="M320 520 L320 760" stroke="#0b0805" stroke-width="6"/>
+        <!-- neck + head -->
+        <path d="M290 560 L290 470 L360 470 L360 560 Z" fill="url(#pfskin)"/>
+        <path d="M258 350 Q258 250 330 240 Q408 248 412 350 Q416 430 372 470 Q334 500 300 470 Q262 430 258 350 Z" fill="url(#pfskin)"/>
+        <!-- hair + beard -->
+        <path d="M252 356 Q244 236 336 226 Q426 236 414 342 Q404 290 336 282 Q272 288 268 356 Z" fill="#100a05"/>
+        <path d="M276 430 Q300 496 336 496 Q372 496 396 430 Q372 462 336 462 Q300 462 276 430 Z" fill="#140d07"/>
+        <!-- rim light -->
+        <path d="M412 350 Q416 430 372 470 L364 462 Q404 426 400 352 Z" fill="#f2c987" opacity=".85"/>
+        <!-- brow + eye hints -->
+        <path d="M296 356 q22 -8 40 -2" stroke="#100a05" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M350 358 q20 -6 34 2" stroke="#100a05" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- camera held to chest -->
+        <rect x="300" y="600" width="150" height="86" rx="10" fill="#0c0a0c"/>
+        <rect x="300" y="600" width="150" height="86" rx="10" fill="none" stroke="#4a3a22" stroke-width="2"/>
+        <circle cx="375" cy="643" r="30" fill="#161113"/>
+        <circle cx="375" cy="643" r="30" fill="none" stroke="#c98a2e" stroke-width="3"/>
+        <circle cx="375" cy="643" r="15" fill="#221a10"/>
+        <circle cx="368" cy="636" r="5" fill="#e6a84b" opacity=".7"/>
+        <rect x="410" y="612" width="26" height="12" rx="3" fill="#2a2114"/>
+      </svg>
+      <span class="tag">Elias Vance · Self-portrait, 2025</span>
+    </div>
+
+    <div class="about-body" data-reveal data-d="1">
+      <p class="eyebrow">About the photographer</p>
+      <h2>I make quiet pictures of a loud, beautiful place.</h2>
+      <p>I'm Elias Vance — a photographer working out of a small daylight studio in Southeast Portland. For fifteen years I've followed the same weather, the same tidelines, and the same stands of Douglas fir, waiting for the twenty minutes when the light does something I've never seen before.</p>
+      <p>My work sits between documentary and painting. I shoot on a medium-format rangefinder and a battered 4×5 field camera, print everything myself on cotton rag, and resist the urge to make the world look like anything other than it already is. The result, I hope, is a photograph that feels less like a postcard and more like a held breath.</p>
+      <p>Prints from these series hang in private collections across the Pacific Northwest, and in the permanent collection of the Willamette Regional Arts Center.</p>
+      <p class="sig">— Elias Vance</p>
+
+      <div class="stats">
+        <div class="stat"><b>15</b><span>Years behind the lens</span></div>
+        <div class="stat"><b>2,400+</b><span>Prints sold &amp; shipped</span></div>
+        <div class="stat"><b>9</b><span>Solo exhibitions</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SERVICES / PRINTS ========== -->
+<section id="services" class="services sec-pad">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <p class="eyebrow">What I offer</p>
+        <h2>Prints &amp; Commissions</h2>
+      </div>
+      <p class="lead">Every print is made to order in the studio and signed by hand. Editions are strictly limited and retired once sold.</p>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc" data-reveal>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.6"/>
+        </svg>
+        <h3>Fine-Art Prints</h3>
+        <p>Archival pigment prints on 100% cotton rag, in limited editions of twenty-five. Delivered ready to frame or mounted.</p>
+        <ul>
+          <li>Signed &amp; numbered by the artist</li>
+          <li>Certificate of authenticity</li>
+          <li>Museum-grade, 100-year inks</li>
+        </ul>
+        <p class="price"><b>From $180</b> · 12×16″ up to $1,450 · 40×60″</p>
+      </div>
+
+      <div class="svc" data-reveal data-d="1">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.6"/>
+        </svg>
+        <h3>Portrait Sessions</h3>
+        <p>Environmental and studio portraiture for artists, founders, and families — unhurried, natural, and made to last.</p>
+        <ul>
+          <li>Half-day &amp; full-day options</li>
+          <li>Studio or on-location in the PNW</li>
+          <li>Retouched files + optional prints</li>
+        </ul>
+        <p class="price"><b>$650</b> half-day · <b>$1,150</b> full-day</p>
+      </div>
+
+      <div class="svc" data-reveal data-d="2">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M12 3l2.5 5.2 5.7.8-4.1 4 1 5.7L12 21l-5.1 2.7 1-5.7-4.1-4 5.7-.8z" transform="scale(0.92) translate(1 0)"/>
+        </svg>
+        <h3>Commissions &amp; Licensing</h3>
+        <p>Editorial, hospitality, and brand commissions, plus licensing of existing work for print and digital use.</p>
+        <ul>
+          <li>Custom bodies of work</li>
+          <li>Hotel &amp; workplace collections</li>
+          <li>Print &amp; editorial licensing</li>
+        </ul>
+        <p class="price"><b>From $2,400</b> · scoped per project</p>
+      </div>
+    </div>
+
+    <div class="strip" data-reveal>
+      <span class="pill">Now on view</span>
+      <p><b>&ldquo;Quiet Ground&rdquo;</b> — sixteen new landscapes at the Hoyt Street Gallery, 314 NW Hoyt St, Portland. Through November 14, 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUOTE ========== -->
+<section class="sec-pad quote-sec">
+  <div class="wrap" data-reveal>
+    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+    <blockquote>Elias photographs <em>silence</em> the way other people photograph light.</blockquote>
+    <p class="quote-cite">— <b>Dana Whitfield</b>, Curator · Willamette Regional Arts Center</p>
+  </div>
+</section>
+
+<!-- ========== CONTACT / FOOTER ========== -->
+<footer id="contact" class="site sec-pad">
+  <div class="wrap contact-grid">
+    <div class="contact-lead" data-reveal>
+      <p class="eyebrow">Let's work together</p>
+      <h2>Book a session or reserve a print.</h2>
+      <p>I take on a small number of commissions each season and reply to every message personally — usually within two business days. Tell me a little about what you have in mind.</p>
+
+      <div class="contact-meta">
+        <div class="cmeta">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <div><div class="k">Email</div><a href="mailto:elias@lensandlight.studio">elias@lensandlight.studio</a></div>
+        </div>
+        <div class="cmeta">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
+          <div><div class="k">Studio</div><a href="tel:+15035550142">(503) 555-0142</a></div>
+        </div>
+        <div class="cmeta">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div><div class="k">By appointment</div><span>1123 SE Clay Street, Studio 4<br>Portland, OR 97214</span></div>
+        </div>
+      </div>
+    </div>
+
+    <form class="booking" data-reveal data-d="1" action="mailto:elias@lensandlight.studio" method="post" enctype="text/plain">
+      <h3>Start an enquiry</h3>
+      <p class="fn">Fields marked with an asterisk are required.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="fname">Name *</label>
+          <input id="fname" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="femail">Email *</label>
+          <input id="femail" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="ftype">I'm interested in</label>
+        <select id="ftype" name="interest">
+          <option>A fine-art print</option>
+          <option>A portrait session</option>
+          <option>A commission or licensing</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fmsg">Message *</label>
+        <textarea id="fmsg" name="message" placeholder="A few lines about what you have in mind, timing, and budget if you have one." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-solid">Send enquiry</button>
+      <p class="form-note">Prefer email? Write to elias@lensandlight.studio directly.</p>
+    </form>
+  </div>
+
+  <div class="wrap">
+    <div class="footer-bar">
+      <div class="brand">
+        <span class="monogram" aria-hidden="true">EV</span>
+        <span class="brand-name">Lens&nbsp;&amp;&nbsp;Light<small>Elias Vance · Portland, OR</small></span>
+      </div>
+      <div class="foot-social">
+        <a href="#work">Instagram</a>
+        <a href="#work">Behance</a>
+        <a href="#about">Journal</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+      <p class="copy">© 2026 <b>Lens &amp; Light Studio</b>. All images by Elias Vance.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var header = document.querySelector('header.site');
+  var onScroll = function(){
+    if(window.scrollY > 24){ header.classList.add('scrolled'); }
+    else{ header.classList.remove('scrolled'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Mobile nav
+  var btn = document.getElementById('menuBtn');
+  var nav = document.getElementById('primaryNav');
+  var scrim = document.getElementById('navScrim');
+  var setOpen = function(open){
+    nav.classList.toggle('open', open);
+    scrim.classList.toggle('show', open);
+    scrim.hidden = !open;
+    document.body.classList.toggle('nav-open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  btn.addEventListener('click', function(){ setOpen(!nav.classList.contains('open')); });
+  scrim.addEventListener('click', function(){ setOpen(false); });
+  nav.addEventListener('click', function(e){ if(e.target.tagName === 'A'){ setOpen(false); } });
+  window.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ setOpen(false); } });
+
+  // Reveal on scroll
+  var items = document.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.14, rootMargin:'0px 0px -8% 0px'});
+    items.forEach(function(el){ io.observe(el); });
+  } else {
+    items.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Active-section highlight in the nav
+  var navLinks = nav.querySelectorAll('a[href^="#"]:not(.btn)');
+  var linkFor = {};
+  navLinks.forEach(function(a){ linkFor[a.getAttribute('href').slice(1)] = a; });
+  var spySecs = ['work','about','services'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  if('IntersectionObserver' in window && spySecs.length){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var a = linkFor[en.target.id];
+        if(!a || !en.isIntersecting) return;
+        navLinks.forEach(function(l){ l.classList.remove('active'); l.removeAttribute('aria-current'); });
+        a.classList.add('active'); a.setAttribute('aria-current','true');
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    spySecs.forEach(function(s){ spy.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

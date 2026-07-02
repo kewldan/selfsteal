@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember Roasters — Small-Batch Artisan Coffee &amp; Cafe</title>
+<meta name="description" content="Ember Roasters is a small-batch coffee roastery and neighborhood cafe on Kindling Row. Hand-roasted single origins, subscriptions, and a cozy place to linger.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%233b2a20'/%3E%3Cpath d='M9 12h11a4 4 0 0 1 0 8h-1a7 7 0 0 1-13-1.5V12z' fill='%23f5efe6'/%3E%3Cpath d='M20 13.5h1.2a2.5 2.5 0 0 1 0 5H20' fill='none' stroke='%23c96a4a' stroke-width='1.4'/%3E%3Cpath d='M11 6c-1.4 1.3-1.4 2.7 0 4M15 6c-1.4 1.3-1.4 2.7 0 4' fill='none' stroke='%23c96a4a' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --espresso:#3b2a20;
+    --espresso-2:#4d382b;
+    --cream:#f5efe6;
+    --cream-2:#efe6d8;
+    --terracotta:#c96a4a;
+    --terracotta-dk:#b0563a;
+    --olive:#6f7350;
+    --olive-dk:#585c3e;
+    --ink:#2a1e17;
+    --muted:#7c6c5f;
+    --paper:#fbf7f0;
+    --shadow:0 14px 40px -18px rgba(59,42,32,.55);
+    --radius:16px;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    line-height:1.65;
+    background:var(--cream);
+    /* layered paper texture, pure CSS, no external assets */
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(201,106,74,.06), transparent 42%),
+      radial-gradient(circle at 82% 78%, rgba(111,115,80,.07), transparent 46%),
+      repeating-linear-gradient(0deg, rgba(59,42,32,.014) 0 2px, transparent 2px 4px),
+      repeating-linear-gradient(90deg, rgba(59,42,32,.014) 0 2px, transparent 2px 4px);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--serif);line-height:1.14;color:var(--espresso);font-weight:600;margin:0;text-wrap:balance}
+  a{color:inherit}
+  img,svg{display:block;max-width:100%}
+  p{margin:0 0 1rem;text-wrap:pretty}
+  .wrap{width:min(1160px,92vw);margin-inline:auto}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--terracotta-dk);margin-bottom:1rem;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--terracotta);border-radius:2px}
+  .btn{
+    display:inline-flex;align-items:center;gap:.55rem;cursor:pointer;
+    font-family:var(--sans);font-weight:600;font-size:.98rem;text-decoration:none;
+    padding:.85rem 1.5rem;border-radius:999px;border:2px solid transparent;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+  }
+  .btn:focus-visible,a:focus-visible,input:focus-visible,button:focus-visible{
+    outline:3px solid var(--terracotta);outline-offset:3px;border-radius:8px;
+  }
+  .btn-primary{background:var(--terracotta);color:#fff;box-shadow:var(--shadow)}
+  .btn-primary:hover{background:var(--terracotta-dk);transform:translateY(-3px)}
+  .btn-ghost{background:transparent;color:var(--espresso);border-color:rgba(59,42,32,.28)}
+  .btn-ghost:hover{background:var(--espresso);color:var(--cream);transform:translateY(-3px)}
+
+  /* ---------- Announcement bar ---------- */
+  .topbar{background:var(--espresso);color:rgba(245,239,230,.82);font-size:.8rem;letter-spacing:.01em}
+  .topbar .row{display:flex;align-items:center;justify-content:center;gap:.55rem;
+    padding:.55rem 0;text-align:center;flex-wrap:wrap}
+  .topbar svg{color:var(--terracotta);flex:0 0 auto}
+  .topbar em{font-style:normal;color:#ecdcc6;font-weight:600}
+
+  /* ---------- Header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(245,239,230,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(59,42,32,.1);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem 0}
+  .brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;font-family:var(--serif);
+    font-size:1.35rem;font-weight:700;color:var(--espresso);letter-spacing:.01em}
+  .brand .mark{width:44px;height:44px;flex:0 0 auto}
+  .brand small{display:block;font-family:var(--sans);font-size:.6rem;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--terracotta-dk);font-weight:700;margin-top:2px}
+  .navlinks{display:flex;align-items:center;gap:1.7rem;list-style:none;margin:0;padding:0}
+  .navlinks a{text-decoration:none;font-weight:600;font-size:.95rem;color:var(--espresso-2);
+    position:relative;padding:.25rem 0}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;
+    background:var(--terracotta);transition:width .25s ease}
+  .navlinks a:hover::after,.navlinks a:focus-visible::after{width:100%}
+  .nav-cta{display:flex;align-items:center;gap:.8rem}
+  .cart-btn{position:relative;display:inline-grid;place-items:center;width:44px;height:44px;
+    border-radius:50%;border:2px solid rgba(59,42,32,.2);color:var(--espresso);text-decoration:none;
+    transition:background .25s ease,color .25s ease,transform .25s ease,border-color .25s ease}
+  .cart-btn:hover{background:var(--espresso);color:var(--cream);border-color:transparent;transform:translateY(-2px)}
+  .cart-count{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;
+    border-radius:999px;background:var(--terracotta);color:#fff;font-size:.68rem;font-weight:700;
+    font-family:var(--sans);display:grid;place-items:center;border:2px solid var(--cream);
+    font-variant-numeric:tabular-nums;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .cart-count.pulse{animation:cartpop .45s ease}
+  @keyframes cartpop{0%{transform:scale(1)}45%{transform:scale(1.5)}100%{transform:scale(1)}}
+  .menu-btn{display:none;background:none;border:2px solid rgba(59,42,32,.25);border-radius:10px;
+    padding:.5rem;cursor:pointer;color:var(--espresso)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;overflow:hidden;padding:clamp(3rem,7vw,6rem) 0 clamp(3rem,6vw,5rem)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.4rem);letter-spacing:-.015em}
+  .hero h1 em{font-style:italic;color:var(--terracotta)}
+  .hero p.lead{font-size:1.18rem;color:var(--espresso-2);max-width:34ch;margin-top:.4rem}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.9rem}
+  .hero-stats{display:flex;gap:2.2rem;margin-top:2.6rem;flex-wrap:wrap}
+  .hero-stats div strong{font-family:var(--serif);font-size:1.7rem;color:var(--espresso);display:block;
+    font-variant-numeric:tabular-nums}
+  .hero-stats div span{font-size:.82rem;color:var(--muted);letter-spacing:.03em}
+  .hero-art{position:relative;filter:drop-shadow(0 22px 34px rgba(59,42,32,.28))}
+  .steam{transform-origin:center;animation:rise 4s ease-in-out infinite}
+  .steam.b{animation-delay:1.3s}
+  .steam.c{animation-delay:2.4s}
+  @keyframes rise{0%{opacity:0;transform:translateY(6px) scaleY(.9)}
+    40%{opacity:.9}100%{opacity:0;transform:translateY(-14px) scaleY(1.15)}}
+
+  /* ---------- Section shells ---------- */
+  section{padding:clamp(3.4rem,7vw,6rem) 0}
+  .sec-head{max-width:60ch;margin-bottom:2.6rem}
+  .sec-head.center{margin-inline:auto;text-align:center}
+  .sec-head h2{font-size:clamp(2rem,4.2vw,3rem)}
+  .sec-head p{color:var(--espresso-2);font-size:1.08rem;margin-top:.7rem}
+
+  .band-espresso{background:
+      radial-gradient(circle at 15% 20%, rgba(201,106,74,.16), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(111,115,80,.16), transparent 42%),
+      linear-gradient(160deg,#3b2a20,#2c1f17);
+    color:var(--cream)}
+  .band-espresso h2,.band-espresso h3{color:var(--cream)}
+  .band-espresso .sec-head p{color:rgba(245,239,230,.82)}
+
+  /* ---------- Roasts ---------- */
+  .roasts{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+  .card{
+    background:var(--paper);border:1px solid rgba(59,42,32,.1);border-radius:var(--radius);
+    padding:1.4rem 1.4rem 1.6rem;display:flex;flex-direction:column;
+    box-shadow:0 4px 14px -10px rgba(59,42,32,.4);
+    transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  }
+  .card:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:rgba(201,106,74,.4)}
+  .bag-wrap{display:flex;justify-content:center;margin:.2rem 0 1rem}
+  .card:hover .bag-wrap svg{transform:rotate(-2deg) translateY(-3px)}
+  .bag-wrap svg{transition:transform .35s ease}
+  .roast-meta{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+  .card h3{font-size:1.35rem}
+  .score{flex:0 0 auto;font-family:var(--sans);font-size:.72rem;font-weight:700;color:var(--olive-dk);
+    background:rgba(111,115,80,.12);border:1px solid rgba(111,115,80,.28);border-radius:999px;
+    padding:.15rem .55rem;letter-spacing:.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .origin{display:inline-block;margin-top:.5rem;font-size:.78rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--terracotta-dk);font-weight:700}
+  .notes{color:var(--muted);font-size:.95rem;margin:.55rem 0 1rem}
+  .notes b{color:var(--espresso-2);font-weight:600}
+  .spec{list-style:none;margin:0 0 1.1rem;padding:.85rem 0 0;display:grid;grid-template-columns:1fr 1fr;
+    gap:.55rem .9rem;border-top:1px solid rgba(59,42,32,.1)}
+  .spec div{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .spec dt{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .spec dd{margin:0;font-family:var(--serif);font-size:.9rem;color:var(--espresso-2);font-weight:600}
+  .roast-level{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;font-size:.82rem;color:var(--espresso-2)}
+  .dots{display:flex;gap:4px}
+  .dots i{width:9px;height:9px;border-radius:50%;background:rgba(59,42,32,.18);display:block}
+  .dots i.on{background:var(--terracotta)}
+  .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+  .price{font-family:var(--serif);font-size:1.5rem;color:var(--espresso);font-weight:700;
+    font-variant-numeric:tabular-nums}
+  .price span{font-size:.8rem;color:var(--muted);font-family:var(--sans);font-weight:400}
+  .add{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-width:106px;
+    background:var(--espresso);color:var(--cream);border:none;border-radius:999px;
+    padding:.55rem 1.05rem;font-weight:600;font-size:.86rem;cursor:pointer;font-family:var(--sans);
+    transition:background .25s ease, transform .25s ease}
+  .add:hover{background:var(--terracotta);transform:translateY(-2px)}
+  .add.added{background:var(--olive-dk)}
+  .add.added:hover{background:var(--olive-dk);transform:none}
+
+  /* ---------- Story ---------- */
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:center}
+  .story-art{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+    border:1px solid rgba(59,42,32,.12)}
+  .story blockquote{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--espresso);
+    border-left:3px solid var(--terracotta);padding-left:1.2rem;margin:1.6rem 0 0}
+  .story cite{display:block;font-family:var(--sans);font-style:normal;font-size:.85rem;
+    color:var(--muted);margin-top:.7rem;letter-spacing:.03em}
+
+  /* ---------- Brewing guide ---------- */
+  .brew-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+  .brew-step{background:rgba(245,239,230,.06);border:1px solid rgba(245,239,230,.16);
+    border-radius:var(--radius);padding:1.5rem 1.4rem;transition:transform .3s ease, background .3s ease}
+  .brew-step:hover{transform:translateY(-6px);background:rgba(245,239,230,.11)}
+  .brew-step .num{font-family:var(--serif);font-size:2.4rem;color:var(--terracotta);line-height:1}
+  .brew-step h3{font-size:1.15rem;margin:.7rem 0 .5rem}
+  .brew-step p{color:rgba(245,239,230,.78);font-size:.93rem;margin:0}
+  .brew-step .ratio{display:inline-block;margin-top:.9rem;font-size:.78rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--cream);background:rgba(201,106,74,.28);
+    border:1px solid rgba(201,106,74,.5);border-radius:999px;padding:.28rem .7rem;font-weight:700}
+
+  /* ---------- Subscription ---------- */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:stretch}
+  .plan{background:var(--paper);border:1px solid rgba(59,42,32,.12);border-radius:var(--radius);
+    padding:2rem 1.8rem;display:flex;flex-direction:column;position:relative;
+    transition:transform .3s ease, box-shadow .3s ease}
+  .plan:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+  .plan.featured{background:linear-gradient(165deg,#4d382b,#33241b);color:var(--cream);border-color:transparent}
+  .plan.featured h3,.plan.featured .plan-price{color:var(--cream)}
+  .plan.featured li{color:rgba(245,239,230,.85)}
+  .tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    background:var(--terracotta);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;padding:.35rem .9rem;border-radius:999px;box-shadow:var(--shadow)}
+  .plan h3{font-size:1.4rem}
+  .plan-sub{font-size:.9rem;color:var(--muted);margin-top:.25rem}
+  .plan.featured .plan-sub{color:rgba(245,239,230,.7)}
+  .plan-price{font-family:var(--serif);font-size:2.7rem;color:var(--espresso);font-weight:700;
+    margin:1.1rem 0 .2rem;font-variant-numeric:tabular-nums}
+  .plan-price span{font-size:.9rem;font-family:var(--sans);color:var(--muted);font-weight:400}
+  .plan.featured .plan-price span{color:rgba(245,239,230,.7)}
+  .plan ul{list-style:none;padding:0;margin:1.2rem 0 1.6rem;display:grid;gap:.6rem}
+  .plan li{display:flex;gap:.6rem;align-items:flex-start;font-size:.95rem;color:var(--espresso-2)}
+  .plan li svg{flex:0 0 auto;margin-top:3px}
+  .plan .btn{margin-top:auto;justify-content:center}
+
+  /* ---------- Visit ---------- */
+  .visit-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(2rem,5vw,3.5rem);align-items:stretch}
+  .hours{background:var(--paper);border:1px solid rgba(59,42,32,.12);border-radius:var(--radius);
+    padding:1.9rem;box-shadow:0 6px 18px -12px rgba(59,42,32,.4)}
+  .hours h3{font-size:1.5rem;margin-bottom:.3rem}
+  .addr{color:var(--espresso-2);font-size:.98rem;margin:.4rem 0 1.4rem}
+  .addr a{color:var(--terracotta-dk);font-weight:600;text-decoration:none}
+  .addr a:hover{text-decoration:underline}
+  table.hrs{width:100%;border-collapse:collapse}
+  table.hrs th{text-align:left;font-family:var(--sans);font-weight:700;font-size:.72rem;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.4rem 0;
+    border-bottom:2px solid rgba(59,42,32,.12)}
+  table.hrs td{padding:.62rem 0;border-bottom:1px solid rgba(59,42,32,.09);font-size:.98rem}
+  table.hrs tr:last-child td{border-bottom:none}
+  table.hrs td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--espresso-2)}
+  table.hrs tr.today td{font-weight:700}
+  table.hrs tr.today td:first-child::before{content:"● ";color:var(--olive);font-size:.8em}
+  .map-card{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+    border:1px solid rgba(59,42,32,.14);background:#e7ddca;min-height:340px;display:flex}
+  .map-card svg{width:100%;height:100%}
+
+  /* ---------- Newsletter ---------- */
+  .news{background:
+      radial-gradient(circle at 20% 30%, rgba(201,106,74,.2), transparent 45%),
+      linear-gradient(150deg,#c96a4a,#b0563a);
+    color:#fff;border-radius:calc(var(--radius) + 6px);padding:clamp(2.2rem,5vw,3.4rem);
+    box-shadow:var(--shadow);display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center}
+  .news h2{color:#fff;font-size:clamp(1.8rem,3.6vw,2.5rem)}
+  .news p{color:rgba(255,255,255,.9);margin:.6rem 0 0}
+  .news form{display:flex;gap:.7rem;flex-wrap:wrap}
+  .news input[type=email]{flex:1;min-width:220px;padding:.9rem 1.1rem;border-radius:999px;border:none;
+    font-size:1rem;font-family:var(--sans);color:var(--ink);background:#fff}
+  .news .btn-primary{background:var(--espresso);box-shadow:none}
+  .news .btn-primary:hover{background:#2b1e16}
+  .news small{display:block;margin-top:.8rem;color:rgba(255,255,255,.8);font-size:.82rem}
+  .news-note{font-size:.95rem}
+
+  /* ---------- Footer ---------- */
+  footer.site{background:var(--espresso);color:rgba(245,239,230,.78);padding:3.4rem 0 2rem}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:2rem}
+  footer .brand{color:var(--cream)}
+  footer .brand small{color:var(--terracotta)}
+  footer p{color:rgba(245,239,230,.62);font-size:.92rem;max-width:32ch}
+  .foot-col h4{color:var(--cream);font-family:var(--sans);font-size:.78rem;letter-spacing:.16em;
+    text-transform:uppercase;margin-bottom:1rem}
+  .foot-col ul{list-style:none;padding:0;margin:0;display:grid;gap:.55rem}
+  .foot-col a{text-decoration:none;color:rgba(245,239,230,.72);font-size:.94rem;transition:color .2s ease}
+  .foot-col a:hover{color:var(--terracotta)}
+  .socials{display:flex;gap:.7rem;margin-top:1rem}
+  .socials a{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(245,239,230,.08);border:1px solid rgba(245,239,230,.14);color:var(--cream);
+    transition:background .25s ease, transform .25s ease}
+  .socials a:hover{background:var(--terracotta);transform:translateY(-3px)}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+    margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid rgba(245,239,230,.14);
+    font-size:.85rem;color:rgba(245,239,230,.55)}
+  .foot-bottom a{color:rgba(245,239,230,.7);text-decoration:none}
+  .foot-bottom a:hover{color:var(--terracotta)}
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .steam{animation:none}
+    *{scroll-behavior:auto}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:960px){
+    .roasts{grid-template-columns:repeat(2,1fr)}
+    .brew-grid{grid-template-columns:repeat(2,1fr)}
+    .plans{grid-template-columns:1fr;max-width:460px;margin-inline:auto}
+    .plan.featured{order:-1}
+    .hero-grid,.story-grid,.visit-grid,.news{grid-template-columns:1fr}
+    .hero-art{max-width:420px;margin-inline:auto}
+    .story-art{order:-1}
+    .foot-grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .navlinks{
+      position:absolute;top:100%;left:0;right:0;background:var(--cream);flex-direction:column;
+      align-items:flex-start;gap:0;padding:0 6vw;max-height:0;overflow:hidden;
+      border-bottom:1px solid rgba(59,42,32,.12);transition:max-height .35s ease, padding .35s ease}
+    .navlinks.open{max-height:340px;padding:1rem 6vw 1.4rem}
+    .navlinks li{width:100%}
+    .navlinks a{display:block;padding:.7rem 0;width:100%;border-bottom:1px solid rgba(59,42,32,.08)}
+    .menu-btn{display:inline-flex}
+    .nav-cta .btn{display:none}
+    .roasts{grid-template-columns:1fr;max-width:340px;margin-inline:auto}
+    .brew-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .hero-stats{gap:1.4rem}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Announcement bar ===== -->
+<div class="topbar">
+  <div class="wrap row">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h13v7H3zM16 11h3l2 3v2h-5z"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg>
+    <span>Roasted to order, never off a warehouse shelf — <em>free flat-rate shipping on bean orders over $40</em>.</span>
+  </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Ember Roasters home">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-hidden="true">
+        <rect width="48" height="48" rx="12" fill="#3b2a20"/>
+        <path d="M13 18h17a6 6 0 0 1 0 12h-1.6A10.5 10.5 0 0 1 9 26V18z" fill="#f5efe6"/>
+        <path d="M30 20.5h1.9a3.6 3.6 0 0 1 0 7.2H30" fill="none" stroke="#c96a4a" stroke-width="2"/>
+        <path d="M15.5 8c-2.1 2-2.1 4 0 6M21 8c-2.1 2-2.1 4 0 6M26.5 8c-2.1 2-2.1 4 0 6"
+          fill="none" stroke="#c96a4a" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Ember Roasters<small>Small-Batch Coffee</small></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul class="navlinks" id="nav">
+        <li><a href="#roasts">Our Roasts</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#brew">Brewing Guide</a></li>
+        <li><a href="#subscribe">Subscriptions</a></li>
+        <li><a href="#visit">Visit Us</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#visit">Visit the Cafe</a>
+      <a class="btn btn-primary" href="#roasts">Shop Beans</a>
+      <a class="cart-btn" id="cartBtn" href="#roasts" aria-label="Your bag, 0 items">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">Roasted on Kindling Row since 2014</span>
+        <h1>Coffee with a <em>little</em> fire in it.</h1>
+        <p class="lead">We roast in tiny batches over the course of a slow morning, chasing
+          sweetness, clarity, and that warm ember glow in every cup.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#roasts">Shop Beans
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#subscribe">Start a Subscription</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>18</strong><span>Single origins a year</span></div>
+          <div><strong>72h</strong><span>Rested before we ship</span></div>
+          <div><strong>4.9★</strong><span>1,240 neighbor reviews</span></div>
+        </div>
+      </div>
+
+      <!-- Hero illustration: cup of coffee with rising steam, all inline SVG -->
+      <div class="hero-art reveal" aria-hidden="true">
+        <svg viewBox="0 0 420 420" role="img" aria-label="A warm cup of freshly poured coffee">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="42%" r="60%">
+              <stop offset="0%" stop-color="#e7b98f"/>
+              <stop offset="60%" stop-color="#c96a4a"/>
+              <stop offset="100%" stop-color="#8f3f2b"/>
+            </radialGradient>
+            <linearGradient id="saucer" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f7f0e5"/>
+              <stop offset="100%" stop-color="#e4d6c1"/>
+            </linearGradient>
+            <linearGradient id="cupg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fbf7f0"/>
+              <stop offset="100%" stop-color="#e9ddca"/>
+            </linearGradient>
+          </defs>
+          <circle cx="210" cy="205" r="180" fill="#efe2cd"/>
+          <circle cx="210" cy="205" r="180" fill="none" stroke="#dcc9ab" stroke-width="2" stroke-dasharray="3 9"/>
+          <!-- steam -->
+          <g fill="none" stroke="#bda88c" stroke-width="7" stroke-linecap="round">
+            <path class="steam"   d="M168 150c-14-16 12-30 0-48"/>
+            <path class="steam b" d="M210 140c-14-18 12-32 0-52"/>
+            <path class="steam c" d="M252 150c-14-16 12-30 0-48"/>
+          </g>
+          <!-- saucer -->
+          <ellipse cx="210" cy="316" rx="150" ry="34" fill="url(#saucer)" stroke="#d8c6ac" stroke-width="2"/>
+          <ellipse cx="210" cy="308" rx="96" ry="20" fill="#d8c6ac"/>
+          <!-- cup -->
+          <path d="M120 214h180l-14 74a40 40 0 0 1-39 32h-74a40 40 0 0 1-39-32z" fill="url(#cupg)" stroke="#d8c6ac" stroke-width="2"/>
+          <ellipse cx="210" cy="214" rx="90" ry="24" fill="url(#glow)"/>
+          <ellipse cx="210" cy="214" rx="90" ry="24" fill="none" stroke="#fbf7f0" stroke-width="4"/>
+          <ellipse cx="196" cy="208" rx="22" ry="6" fill="#f3c79b" opacity=".55"/>
+          <!-- handle -->
+          <path d="M300 232c40-6 52 46 8 54" fill="none" stroke="#e9ddca" stroke-width="16" stroke-linecap="round"/>
+          <path d="M300 232c40-6 52 46 8 54" fill="none" stroke="#d8c6ac" stroke-width="4" stroke-linecap="round"/>
+          <!-- floating beans -->
+          <g fill="#3b2a20">
+            <g transform="translate(96 116) rotate(-18)"><ellipse cx="0" cy="0" rx="13" ry="9"/><path d="M0 -8C-4 -3 -4 3 0 8" stroke="#5a4232" stroke-width="2" fill="none"/></g>
+            <g transform="translate(330 132) rotate(24)"><ellipse cx="0" cy="0" rx="11" ry="8"/><path d="M0 -7C-3 -2 -3 2 0 7" stroke="#5a4232" stroke-width="2" fill="none"/></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Our Roasts ===== -->
+  <section id="roasts">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Our Roasts</span>
+        <h2>This month at the roaster</h2>
+        <p>Four coffees we are proud of right now — roasted to order every Tuesday and Friday,
+          then rested three days so they hit their stride the moment you brew.</p>
+      </div>
+
+      <div class="roasts">
+
+        <!-- Bag 1 -->
+        <article class="card reveal">
+          <div class="bag-wrap">
+            <svg width="128" height="168" viewBox="0 0 128 168" role="img" aria-label="Coffee bag: Sunrise Blend">
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="#c96a4a"/>
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="none" stroke="#a94f34" stroke-width="2"/>
+              <path d="M18 40l14-16h64l14 16z" fill="#b0563a"/>
+              <rect x="52" y="24" width="24" height="10" rx="2" fill="#8f3f2b"/>
+              <rect x="30" y="66" width="68" height="66" rx="6" fill="#f5efe6"/>
+              <text x="64" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#8f3f2b" font-weight="bold">SUNRISE</text>
+              <text x="64" y="103" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#3b2a20">— blend —</text>
+              <g fill="#3b2a20"><ellipse cx="52" cy="118" rx="7" ry="5"/><path d="M52 113c-2 3-2 7 0 10" stroke="#c96a4a" stroke-width="1.4" fill="none"/><ellipse cx="76" cy="118" rx="7" ry="5"/><path d="M76 113c-2 3-2 7 0 10" stroke="#c96a4a" stroke-width="1.4" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="roast-meta"><h3>Sunrise Blend</h3><span class="score" title="SCA cupping score">86 pts</span></div>
+          <span class="origin">Guatemala · Ethiopia</span>
+          <p class="notes"><b>Milk chocolate, toasted almond, orange marmalade.</b> Our everyday
+            cup — forgiving, sweet, and built to shine with milk or black.</p>
+          <dl class="spec">
+            <div><dt>Process</dt><dd>Washed</dd></div>
+            <div><dt>Elevation</dt><dd>1,500–1,900 m</dd></div>
+          </dl>
+          <div class="roast-level">Roast: Medium
+            <span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+          </div>
+          <div class="card-foot">
+            <span class="price">$17<span> / 12oz</span></span>
+            <button class="add" type="button">Add to bag</button>
+          </div>
+        </article>
+
+        <!-- Bag 2 -->
+        <article class="card reveal">
+          <div class="bag-wrap">
+            <svg width="128" height="168" viewBox="0 0 128 168" role="img" aria-label="Coffee bag: Kindling Row Espresso">
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="#3b2a20"/>
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="none" stroke="#241812" stroke-width="2"/>
+              <path d="M18 40l14-16h64l14 16z" fill="#2c1f17"/>
+              <rect x="52" y="24" width="24" height="10" rx="2" fill="#1f150f"/>
+              <rect x="30" y="66" width="68" height="66" rx="6" fill="#c96a4a"/>
+              <text x="64" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#3b2a20" font-weight="bold">KINDLING</text>
+              <text x="64" y="103" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#f5efe6">espresso</text>
+              <g fill="#3b2a20"><ellipse cx="52" cy="118" rx="7" ry="5"/><path d="M52 113c-2 3-2 7 0 10" stroke="#f5efe6" stroke-width="1.4" fill="none"/><ellipse cx="76" cy="118" rx="7" ry="5"/><path d="M76 113c-2 3-2 7 0 10" stroke="#f5efe6" stroke-width="1.4" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="roast-meta"><h3>Kindling Row</h3><span class="score" title="SCA cupping score">85 pts</span></div>
+          <span class="origin">Brazil · Colombia</span>
+          <p class="notes"><b>Dark cocoa, brown sugar, roasted hazelnut.</b> Our signature espresso —
+            syrupy, low-acid, and made to hold its own under steamed milk.</p>
+          <dl class="spec">
+            <div><dt>Process</dt><dd>Natural · Washed</dd></div>
+            <div><dt>Elevation</dt><dd>1,100–1,700 m</dd></div>
+          </dl>
+          <div class="roast-level">Roast: Dark
+            <span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+          </div>
+          <div class="card-foot">
+            <span class="price">$19<span> / 12oz</span></span>
+            <button class="add" type="button">Add to bag</button>
+          </div>
+        </article>
+
+        <!-- Bag 3 -->
+        <article class="card reveal">
+          <div class="bag-wrap">
+            <svg width="128" height="168" viewBox="0 0 128 168" role="img" aria-label="Coffee bag: Yirgacheffe single origin">
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="#6f7350"/>
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="none" stroke="#585c3e" stroke-width="2"/>
+              <path d="M18 40l14-16h64l14 16z" fill="#585c3e"/>
+              <rect x="52" y="24" width="24" height="10" rx="2" fill="#474a30"/>
+              <rect x="30" y="66" width="68" height="66" rx="6" fill="#f5efe6"/>
+              <text x="64" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#585c3e" font-weight="bold">YIRGA-</text>
+              <text x="64" y="98" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#585c3e" font-weight="bold">CHEFFE</text>
+              <text x="64" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="8" fill="#3b2a20">single origin</text>
+              <g fill="#3b2a20"><ellipse cx="64" cy="122" rx="7" ry="5"/><path d="M64 117c-2 3-2 7 0 10" stroke="#6f7350" stroke-width="1.4" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="roast-meta"><h3>Yirgacheffe</h3><span class="score" title="SCA cupping score">89 pts</span></div>
+          <span class="origin">Ethiopia · Gedeb</span>
+          <p class="notes"><b>Jasmine, ripe peach, lemon zest.</b> A washed, delicate lot — bright and
+            floral, best as a pour-over on a quiet morning.</p>
+          <dl class="spec">
+            <div><dt>Varietal</dt><dd>Heirloom</dd></div>
+            <div><dt>Elevation</dt><dd>1,950 m</dd></div>
+          </dl>
+          <div class="roast-level">Roast: Light
+            <span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+          </div>
+          <div class="card-foot">
+            <span class="price">$22<span> / 12oz</span></span>
+            <button class="add" type="button">Add to bag</button>
+          </div>
+        </article>
+
+        <!-- Bag 4 -->
+        <article class="card reveal">
+          <div class="bag-wrap">
+            <svg width="128" height="168" viewBox="0 0 128 168" role="img" aria-label="Coffee bag: Midnight Decaf">
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="#4d382b"/>
+              <path d="M18 40h92v104a10 10 0 0 1-10 10H28a10 10 0 0 1-10-10z" fill="none" stroke="#33241b" stroke-width="2"/>
+              <path d="M18 40l14-16h64l14 16z" fill="#3b2a20"/>
+              <rect x="52" y="24" width="24" height="10" rx="2" fill="#2c1f17"/>
+              <rect x="30" y="66" width="68" height="66" rx="6" fill="#e7b98f"/>
+              <text x="64" y="88" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#3b2a20" font-weight="bold">MIDNIGHT</text>
+              <text x="64" y="103" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#4d382b">decaf</text>
+              <g fill="#3b2a20"><ellipse cx="52" cy="118" rx="7" ry="5"/><path d="M52 113c-2 3-2 7 0 10" stroke="#e7b98f" stroke-width="1.4" fill="none"/><ellipse cx="76" cy="118" rx="7" ry="5"/><path d="M76 113c-2 3-2 7 0 10" stroke="#e7b98f" stroke-width="1.4" fill="none"/></g>
+            </svg>
+          </div>
+          <div class="roast-meta"><h3>Midnight Decaf</h3><span class="score" title="SCA cupping score">84 pts</span></div>
+          <span class="origin">Colombia · Huila</span>
+          <p class="notes"><b>Dark cherry, cane sugar, cinnamon.</b> Naturally decaffeinated with
+            sugarcane — all the comfort, none of the 2 a.m. staring at the ceiling.</p>
+          <dl class="spec">
+            <div><dt>Process</dt><dd>Sugarcane EA</dd></div>
+            <div><dt>Elevation</dt><dd>1,600 m</dd></div>
+          </dl>
+          <div class="roast-level">Roast: Medium-Dark
+            <span class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+          </div>
+          <div class="card-foot">
+            <span class="price">$18<span> / 12oz</span></span>
+            <button class="add" type="button">Add to bag</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Our Story ===== -->
+  <section id="story" class="story">
+    <div class="wrap story-grid">
+      <div class="story-art reveal" aria-hidden="true">
+        <!-- Illustration: the roastery storefront at dusk -->
+        <svg viewBox="0 0 520 420" role="img" aria-label="Illustration of the Ember Roasters storefront on Kindling Row">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e9c9a8"/>
+              <stop offset="55%" stop-color="#e8b48a"/>
+              <stop offset="100%" stop-color="#c96a4a"/>
+            </linearGradient>
+            <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4d382b"/>
+              <stop offset="100%" stop-color="#3b2a20"/>
+            </linearGradient>
+          </defs>
+          <rect width="520" height="420" fill="url(#sky)"/>
+          <circle cx="410" cy="96" r="46" fill="#f7e6cf" opacity=".85"/>
+          <!-- distant rooftops -->
+          <g fill="#b0563a" opacity=".5">
+            <rect x="0" y="196" width="70" height="90"/><rect x="70" y="170" width="54" height="116"/>
+            <rect x="430" y="184" width="90" height="102"/><rect x="392" y="204" width="42" height="82"/>
+          </g>
+          <!-- storefront -->
+          <rect x="96" y="150" width="320" height="200" fill="url(#wall)"/>
+          <rect x="96" y="150" width="320" height="18" fill="#c96a4a"/>
+          <!-- awning -->
+          <path d="M108 168h296l-14 34H122z" fill="#c96a4a"/>
+          <g stroke="#f5efe6" stroke-width="10" opacity=".85">
+            <path d="M124 168v30M156 168v34M188 168v34M220 168v34M252 168v34M284 168v34M316 168v34M348 168v34M380 168v30"/>
+          </g>
+          <!-- sign -->
+          <text x="256" y="146" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#f5efe6" font-weight="bold">EMBER ROASTERS</text>
+          <!-- windows -->
+          <rect x="120" y="216" width="120" height="120" rx="4" fill="#f7d9a6"/>
+          <rect x="120" y="216" width="120" height="120" rx="4" fill="none" stroke="#2c1f17" stroke-width="6"/>
+          <line x1="180" y1="216" x2="180" y2="336" stroke="#2c1f17" stroke-width="4"/>
+          <line x1="120" y1="276" x2="240" y2="276" stroke="#2c1f17" stroke-width="4"/>
+          <!-- silhouettes in window -->
+          <g fill="#7a5a3f" opacity=".7"><circle cx="150" cy="300" r="12"/><rect x="138" y="308" width="24" height="28" rx="8"/><circle cx="206" cy="300" r="12"/><rect x="194" y="308" width="24" height="28" rx="8"/></g>
+          <!-- door -->
+          <rect x="288" y="240" width="94" height="110" rx="4" fill="#2c1f17"/>
+          <rect x="296" y="252" width="78" height="72" rx="3" fill="#f7d9a6" opacity=".9"/>
+          <circle cx="300" cy="296" r="3" fill="#c96a4a"/>
+          <!-- sidewalk + planter -->
+          <rect x="0" y="350" width="520" height="70" fill="#d8c6ac"/>
+          <rect x="70" y="322" width="30" height="28" fill="#6f7350"/>
+          <path d="M85 322c-10-16 6-22 0-34 8 8 20 20 0 34" fill="#585c3e"/>
+          <!-- hanging bulbs -->
+          <g stroke="#8f3f2b" stroke-width="1.5"><path d="M96 168q160 40 320 0" fill="none"/></g>
+          <g fill="#ffe7b3"><circle cx="176" cy="188" r="5"/><circle cx="256" cy="196" r="5"/><circle cx="336" cy="188" r="5"/></g>
+        </svg>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Our Story</span>
+        <h2>It started with one loud, stubborn roaster.</h2>
+        <p>In 2014, Marisol and Teo Alvarez hauled a battered 5-kilo drum roaster into a former
+          bicycle shop on Kindling Row and started roasting for friends on weekends. The neighbors
+          followed the smell. Within a year the bikes were gone, a long reclaimed-oak bar went in,
+          and the line out the door on Saturday mornings has never really let up.</p>
+        <p>We still roast everything ourselves, in batches small enough to taste and adjust as we go.
+          We buy green coffee through relationships we can name — farms in Huila, Gedeb, and Cerrado
+          we have visited, argued with, and learned from. Then we roast slow, rest it right, and put
+          our name on the bag.</p>
+        <blockquote>“We are not trying to be the biggest roaster in town. We just want yours to be
+          the best cup on your counter.”
+          <cite>— Marisol Alvarez, co-founder &amp; head roaster</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Brewing Guide ===== -->
+  <section id="brew" class="band-espresso">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">Brewing Guide</span>
+        <h2>A better cup in four steps</h2>
+        <p>This is the pour-over recipe we teach at the bar. Weigh if you can, but a kitchen spoon
+          and a little attention will get you most of the way there.</p>
+      </div>
+      <div class="brew-grid">
+        <div class="brew-step reveal">
+          <div class="num">01</div>
+          <h3>Measure &amp; grind</h3>
+          <p>Grind fresh, medium-coarse like coarse sea salt. Start with 22 g of coffee for a single
+            mug and adjust to taste.</p>
+          <span class="ratio">1 : 16 ratio</span>
+        </div>
+        <div class="brew-step reveal">
+          <div class="num">02</div>
+          <h3>Bloom</h3>
+          <p>Pour 50 g of 205°F water over the grounds and wait 40 seconds. The bed will puff and
+            breathe — that is the fresh CO₂ escaping.</p>
+          <span class="ratio">205°F · 40s</span>
+        </div>
+        <div class="brew-step reveal">
+          <div class="num">03</div>
+          <h3>Pour in stages</h3>
+          <p>Add water in slow spirals to 350 g total, keeping the bed level. Aim for two or three
+            gentle pours rather than one flood.</p>
+          <span class="ratio">350 g total</span>
+        </div>
+        <div class="brew-step reveal">
+          <div class="num">04</div>
+          <h3>Draw down &amp; sip</h3>
+          <p>Total brew time should land near 3 minutes. Too fast? Grind finer. Too slow and bitter?
+            Go coarser next time.</p>
+          <span class="ratio">~3:00 min</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Subscriptions ===== -->
+  <section id="subscribe">
+    <div class="wrap">
+      <div class="sec-head center reveal">
+        <span class="eyebrow">Subscriptions</span>
+        <h2>Fresh coffee, handled for you</h2>
+        <p>Roasted the day it ships, always within 72 hours of your door. Pause, skip, or swap
+          roasts anytime — no fine print, no lock-in.</p>
+      </div>
+      <div class="plans">
+
+        <div class="plan reveal">
+          <h3>The Solo</h3>
+          <div class="plan-sub">For one devoted mug a day</div>
+          <div class="plan-price">$16<span>/mo</span></div>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>One 12 oz bag, every 2 weeks</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Roaster's-choice or pick your own</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Free local delivery on Fridays</li>
+          </ul>
+          <a class="btn btn-ghost" href="#subscribe">Choose Solo</a>
+        </div>
+
+        <div class="plan featured reveal">
+          <span class="tag">Most loved</span>
+          <h3>The Household</h3>
+          <div class="plan-sub">Enough for the whole kitchen</div>
+          <div class="plan-price">$29<span>/mo</span></div>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e7b98f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Two 12 oz bags, every 2 weeks</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e7b98f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Mix single origins &amp; blends</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e7b98f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>10% off all cafe drinks &amp; pastries</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e7b98f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>First pick of limited micro-lots</li>
+          </ul>
+          <a class="btn btn-primary" href="#subscribe">Choose Household</a>
+        </div>
+
+        <div class="plan reveal">
+          <h3>The Explorer</h3>
+          <div class="plan-sub">A new origin every shipment</div>
+          <div class="plan-price">$34<span>/mo</span></div>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Two rotating single origins monthly</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Tasting notes &amp; farm story card</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c96a4a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Invite to our monthly cupping night</li>
+          </ul>
+          <a class="btn btn-ghost" href="#subscribe">Choose Explorer</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Visit Us ===== -->
+  <section id="visit" class="band-espresso">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Visit Us</span>
+        <h2>Pull up a stool on Kindling Row</h2>
+        <p>Fresh pastries from Little Loom Bakery next door, a sunny patio, and a roaster humming
+          in the back. Come say hello.</p>
+      </div>
+      <div class="visit-grid">
+        <div class="hours reveal">
+          <h3>Hours &amp; location</h3>
+          <p class="addr">
+            418 Kindling Row, Suite B<br>
+            Alder Heights, OR 97218<br>
+            <a href="tel:+15035550142">(503) 555-0142</a> · <a href="#visit">hello@emberroasters.co</a>
+          </p>
+          <table class="hrs">
+            <thead><tr><th scope="col">Day</th><th scope="col">Cafe hours</th></tr></thead>
+            <tbody>
+              <tr><td>Monday</td><td>7:00 AM – 5:00 PM</td></tr>
+              <tr><td>Tuesday</td><td>7:00 AM – 5:00 PM</td></tr>
+              <tr><td>Wednesday</td><td>7:00 AM – 5:00 PM</td></tr>
+              <tr><td>Thursday</td><td>7:00 AM – 6:00 PM</td></tr>
+              <tr class="today"><td>Friday</td><td>7:00 AM – 6:00 PM</td></tr>
+              <tr><td>Saturday</td><td>8:00 AM – 6:00 PM</td></tr>
+              <tr><td>Sunday</td><td>8:00 AM – 3:00 PM</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Stylized neighborhood map, all inline SVG -->
+        <div class="map-card reveal" role="img" aria-label="Stylized map showing Ember Roasters at 418 Kindling Row, near Alder Park and the river">
+          <svg viewBox="0 0 520 420" preserveAspectRatio="xMidYMid slice">
+            <rect width="520" height="420" fill="#e7ddca"/>
+            <!-- river -->
+            <path d="M-20 40C120 90 90 200 220 250s180 120 340 90V420H-20z" fill="#a8c4c0" opacity=".6"/>
+            <path d="M-20 40C120 90 90 200 220 250s180 120 340 90" fill="none" stroke="#8fb0ab" stroke-width="4" opacity=".7"/>
+            <!-- park -->
+            <rect x="40" y="60" width="150" height="120" rx="10" fill="#bcc39a"/>
+            <g fill="#8a9663"><circle cx="80" cy="100" r="16"/><circle cx="120" cy="130" r="20"/><circle cx="160" cy="90" r="14"/></g>
+            <text x="115" y="176" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#585c3e" font-style="italic">Alder Park</text>
+            <!-- city blocks -->
+            <g fill="#d6c7ab" stroke="#c7b696" stroke-width="2">
+              <rect x="250" y="60" width="90" height="70" rx="4"/>
+              <rect x="360" y="60" width="120" height="70" rx="4"/>
+              <rect x="360" y="150" width="120" height="70" rx="4"/>
+              <rect x="60" y="230" width="100" height="80" rx="4"/>
+              <rect x="300" y="300" width="110" height="70" rx="4"/>
+            </g>
+            <!-- roads -->
+            <g stroke="#f6f0e6" stroke-width="16" stroke-linecap="round">
+              <path d="M0 210H520"/>
+              <path d="M230 0V420"/>
+              <path d="M0 330H520" opacity=".85"/>
+            </g>
+            <g stroke="#cdbf9f" stroke-width="16" stroke-linecap="round" opacity=".5">
+              <path d="M355 0V420"/>
+            </g>
+            <!-- road dashes -->
+            <g stroke="#e0b57e" stroke-width="2" stroke-dasharray="10 10">
+              <path d="M0 210H520"/><path d="M230 0V420"/>
+            </g>
+            <!-- street labels -->
+            <text x="470" y="202" text-anchor="end" font-family="system-ui,sans-serif" font-size="10" fill="#9a8a6d">KINDLING ROW</text>
+            <text x="238" y="30" font-family="system-ui,sans-serif" font-size="10" fill="#9a8a6d" transform="rotate(90 238 30)">ALDER AVE</text>
+            <!-- our pin at the corner of the two main roads -->
+            <g transform="translate(230 210)">
+              <ellipse cx="0" cy="30" rx="16" ry="5" fill="#3b2a20" opacity=".25"/>
+              <path d="M0 26C-16 6-24-6-24-16A24 24 0 0 1 24-16C24-6 16 6 0 26Z" fill="#c96a4a" stroke="#a94f34" stroke-width="2"/>
+              <circle cx="0" cy="-15" r="9" fill="#f5efe6"/>
+              <path d="M-4 -15h5a2.4 2.4 0 0 1 0 4.8h-.6a3.6 3.6 0 0 1-4.4-.5v-4.3z" fill="#3b2a20"/>
+            </g>
+            <text x="230" y="262" text-anchor="middle" font-family="Georgia,serif" font-size="13" fill="#3b2a20" font-weight="bold">Ember Roasters</text>
+            <text x="230" y="278" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#7c6c5f">418 Kindling Row</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Newsletter ===== -->
+  <section id="newsletter">
+    <div class="wrap">
+      <div class="news reveal">
+        <div>
+          <h2>Get the drop on new roasts</h2>
+          <p>Once a week: what came off the roaster, a brewing tip, and the occasional early
+            heads-up on limited micro-lots before they sell out.</p>
+        </div>
+        <div>
+          <form class="news-form" novalidate>
+            <label for="email" class="sr-only" style="position:absolute;left:-9999px">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@yourhouse.com" autocomplete="email" required>
+            <button class="btn btn-primary" type="submit">Subscribe</button>
+          </form>
+          <p class="news-note" id="newsMsg"><small>No spam, ever. Unsubscribe with one click. We roast coffee, not inboxes.</small></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" aria-label="Ember Roasters home">
+          <svg class="mark" viewBox="0 0 48 48" role="img" aria-hidden="true">
+            <rect width="48" height="48" rx="12" fill="#c96a4a"/>
+            <path d="M13 18h17a6 6 0 0 1 0 12h-1.6A10.5 10.5 0 0 1 9 26V18z" fill="#f5efe6"/>
+            <path d="M30 20.5h1.9a3.6 3.6 0 0 1 0 7.2H30" fill="none" stroke="#3b2a20" stroke-width="2"/>
+            <path d="M15.5 8c-2.1 2-2.1 4 0 6M21 8c-2.1 2-2.1 4 0 6M26.5 8c-2.1 2-2.1 4 0 6"
+              fill="none" stroke="#f5efe6" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Ember Roasters<small>Small-Batch Coffee</small></span>
+        </a>
+        <p>Hand-roasted single origins and blends from a little shop on Kindling Row. Roasted with
+          patience, shipped with care.</p>
+        <div class="socials">
+          <a href="#top" aria-label="Ember Roasters on Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="#top" aria-label="Ember Roasters on Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v1.7H8v3h2.3V22h3.4v-8.5H16l.4-3z"/></svg>
+          </a>
+          <a href="#top" aria-label="Ember Roasters newsletter by email">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#roasts">All coffee</a></li>
+          <li><a href="#roasts">Single origins</a></li>
+          <li><a href="#roasts">Blends &amp; espresso</a></li>
+          <li><a href="#subscribe">Subscriptions</a></li>
+          <li><a href="#roasts">Gift cards</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#story">Our story</a></li>
+          <li><a href="#brew">Brewing guide</a></li>
+          <li><a href="#visit">Visit the cafe</a></li>
+          <li><a href="#visit">Wholesale</a></li>
+          <li><a href="#top">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <ul>
+          <li><a href="#visit">418 Kindling Row</a></li>
+          <li><a href="#visit">Alder Heights, OR</a></li>
+          <li><a href="tel:+15035550142">(503) 555-0142</a></li>
+          <li><a href="#visit">Mon–Sun · 7am</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Ember Roasters Coffee Co. Roasted daily on Kindling Row.</span>
+      <span><a href="#top">Privacy</a> · <a href="#top">Terms</a> · <a href="#top">Accessibility</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  (function(){
+    var btn = document.getElementById('menuBtn');
+    var nav = document.getElementById('nav');
+    if(btn && nav){
+      btn.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      nav.addEventListener('click', function(e){
+        if(e.target.tagName === 'A'){
+          nav.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+    }
+  })();
+
+  // Reveal-on-scroll
+  (function(){
+    var items = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    items.forEach(function(el){ io.observe(el); });
+  })();
+
+  // Add-to-bag: live cart badge + confirmation (no network request)
+  (function(){
+    var countEl = document.getElementById('cartCount');
+    var cartBtn = document.getElementById('cartBtn');
+    var adds = document.querySelectorAll('.add');
+    if(!countEl || !adds.length){ return; }
+    var count = 0;
+    adds.forEach(function(btn){
+      var label = btn.textContent;
+      var timer;
+      btn.addEventListener('click', function(){
+        count++;
+        countEl.textContent = count;
+        countEl.classList.remove('pulse');
+        void countEl.offsetWidth; // restart the pop animation
+        countEl.classList.add('pulse');
+        if(cartBtn){
+          cartBtn.setAttribute('aria-label', 'Your bag, ' + count + (count === 1 ? ' item' : ' items'));
+        }
+        btn.classList.add('added');
+        btn.textContent = 'Added ✓';
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+          btn.classList.remove('added');
+          btn.textContent = label;
+        }, 1400);
+      });
+    });
+  })();
+
+  // Newsletter: friendly inline confirmation (no network request)
+  (function(){
+    var form = document.querySelector('.news-form');
+    var msg = document.getElementById('newsMsg');
+    if(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var email = form.querySelector('input[type=email]');
+        if(email && email.value && /.+@.+\..+/.test(email.value)){
+          msg.innerHTML = '<small>Welcome to the roast list — check your inbox for a hello from us. ☕</small>';
+          form.reset();
+        } else {
+          msg.innerHTML = '<small>Hmm, that email looks off — mind giving it another go?</small>';
+          if(email) email.focus();
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>

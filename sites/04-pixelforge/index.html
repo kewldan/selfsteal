@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixelforge — Independent Game Studio</title>
+<meta name="description" content="Pixelforge is a 15-person independent game studio in Malmö, Sweden crafting stylish action, cozy adventure, and cyberpunk puzzle games. Wishlist Nova Ronin today.">
+<meta name="theme-color" content="#0a0714">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0714'/%3E%3Cpath d='M10 7h8a5 5 0 0 1 0 10h-3.5v8H10z' fill='%23ff3d81'/%3E%3Ccircle cx='23' cy='23' r='3.2' fill='%2322e0d6'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0a0714;
+    --bg-2:#0f0a1e;
+    --panel:#150c26;
+    --panel-2:#1b1030;
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.14);
+    --text:#efeafb;
+    --muted:#a396c2;
+    --muted-2:#7d6fa0;
+    --pink:#ff3d81;
+    --pink-soft:#ff7bab;
+    --cyan:#22e0d6;
+    --cyan-soft:#7ff2ec;
+    --grad:linear-gradient(115deg,#ff3d81 0%,#c14bff 45%,#22e0d6 100%);
+    --grad-soft:linear-gradient(115deg,rgba(255,61,129,.16),rgba(34,224,214,.16));
+    --radius:18px;
+    --shadow:0 24px 60px -28px rgba(0,0,0,.9);
+    --mono:"Space Mono",ui-monospace,"Cascadia Code",Consolas,"Courier New",monospace;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+      radial-gradient(900px 620px at 82% -8%,rgba(255,61,129,.22),transparent 60%),
+      radial-gradient(760px 560px at 6% 8%,rgba(34,224,214,.16),transparent 58%),
+      radial-gradient(1000px 800px at 50% 118%,rgba(193,75,255,.16),transparent 60%),
+      var(--bg);
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(circle at 50% 22%,#000 0%,transparent 78%);
+  }
+
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  h1,h2,h3{line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+  p{text-wrap:pretty}
+
+  .wrap{width:min(1180px,92vw);margin-inline:auto}
+  .eyebrow{
+    font-family:var(--mono);
+    text-transform:uppercase;
+    letter-spacing:.32em;
+    font-size:.72rem;
+    color:var(--cyan);
+    margin:0 0 14px;
+    display:inline-flex;
+    align-items:center;
+    gap:.6em;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+  .grad-text{
+    background:var(--grad);
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    --glow:rgba(255,61,129,.55);
+    display:inline-flex;align-items:center;gap:.6em;
+    font-weight:700;font-size:.98rem;
+    padding:.85em 1.5em;
+    border-radius:999px;border:0;cursor:pointer;
+    color:#150215;
+    background:var(--grad);
+    box-shadow:0 10px 30px -10px var(--glow);
+    transition:transform .18s ease,box-shadow .28s ease,filter .2s ease;
+    position:relative;
+    font-family:var(--sans);
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px -10px var(--glow);filter:saturate(1.1)}
+  .btn:active{transform:translateY(0)}
+  .btn.ghost{
+    background:transparent;color:var(--text);
+    border:1px solid var(--line-strong);
+    box-shadow:none;
+  }
+  .btn.ghost:hover{border-color:var(--cyan);box-shadow:0 0 0 1px rgba(34,224,214,.35),0 0 26px -6px rgba(34,224,214,.5);color:#fff}
+  .btn svg{width:18px;height:18px}
+
+  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+  a:focus-visible{outline-offset:2px;border-radius:6px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(10,7,20,.66);
+    border-bottom:1px solid var(--line);
+    transition:background .3s ease,border-color .3s ease,box-shadow .3s ease;
+  }
+  header.scrolled{
+    background:rgba(9,6,18,.86);
+    border-bottom-color:var(--line-strong);
+    box-shadow:0 10px 30px -18px rgba(0,0,0,.9);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 0}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+  .brand .mark{width:38px;height:38px;filter:drop-shadow(0 0 12px rgba(255,61,129,.5))}
+  .brand .name{font-family:var(--mono);font-size:1.12rem;letter-spacing:.04em}
+  .brand .name b{color:var(--pink)}
+  .nav-links{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+  .nav-links a{
+    padding:.5em .9em;border-radius:10px;color:var(--muted);
+    font-size:.94rem;font-weight:600;transition:color .18s,background .18s;
+  }
+  .nav-links a:hover{color:#fff;background:rgba(255,255,255,.05)}
+  .nav-cta{display:flex;align-items:center;gap:12px}
+  .menu-toggle{
+    display:none;background:transparent;border:1px solid var(--line-strong);
+    color:var(--text);width:44px;height:44px;border-radius:12px;cursor:pointer;
+    align-items:center;justify-content:center;
+  }
+  .menu-toggle svg{width:22px;height:22px}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:70px 0 40px}
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:52px;align-items:center;
+  }
+  .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+  .chip{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    padding:.45em .8em;border-radius:999px;border:1px solid var(--line-strong);
+    color:var(--muted);background:rgba(255,255,255,.02);
+    display:inline-flex;align-items:center;gap:.5em;
+  }
+  .chip .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+  .chip .dot.live{background:var(--pink);box-shadow:0 0 10px var(--pink);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .hero h1{font-size:clamp(2.5rem,6vw,4.1rem);margin-bottom:18px}
+  .hero p.lede{font-size:1.14rem;color:var(--muted);max-width:34ch;margin:0 0 30px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .hero-meta{margin-top:32px;display:flex;gap:14px 26px;flex-wrap:wrap}
+  .hero-meta div{display:flex;flex-direction:column;gap:4px;position:relative;padding-left:15px}
+  .hero-meta div::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:2px;border-radius:2px;background:linear-gradient(var(--pink),var(--cyan));opacity:.55}
+  .hero-meta .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+  .hero-meta .v{font-weight:800;font-size:1.06rem;color:#fff;font-variant-numeric:tabular-nums}
+  .hero-meta .v.cyan{color:var(--cyan)}
+
+  /* Key art frame */
+  .keyart{
+    position:relative;border-radius:26px;overflow:hidden;
+    border:1px solid var(--line-strong);
+    box-shadow:var(--shadow),0 0 0 1px rgba(255,61,129,.08);
+    background:linear-gradient(160deg,#160a24,#0b0716);
+  }
+  .keyart::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    box-shadow:inset 0 0 120px -40px rgba(255,61,129,.55),inset 0 0 60px -30px rgba(34,224,214,.35);
+  }
+  .keyart svg{width:100%;height:auto;display:block}
+  .keyart .tag{
+    position:absolute;left:16px;bottom:16px;z-index:3;
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--cyan);background:rgba(10,7,20,.7);border:1px solid var(--line);
+    padding:.4em .7em;border-radius:8px;backdrop-filter:blur(6px);
+  }
+  .keyart .float{position:absolute;top:16px;right:16px;z-index:3}
+  .rating{
+    display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.85rem;
+    background:rgba(10,7,20,.7);border:1px solid var(--line);padding:.4em .7em;border-radius:999px;
+    backdrop-filter:blur(6px);
+  }
+  .rating svg{width:15px;height:15px}
+
+  /* ---------- Marquee strip ---------- */
+  .strip{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:44px;padding:16px 0;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  }
+  .strip-track{display:flex;gap:52px;width:max-content;animation:scroll 26s linear infinite}
+  .strip:hover .strip-track{animation-play-state:paused}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .strip-item{
+    font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;font-size:.82rem;
+    color:var(--muted);display:inline-flex;align-items:center;gap:.7em;white-space:nowrap;
+  }
+  .strip-item svg{width:16px;height:16px;color:var(--pink)}
+
+  /* ---------- Sections ---------- */
+  section{padding:86px 0;position:relative;scroll-margin-top:82px}
+  .sec-head{max-width:640px;margin-bottom:46px}
+  .sec-head h2{font-size:clamp(1.9rem,4vw,2.9rem);margin-bottom:14px}
+  .sec-head p{color:var(--muted);font-size:1.06rem;margin:0}
+
+  /* ---------- Games grid ---------- */
+  .games{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .game{
+    display:flex;flex-direction:column;
+    background:linear-gradient(180deg,var(--panel),var(--bg-2));
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease;
+  }
+  .game:hover{transform:translateY(-6px);border-color:var(--line-strong);box-shadow:var(--shadow)}
+  .cover{position:relative;aspect-ratio:16/11;overflow:hidden}
+  .cover svg{width:100%;height:100%;transition:transform .5s ease}
+  .game:hover .cover svg{transform:scale(1.05)}
+  .status{
+    position:absolute;top:12px;left:12px;z-index:2;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+    padding:.4em .65em;border-radius:7px;font-weight:700;backdrop-filter:blur(6px);
+    border:1px solid var(--line-strong);
+  }
+  .status.soon{color:var(--cyan);background:rgba(34,224,214,.14)}
+  .status.ea{color:#ffd45e;background:rgba(255,212,94,.14);border-color:rgba(255,212,94,.3)}
+  .status.out{color:var(--pink);background:rgba(255,61,129,.16)}
+  .game-body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .game-body .genre{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+  .game-body h3{font-size:1.35rem}
+  .game-body p{color:var(--muted);font-size:.95rem;margin:0}
+  .platforms{display:flex;gap:10px;margin-top:auto;padding-top:8px;align-items:center;color:var(--muted)}
+  .platforms svg{width:20px;height:20px;opacity:.8;transition:color .2s,opacity .2s}
+  .game:hover .platforms svg{opacity:1;color:var(--cyan)}
+  .platforms .sep{flex:1}
+  .platforms a{font-weight:700;font-size:.88rem;color:var(--pink);display:inline-flex;align-items:center;gap:4px}
+  .platforms a:hover{color:var(--pink-soft)}
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+  .about-copy p{color:var(--muted);font-size:1.05rem;margin:0 0 18px}
+  .about-copy p strong{color:var(--text)}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+  .stat{
+    padding:22px;border-radius:16px;border:1px solid var(--line);
+    background:var(--grad-soft);
+    transition:border-color .25s ease,transform .25s ease;
+  }
+  .stat:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .stat .n{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{color:var(--muted);font-size:.9rem;margin-top:2px}
+  .studio-art{
+    border-radius:22px;overflow:hidden;border:1px solid var(--line-strong);
+    box-shadow:var(--shadow);background:linear-gradient(160deg,#160a24,#0b0716);
+  }
+  .studio-art svg{width:100%;height:auto}
+
+  .values{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+  .value{padding:24px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.02);transition:border-color .25s,transform .25s}
+  .value:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+  .value .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;background:var(--grad-soft);border:1px solid var(--line)}
+  .value .ico svg{width:24px;height:24px;color:var(--cyan)}
+  .value h3{font-size:1.1rem;margin-bottom:8px}
+  .value p{color:var(--muted);font-size:.94rem;margin:0}
+
+  /* ---------- Newsletter ---------- */
+  .newsletter{position:relative}
+  .news-card{
+    position:relative;overflow:hidden;
+    border-radius:26px;border:1px solid var(--line-strong);
+    background:linear-gradient(150deg,#1a0f2c,#0c0718);
+    padding:56px clamp(24px,5vw,64px);
+    box-shadow:var(--shadow);
+  }
+  .news-card::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(600px 300px at 100% 0,rgba(255,61,129,.22),transparent 60%),
+      radial-gradient(500px 300px at 0 100%,rgba(34,224,214,.18),transparent 60%);
+  }
+  .news-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:44px;align-items:center}
+  .news-inner h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:12px}
+  .news-inner p{color:var(--muted);margin:0 0 8px;max-width:42ch}
+  form.signup{display:flex;flex-direction:column;gap:12px}
+  .field{display:flex;gap:10px;flex-wrap:wrap}
+  .field input{
+    flex:1;min-width:0;
+    padding:.95em 1.1em;border-radius:12px;
+    background:rgba(10,7,20,.6);border:1px solid var(--line-strong);
+    color:#fff;font-size:1rem;font-family:var(--sans);
+    transition:border-color .2s,box-shadow .2s;
+  }
+  .field input::placeholder{color:var(--muted-2)}
+  .field input:hover{border-color:var(--muted-2)}
+  .field input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,224,214,.2)}
+  .field input[aria-invalid="true"]{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,61,129,.2)}
+  .consent{font-size:.82rem;color:var(--muted-2);display:flex;gap:8px;align-items:flex-start}
+  .consent input{margin-top:5px;accent-color:var(--pink)}
+  .form-note{font-size:.82rem;color:var(--cyan);display:none;align-items:center;gap:6px;font-weight:600}
+  .form-note.show{display:flex}
+
+  /* ---------- Careers ---------- */
+  .roles{display:flex;flex-direction:column;gap:14px}
+  .role{
+    display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+    padding:22px 26px;border:1px solid var(--line);border-radius:16px;
+    background:rgba(255,255,255,.02);
+    transition:border-color .25s,background .25s,transform .2s;
+  }
+  .role:hover{border-color:var(--pink);background:rgba(255,61,129,.05);transform:translateX(6px)}
+  .role .info{flex:1;min-width:220px}
+  .role h3{font-size:1.18rem;margin-bottom:6px}
+  .role .meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.88rem;font-family:var(--mono);letter-spacing:.04em}
+  .role .meta span{display:inline-flex;align-items:center;gap:6px}
+  .role .meta svg{width:15px;height:15px;color:var(--cyan)}
+  .role .apply{color:var(--pink);font-weight:700;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .role:hover .apply{color:var(--pink-soft)}
+  .role .apply svg{width:16px;height:16px;transition:transform .2s}
+  .role:hover .apply svg{transform:translateX(4px)}
+  .careers-foot{margin-top:28px;color:var(--muted);font-size:.96rem}
+  .careers-foot a{color:var(--cyan);font-weight:600;border-bottom:1px solid rgba(34,224,214,.4)}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line);padding:64px 0 34px;background:linear-gradient(180deg,transparent,rgba(255,61,129,.03))}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--muted);font-size:.94rem;max-width:34ch;margin:0 0 20px}
+  .socials{display:flex;gap:12px}
+  .socials a{
+    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    border:1px solid var(--line);color:var(--muted);
+    transition:color .2s,border-color .2s,transform .2s,background .2s;
+  }
+  .socials a:hover{color:#fff;border-color:var(--cyan);transform:translateY(-3px);background:rgba(34,224,214,.1)}
+  .socials svg{width:20px;height:20px}
+  .foot-col h4{font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);font-family:var(--mono);margin:0 0 16px;font-weight:700}
+  .foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .foot-col a{color:var(--muted);font-size:.94rem;transition:color .2s}
+  .foot-col a:hover{color:var(--cyan)}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    margin-top:48px;padding-top:24px;border-top:1px solid var(--line);
+    color:var(--muted-2);font-size:.85rem;
+  }
+  .foot-bottom .mono{font-family:var(--mono)}
+
+  /* ---------- Entrance animation ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .strip-track{animation:none}
+    *{scroll-behavior:auto}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:940px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .about-grid{grid-template-columns:1fr;gap:38px}
+    .news-inner{grid-template-columns:1fr;gap:26px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:34px}
+    .games{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:760px){
+    .nav-links,.nav-cta .btn{display:none}
+    .menu-toggle{display:inline-flex}
+    .nav-links.open{
+      display:flex;flex-direction:column;align-items:stretch;
+      position:absolute;top:70px;left:4vw;right:4vw;
+      background:var(--panel-2);border:1px solid var(--line-strong);border-radius:16px;
+      padding:12px;gap:4px;box-shadow:var(--shadow);
+    }
+    .nav-links.open a{padding:.85em 1em}
+    section{padding:62px 0}
+    .values{grid-template-columns:1fr}
+    .games{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr}
+    .hero{padding:44px 0 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Pixelforge home">
+      <svg class="mark" viewBox="0 0 40 40" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="bm" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff3d81"/><stop offset="1" stop-color="#22e0d6"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="36" height="36" rx="10" fill="#150c26" stroke="url(#bm)" stroke-width="1.5"/>
+        <path d="M13 9h9a6 6 0 0 1 0 12h-4.5v10H13z" fill="url(#bm)"/>
+        <circle cx="27" cy="27" r="3.6" fill="#22e0d6"/>
+      </svg>
+      <span class="name">PIXEL<b>FORGE</b></span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#games">Games</a></li>
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#news">Newsletter</a></li>
+        <li><a href="#careers">Careers</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <a class="btn" href="#news">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        Wishlist
+      </a>
+      <button class="menu-toggle" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <div class="badge-row">
+        <span class="chip"><span class="dot live"></span>Flagship Title</span>
+        <span class="chip">Steam &middot; PS5 &middot; Switch 2</span>
+      </div>
+      <p class="eyebrow">Pixelforge presents</p>
+      <h1 id="hero-title"><span class="grad-text">Nova Ronin</span><br>Slash the neon night.</h1>
+      <p class="lede">A hand-drawn action roguelike where a masterless android samurai carves through a dying megacity — one perfect parry at a time.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#news">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+          Wishlist on Steam
+        </a>
+        <a class="btn ghost" href="#games">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor" stroke="none"/></svg>
+          Watch trailer
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div><span class="k">Release</span><span class="v cyan">Nov 12, 2026</span></div>
+        <div><span class="k">Genre</span><span class="v">Action Roguelike</span></div>
+        <div><span class="k">Players</span><span class="v">1 &ndash; 2 Co-op</span></div>
+      </div>
+    </div>
+
+    <!-- Inline SVG key art -->
+    <div class="keyart reveal" role="img" aria-label="Key art for Nova Ronin: a neon android samurai silhouette beneath a crimson moon over a rain-soaked cyberpunk skyline.">
+      <svg viewBox="0 0 640 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1c0c33"/><stop offset=".55" stop-color="#0f0720"/><stop offset="1" stop-color="#070511"/>
+          </linearGradient>
+          <radialGradient id="moon" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#ff8fb4"/><stop offset=".5" stop-color="#ff3d81"/><stop offset="1" stop-color="#8f1140"/>
+          </radialGradient>
+          <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7ff2ec"/><stop offset="1" stop-color="#22e0d6"/>
+          </linearGradient>
+          <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#20143a"/><stop offset="1" stop-color="#0a0716"/>
+          </linearGradient>
+          <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+
+        <rect width="640" height="560" fill="url(#sky)"/>
+        <!-- stars -->
+        <g fill="#fff" opacity=".8">
+          <circle cx="70" cy="60" r="1.4"/><circle cx="140" cy="120" r="1"/><circle cx="520" cy="70" r="1.5"/>
+          <circle cx="590" cy="150" r="1.1"/><circle cx="300" cy="40" r="1"/><circle cx="440" cy="110" r="1.3"/>
+          <circle cx="90" cy="190" r="1"/><circle cx="240" cy="90" r="1.2"/>
+        </g>
+        <!-- moon -->
+        <circle cx="430" cy="170" r="110" fill="url(#moon)" filter="url(#soft)" opacity=".65"/>
+        <circle cx="430" cy="170" r="92" fill="url(#moon)"/>
+        <circle cx="405" cy="150" r="18" fill="#8f1140" opacity=".45"/>
+        <circle cx="460" cy="200" r="12" fill="#8f1140" opacity=".35"/>
+
+        <!-- skyline -->
+        <g fill="#140a26">
+          <rect x="0" y="340" width="70" height="220"/>
+          <rect x="72" y="300" width="46" height="260"/>
+          <rect x="122" y="360" width="60" height="200"/>
+          <rect x="470" y="320" width="52" height="240"/>
+          <rect x="526" y="360" width="44" height="200"/>
+          <rect x="574" y="330" width="66" height="230"/>
+        </g>
+        <!-- neon windows -->
+        <g fill="#22e0d6" opacity=".85">
+          <rect x="14" y="360" width="6" height="6"/><rect x="30" y="360" width="6" height="6"/><rect x="14" y="390" width="6" height="6"/>
+          <rect x="86" y="320" width="6" height="6"/><rect x="102" y="320" width="6" height="6"/><rect x="86" y="350" width="6" height="6"/>
+        </g>
+        <g fill="#ff3d81" opacity=".85">
+          <rect x="486" y="342" width="6" height="6"/><rect x="502" y="342" width="6" height="6"/><rect x="486" y="372" width="6" height="6"/>
+          <rect x="588" y="352" width="6" height="6"/><rect x="604" y="352" width="6" height="6"/><rect x="588" y="382" width="6" height="6"/>
+        </g>
+
+        <!-- ground reflection -->
+        <rect x="0" y="470" width="640" height="90" fill="url(#ground)"/>
+        <g stroke="#ff3d81" stroke-width="2" opacity=".35">
+          <line x1="200" y1="560" x2="300" y2="475"/><line x1="440" y1="560" x2="340" y2="475"/>
+        </g>
+
+        <!-- samurai silhouette -->
+        <g transform="translate(300 300)">
+          <!-- blade glow -->
+          <line x1="-6" y1="-40" x2="118" y2="-150" stroke="url(#blade)" stroke-width="8" stroke-linecap="round" filter="url(#soft)" opacity=".8"/>
+          <line x1="-6" y1="-40" x2="118" y2="-150" stroke="#eafffd" stroke-width="3" stroke-linecap="round"/>
+          <!-- body -->
+          <path d="M0 -70 C -26 -60 -34 -20 -30 20 C -28 60 -20 120 -34 200 L 34 200 C 24 120 30 60 30 20 C 34 -20 26 -60 0 -70 Z" fill="#0a0614"/>
+          <!-- shoulder / cloak accent -->
+          <path d="M-30 -30 C -60 0 -66 60 -48 120 L -30 90 C -40 40 -34 0 -18 -18 Z" fill="#160a2a"/>
+          <path d="M30 -30 C 60 0 66 60 48 120 L 30 90 C 40 40 34 0 18 -18 Z" fill="#160a2a"/>
+          <!-- head + hat -->
+          <ellipse cx="0" cy="-78" rx="30" ry="12" fill="#0a0614"/>
+          <circle cx="0" cy="-62" r="15" fill="#0a0614"/>
+          <!-- visor -->
+          <rect x="-11" y="-66" width="22" height="5" rx="2.5" fill="#ff3d81"/>
+          <rect x="-11" y="-66" width="22" height="5" rx="2.5" fill="#ff3d81" filter="url(#soft)"/>
+          <!-- core light -->
+          <circle cx="0" cy="0" r="7" fill="#22e0d6"/>
+          <circle cx="0" cy="0" r="12" fill="#22e0d6" opacity=".4" filter="url(#soft)"/>
+        </g>
+      </svg>
+      <span class="tag">In-engine key art</span>
+      <div class="float">
+        <span class="rating">
+          <svg viewBox="0 0 24 24" fill="#ffd45e" aria-hidden="true"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+          Steam Next Fest Pick
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- marquee strip -->
+  <div class="strip" aria-hidden="true">
+    <div class="strip-track">
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Nominee &middot; Best Indie 2025</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>140k Wishlists &amp; Climbing</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Hand-Animated at 60fps</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Original Synthwave Score</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Full Controller Support</span>
+      <!-- duplicate for seamless loop -->
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Nominee &middot; Best Indie 2025</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>140k Wishlists &amp; Climbing</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Hand-Animated at 60fps</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Original Synthwave Score</span>
+      <span class="strip-item"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></svg>Full Controller Support</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GAMES ===================== -->
+<section id="games" aria-labelledby="games-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Our Games</p>
+      <h2 id="games-title">Three worlds, forged by hand</h2>
+      <p>Every frame is drawn, every mechanic is playtested to death, and every soundtrack is written in-house. No asset flips, no filler.</p>
+    </div>
+
+    <div class="games">
+
+      <!-- Game 1: Nova Ronin -->
+      <article class="game reveal">
+        <div class="cover">
+          <svg viewBox="0 0 400 275" role="img" aria-label="Nova Ronin cover art: a glowing katana slash across a crimson moon." aria-hidden="false">
+            <defs>
+              <linearGradient id="g1bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a0f36"/><stop offset="1" stop-color="#0a0616"/></linearGradient>
+              <radialGradient id="g1moon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8fb4"/><stop offset="1" stop-color="#8f1140"/></radialGradient>
+              <linearGradient id="g1slash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7ff2ec"/><stop offset="1" stop-color="#22e0d6"/></linearGradient>
+            </defs>
+            <rect width="400" height="275" fill="url(#g1bg)"/>
+            <circle cx="270" cy="105" r="70" fill="url(#g1moon)"/>
+            <g fill="#fff" opacity=".7"><circle cx="60" cy="50" r="1.4"/><circle cx="120" cy="30" r="1"/><circle cx="340" cy="200" r="1.2"/><circle cx="40" cy="150" r="1"/></g>
+            <g fill="#120826"><rect x="0" y="200" width="60" height="75"/><rect x="60" y="170" width="34" height="105"/><rect x="320" y="185" width="40" height="90"/><rect x="360" y="205" width="40" height="70"/></g>
+            <path d="M40 240 C 160 120 260 90 380 20" stroke="#eafffd" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M40 240 C 160 120 260 90 380 20" stroke="url(#g1slash)" stroke-width="12" fill="none" stroke-linecap="round" opacity=".4"/>
+            <g fill="#22e0d6"><circle cx="150" cy="150" r="2"/><circle cx="210" cy="120" r="2.5"/><circle cx="300" cy="70" r="2"/></g>
+          </svg>
+          <span class="status out">Coming Nov 2026</span>
+        </div>
+        <div class="game-body">
+          <span class="genre">Action &middot; Roguelike</span>
+          <h3>Nova Ronin</h3>
+          <p>Chain flawless parries into devastating combos, unlock 40+ blade forms, and outrun a city that rewrites itself every run.</p>
+          <div class="platforms">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Steam"><path d="M12 2a10 10 0 0 0-9.9 8.6l5.4 2.2a2.8 2.8 0 0 1 1.6-.5l2.4-3.5v-.1a3.7 3.7 0 1 1 3.7 3.7h-.1l-3.4 2.5a2.8 2.8 0 0 1-5.5.8L2 18.4A10 10 0 1 0 12 2zm-3 15.1l-1.3-.5a2.1 2.1 0 0 0 3.9-1 2.1 2.1 0 0 0-2.9-2l1.3.6a1.5 1.5 0 1 1-1 2.9zm7.7-6a2.5 2.5 0 1 0-2.5-2.5 2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="PlayStation"><path d="M9 4.5v14l3.2 1V8.4c0-.6.3-1 .8-.8.7.2.8.9.8 1.6v3.5c2 1 3.6-.1 3.6-2.6 0-2.6-.9-3.8-3.6-4.7A18 18 0 0 0 9 4.5zM5.2 18.7l3.1-1.1v-1.2l-2.6.9c-.5.2-.7 0-.4-.2l3-1.1v-1.3l-3.5 1.2s-1.3.5-1.3 1.6c0 1.1 1.7 1.2 1.7 1.2zm13.6-2.3l-4.3 1.5v1.3l4.2-1.5s.9-.3.9-1.1c0-.8-1.1-1-1.1-1l-4.7 1.7v1.3l4.2-1.5c.5-.2.9 0 .5.3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Nintendo Switch"><path d="M6 2h3.2v20H7A5 5 0 0 1 2 17V7a5 5 0 0 1 4-5zm.4 3.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2zM14.8 2H17a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5h-2.2V2zM17 13a1.7 1.7 0 1 0 0 3.4A1.7 1.7 0 0 0 17 13z"/></svg>
+            <span class="sep"></span>
+            <a href="#news">Wishlist <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Game 2: Bramblewick -->
+      <article class="game reveal">
+        <div class="cover">
+          <svg viewBox="0 0 400 275" role="img" aria-label="Bramblewick cover art: a cozy lantern-lit cottage on a starry hillside with drifting fireflies.">
+            <defs>
+              <linearGradient id="g2sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241353"/><stop offset="1" stop-color="#3b1f5e"/></linearGradient>
+              <linearGradient id="g2hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f5e4a"/><stop offset="1" stop-color="#123a2f"/></linearGradient>
+            </defs>
+            <rect width="400" height="275" fill="url(#g2sky)"/>
+            <circle cx="320" cy="70" r="40" fill="#ffe9a8"/>
+            <circle cx="320" cy="70" r="52" fill="#ffe9a8" opacity=".25"/>
+            <g fill="#fff" opacity=".85"><circle cx="60" cy="40" r="1.4"/><circle cx="110" cy="70" r="1"/><circle cx="180" cy="30" r="1.2"/><circle cx="240" cy="60" r="1"/><circle cx="40" cy="100" r="1.1"/></g>
+            <path d="M0 180 Q 130 120 260 175 T 400 165 V 275 H 0 Z" fill="url(#g2hill)"/>
+            <path d="M0 220 Q 160 180 400 215 V 275 H 0 Z" fill="#0e2d24"/>
+            <!-- cottage -->
+            <g transform="translate(150 150)">
+              <rect x="0" y="20" width="60" height="42" rx="3" fill="#5a3b2e"/>
+              <path d="M-8 22 L 30 -6 L 68 22 Z" fill="#8f4a3a"/>
+              <rect x="24" y="38" width="16" height="24" fill="#ffd27a"/>
+              <rect x="8" y="30" width="12" height="12" fill="#ffd27a"/>
+              <rect x="42" y="30" width="12" height="12" fill="#ffd27a"/>
+              <rect x="50" y="-6" width="8" height="18" fill="#4a2f26"/>
+            </g>
+            <!-- fireflies -->
+            <g fill="#b6ffd9"><circle cx="90" cy="200" r="2.5"/><circle cx="300" cy="210" r="2"/><circle cx="250" cy="150" r="2.2"/><circle cx="120" cy="150" r="1.8"/></g>
+            <g fill="#b6ffd9" opacity=".4"><circle cx="90" cy="200" r="6"/><circle cx="300" cy="210" r="5"/><circle cx="250" cy="150" r="5"/></g>
+          </svg>
+          <span class="status ea">Early Access</span>
+        </div>
+        <div class="game-body">
+          <span class="genre">Cozy &middot; Life Sim</span>
+          <h3>Bramblewick</h3>
+          <p>Restore an overgrown valley, brew moonlit teas, and befriend the shy folk of a village that only wakes after dusk.</p>
+          <div class="platforms">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Steam"><path d="M12 2a10 10 0 0 0-9.9 8.6l5.4 2.2a2.8 2.8 0 0 1 1.6-.5l2.4-3.5v-.1a3.7 3.7 0 1 1 3.7 3.7h-.1l-3.4 2.5a2.8 2.8 0 0 1-5.5.8L2 18.4A10 10 0 1 0 12 2zm-3 15.1l-1.3-.5a2.1 2.1 0 0 0 3.9-1 2.1 2.1 0 0 0-2.9-2l1.3.6a1.5 1.5 0 1 1-1 2.9zm7.7-6a2.5 2.5 0 1 0-2.5-2.5 2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Nintendo Switch"><path d="M6 2h3.2v20H7A5 5 0 0 1 2 17V7a5 5 0 0 1 4-5zm.4 3.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2zM14.8 2H17a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5h-2.2V2zM17 13a1.7 1.7 0 1 0 0 3.4A1.7 1.7 0 0 0 17 13z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Available on macOS"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7 2-1 2.8-2.1c.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.9zM14.1 5.8c.6-.8 1-1.9.9-3-1 0-2.1.6-2.8 1.4-.6.7-1.1 1.8-1 2.9 1.1 0 2.2-.6 2.9-1.3z"/></svg>
+            <span class="sep"></span>
+            <a href="#news">Buy now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Game 3: Hollow Circuit -->
+      <article class="game reveal">
+        <div class="cover">
+          <svg viewBox="0 0 400 275" role="img" aria-label="Hollow Circuit cover art: glowing cyan circuit pathways connecting pulsing nodes on a dark grid.">
+            <defs>
+              <linearGradient id="g3bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#08131f"/><stop offset="1" stop-color="#0a0616"/></linearGradient>
+              <linearGradient id="g3wire" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22e0d6"/><stop offset="1" stop-color="#ff3d81"/></linearGradient>
+            </defs>
+            <rect width="400" height="275" fill="url(#g3bg)"/>
+            <g stroke="rgba(34,224,214,.12)" stroke-width="1">
+              <line x1="0" y1="46" x2="400" y2="46"/><line x1="0" y1="92" x2="400" y2="92"/><line x1="0" y1="138" x2="400" y2="138"/><line x1="0" y1="184" x2="400" y2="184"/><line x1="0" y1="230" x2="400" y2="230"/>
+              <line x1="50" y1="0" x2="50" y2="275"/><line x1="120" y1="0" x2="120" y2="275"/><line x1="190" y1="0" x2="190" y2="275"/><line x1="260" y1="0" x2="260" y2="275"/><line x1="330" y1="0" x2="330" y2="275"/>
+            </g>
+            <g stroke="url(#g3wire)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".95">
+              <path d="M50 230 L 50 138 L 120 138 L 120 46 L 260 46"/>
+              <path d="M120 138 L 190 138 L 190 230 L 330 230"/>
+              <path d="M260 46 L 330 46 L 330 138"/>
+            </g>
+            <g>
+              <circle cx="50" cy="230" r="8" fill="#22e0d6"/><circle cx="50" cy="230" r="14" fill="#22e0d6" opacity=".3"/>
+              <circle cx="120" cy="46" r="7" fill="#ff3d81"/><circle cx="120" cy="46" r="13" fill="#ff3d81" opacity=".3"/>
+              <circle cx="260" cy="46" r="6" fill="#22e0d6"/>
+              <circle cx="190" cy="138" r="6" fill="#ff3d81"/>
+              <circle cx="330" cy="230" r="8" fill="#22e0d6"/><circle cx="330" cy="230" r="14" fill="#22e0d6" opacity=".3"/>
+              <circle cx="330" cy="138" r="6" fill="#ff3d81"/>
+            </g>
+          </svg>
+          <span class="status soon">Wishlist Now</span>
+        </div>
+        <div class="game-body">
+          <span class="genre">Puzzle &middot; Cyberpunk</span>
+          <h3>Hollow Circuit</h3>
+          <p>Reroute the memories of a decommissioned android by solving living circuit puzzles that fight back as the story unravels.</p>
+          <div class="platforms">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Steam"><path d="M12 2a10 10 0 0 0-9.9 8.6l5.4 2.2a2.8 2.8 0 0 1 1.6-.5l2.4-3.5v-.1a3.7 3.7 0 1 1 3.7 3.7h-.1l-3.4 2.5a2.8 2.8 0 0 1-5.5.8L2 18.4A10 10 0 1 0 12 2zm-3 15.1l-1.3-.5a2.1 2.1 0 0 0 3.9-1 2.1 2.1 0 0 0-2.9-2l1.3.6a1.5 1.5 0 1 1-1 2.9zm7.7-6a2.5 2.5 0 1 0-2.5-2.5 2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Xbox"><path d="M12 2a10 10 0 0 0-6.6 2.5C7.1 6.2 10.3 9.8 12 12c1.7-2.2 4.9-5.8 6.6-7.5A10 10 0 0 0 12 2zM3.6 6.3A10 10 0 0 0 4 17.9c1-3 4-6.8 6-9-1.6-1.7-4.4-4-6.4-2.6zm16.8 0C18.4 4.9 15.6 7.2 14 8.9c2 2.2 5 6 6 9A10 10 0 0 0 20.4 6.3zM6.2 19.9A10 10 0 0 0 12 22a10 10 0 0 0 5.8-2.1C16.5 17.3 13.8 14.4 12 12.6c-1.8 1.8-4.5 4.7-5.8 7.3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-label="Nintendo Switch"><path d="M6 2h3.2v20H7A5 5 0 0 1 2 17V7a5 5 0 0 1 4-5zm.4 3.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2zM14.8 2H17a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5h-2.2V2zM17 13a1.7 1.7 0 1 0 0 3.4A1.7 1.7 0 0 0 17 13z"/></svg>
+            <span class="sep"></span>
+            <a href="#news">Wishlist <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="studio" aria-labelledby="studio-title">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <p class="eyebrow">About the Studio</p>
+        <h2 id="studio-title" style="font-size:clamp(1.9rem,4vw,2.9rem);margin-bottom:20px">A tiny team with an oversized imagination</h2>
+        <p><strong>Pixelforge</strong> is an independent studio of 15 developers, artists, and musicians working out of a converted print house in Malmö, Sweden. We started in 2019 with a single arcade prototype and a rule we still keep: if it doesn't feel great in the first thirty seconds, we rebuild it.</p>
+        <p>We are fully self-funded, ship on our own timeline, and answer only to the players who wishlist and follow our work. No live-service treadmills, no predatory monetization — just finished games we are proud to put our name on.</p>
+        <div class="stats">
+          <div class="stat"><div class="n">2019</div><div class="l">Founded in Malmö</div></div>
+          <div class="stat"><div class="n">15</div><div class="l">Humans on the team</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">Titles shipped &amp; in-dev</div></div>
+          <div class="stat"><div class="n">100%</div><div class="l">Independently funded</div></div>
+        </div>
+      </div>
+
+      <div class="studio-art reveal" role="img" aria-label="Stylized illustration of the Pixelforge studio: neon arcade cabinets glowing in a loft workspace at night.">
+        <svg viewBox="0 0 460 460" aria-hidden="true">
+          <defs>
+            <linearGradient id="stroom" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0f2c"/><stop offset="1" stop-color="#0b0718"/></linearGradient>
+            <linearGradient id="scab1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff3d81"/><stop offset="1" stop-color="#a3134c"/></linearGradient>
+            <linearGradient id="scab2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22e0d6"/><stop offset="1" stop-color="#0f8f88"/></linearGradient>
+          </defs>
+          <rect width="460" height="460" fill="url(#stroom)"/>
+          <!-- window with skyline -->
+          <rect x="40" y="40" width="380" height="150" rx="8" fill="#0a0616" stroke="rgba(34,224,214,.25)"/>
+          <g fill="#160a2a"><rect x="60" y="120" width="40" height="70"/><rect x="110" y="90" width="30" height="100"/><rect x="150" y="130" width="46" height="60"/><rect x="300" y="100" width="34" height="90"/><rect x="344" y="130" width="40" height="60"/></g>
+          <g fill="#22e0d6" opacity=".8"><rect x="68" y="130" width="5" height="5"/><rect x="80" y="130" width="5" height="5"/><rect x="118" y="104" width="5" height="5"/></g>
+          <g fill="#ff3d81" opacity=".8"><rect x="308" y="112" width="5" height="5"/><rect x="352" y="140" width="5" height="5"/></g>
+          <circle cx="360" cy="80" r="22" fill="#ff3d81" opacity=".5"/>
+          <!-- floor -->
+          <rect x="0" y="360" width="460" height="100" fill="#0a0616"/>
+          <line x1="0" y1="360" x2="460" y2="360" stroke="rgba(255,61,129,.3)" stroke-width="2"/>
+          <!-- arcade cabinets -->
+          <g>
+            <rect x="70" y="240" width="90" height="140" rx="10" fill="url(#scab1)"/>
+            <rect x="82" y="256" width="66" height="44" rx="4" fill="#0a0616"/>
+            <rect x="88" y="262" width="54" height="32" fill="#22e0d6" opacity=".55"/>
+            <rect x="82" y="312" width="66" height="10" rx="3" fill="#0a0616"/>
+            <circle cx="98" cy="336" r="5" fill="#0a0616"/><circle cx="118" cy="336" r="5" fill="#0a0616"/>
+            <rect x="70" y="240" width="90" height="140" rx="10" fill="none" stroke="#ff8fb4" stroke-width="1.5" opacity=".5"/>
+          </g>
+          <g>
+            <rect x="180" y="230" width="94" height="150" rx="10" fill="url(#scab2)"/>
+            <rect x="192" y="248" width="70" height="46" rx="4" fill="#0a0616"/>
+            <rect x="198" y="254" width="58" height="34" fill="#ff3d81" opacity=".55"/>
+            <rect x="192" y="306" width="70" height="10" rx="3" fill="#0a0616"/>
+            <circle cx="210" cy="332" r="5" fill="#0a0616"/><circle cx="232" cy="332" r="5" fill="#0a0616"/>
+            <rect x="180" y="230" width="94" height="150" rx="10" fill="none" stroke="#7ff2ec" stroke-width="1.5" opacity=".5"/>
+          </g>
+          <!-- desk with monitor -->
+          <g>
+            <rect x="300" y="300" width="120" height="12" rx="4" fill="#2a1840"/>
+            <rect x="316" y="312" width="10" height="60" fill="#2a1840"/>
+            <rect x="394" y="312" width="10" height="60" fill="#2a1840"/>
+            <rect x="322" y="250" width="80" height="52" rx="5" fill="#0a0616" stroke="rgba(34,224,214,.4)"/>
+            <path d="M330 292 L 352 264 L 366 282 L 380 258 L 394 292 Z" fill="#22e0d6" opacity=".6"/>
+            <rect x="356" y="302" width="12" height="12" fill="#2a1840"/>
+          </g>
+          <!-- floating pixels -->
+          <g><rect x="150" y="200" width="8" height="8" fill="#ff3d81"/><rect x="290" y="180" width="8" height="8" fill="#22e0d6"/><rect x="330" y="210" width="6" height="6" fill="#ff8fb4"/></g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="value reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2l2.4 6.9H22l-6 4.4 2.3 7L12 16.9 5.7 20.3 8 13.3 2 8.9h7.6z"/></svg></div>
+        <h3>Feel first</h3>
+        <p>We prototype the moment-to-moment feel before we write a single line of story. If the controls don't sing, nothing else matters.</p>
+      </div>
+      <div class="value reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3>Made in the open</h3>
+        <p>Devlogs every fortnight, playtest builds for our community, and a Discord where the whole team actually answers questions.</p>
+      </div>
+      <div class="value reveal">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h3>Finished, not endless</h3>
+        <p>We build games with a beginning, middle, and end — then we support them, and move on to the next wild idea.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== NEWSLETTER / WISHLIST ===================== -->
+<section id="news" class="newsletter" aria-labelledby="news-title">
+  <div class="wrap">
+    <div class="news-card reveal">
+      <div class="news-inner">
+        <div>
+          <p class="eyebrow">Join the Forge</p>
+          <h2 id="news-title">Wishlist Nova Ronin &amp; never miss a drop</h2>
+          <p>One email a month: new trailers, closed playtest invites, soundtrack previews, and the occasional Steam key giveaway. That's it. Unsubscribe anytime, no hard feelings.</p>
+        </div>
+        <form class="signup" id="signupForm" novalidate>
+          <label for="email" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2)">Email address</label>
+          <div class="field">
+            <input type="email" id="email" name="email" placeholder="you@yourdomain.com" autocomplete="email" required aria-required="true">
+            <button class="btn" type="submit">
+              Sign me up
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+          <label class="consent"><input type="checkbox" id="consent" name="consent"> I'd also like early playtest invites for Bramblewick and Hollow Circuit.</label>
+          <p class="form-note" id="formNote" role="status" aria-live="polite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="width:16px;height:16px"><path d="M20 6L9 17l-5-5"/></svg>
+            You're on the list — check your inbox to confirm.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CAREERS ===================== -->
+<section id="careers" aria-labelledby="careers-title">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Careers</p>
+      <h2 id="careers-title">Help us build the next one</h2>
+      <p>We hire slowly and thoughtfully. Four seats are open right now — remote-friendly across European time zones, with relocation support to Malmö if you want it.</p>
+    </div>
+
+    <div class="roles">
+      <div class="role reveal">
+        <div class="info">
+          <h3>Senior Gameplay Engineer</h3>
+          <div class="meta">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Malmö or Remote (EU)</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Full-time</span>
+            <span>C++ &middot; Unreal 5</span>
+          </div>
+        </div>
+        <a class="apply" href="#news">Apply <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+
+      <div class="role reveal">
+        <div class="info">
+          <h3>3D Character &amp; Creature Artist</h3>
+          <div class="meta">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Remote (EU)</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Full-time</span>
+            <span>Blender &middot; ZBrush</span>
+          </div>
+        </div>
+        <a class="apply" href="#news">Apply <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+
+      <div class="role reveal">
+        <div class="info">
+          <h3>Narrative Designer</h3>
+          <div class="meta">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Malmö (Hybrid)</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Contract → Perm</span>
+            <span>Branching &middot; Ink</span>
+          </div>
+        </div>
+        <a class="apply" href="#news">Apply <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+
+      <div class="role reveal">
+        <div class="info">
+          <h3>Community &amp; Social Manager</h3>
+          <div class="meta">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Remote (EU)</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Part-time</span>
+            <span>Discord &middot; Bluesky</span>
+          </div>
+        </div>
+        <a class="apply" href="#news">Apply <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+
+    <p class="careers-foot reveal">Don't see your role but think you'd be a great fit? Send a portfolio to <a href="#news">jobs@pixelforge.studio</a> and tell us what you'd build.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" aria-label="Pixelforge home">
+          <svg class="mark" viewBox="0 0 40 40" role="img" aria-hidden="true">
+            <rect x="2" y="2" width="36" height="36" rx="10" fill="#150c26" stroke="url(#bm)" stroke-width="1.5"/>
+            <path d="M13 9h9a6 6 0 0 1 0 12h-4.5v10H13z" fill="url(#bm)"/>
+            <circle cx="27" cy="27" r="3.6" fill="#22e0d6"/>
+          </svg>
+          <span class="name">PIXEL<b>FORGE</b></span>
+        </a>
+        <p>An independent game studio forging stylish, hand-crafted worlds from a print house in Malmö, Sweden.</p>
+        <div class="socials">
+          <a href="#top" aria-label="Pixelforge on Discord" title="Discord">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.3 5.3A16 16 0 0 0 15.4 4l-.2.4a12 12 0 0 1 3.4 1.7 11 11 0 0 0-9.3 0A12 12 0 0 1 12.8 4.4L12.6 4a16 16 0 0 0-3.9 1.3C6 9.2 5.3 13 5.6 16.7A16 16 0 0 0 10.5 19l.6-.9c-.9-.3-1.7-.8-2.4-1.3l.6-.4a11.4 11.4 0 0 0 9.4 0l.6.4c-.7.5-1.5.9-2.4 1.3l.6.9a16 16 0 0 0 4.9-2.3c.4-4.3-.7-8-3.1-11.4zM9.7 14.5c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm4.6 0c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.8 1.9-1.7 1.9z"/></svg>
+          </a>
+          <a href="#top" aria-label="Pixelforge on Bluesky" title="Bluesky">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.9 8.6 8 4.6 5.2 3.3 2.5 2 1.5 3.1 1.5 5.4c0 2.3 1.3 9.4 2.1 10.6.8 1.2 2.3 1.5 3.7.9-2.4.4-4.5 1.4-1.7 4.4C7.8 24.4 9 20.9 9.7 19c.7 1.9 1.9 5.4 4.1 2.3 2.8-3 .7-4-1.7-4.4 1.4.6 2.9.3 3.7-.9.8-1.2 2.1-8.3 2.1-10.6 0-2.3-1-3.4-3.7-2.1C16.1 4.6 13.1 8.6 12 10.8z"/></svg>
+          </a>
+          <a href="#top" aria-label="Pixelforge on YouTube" title="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.5 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.5zM9.8 15.3V8.7l5.7 3.3z"/></svg>
+          </a>
+          <a href="#top" aria-label="Pixelforge on itch.io" title="itch.io">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.7 3.4C2.9 3.9 1.5 5.5 1.2 6.4c-.3.9-.3 1.9.1 2.4.5.6 1.3.8 2 .5.6.7 1.7.7 2.4 0 .7.7 1.8.7 2.5 0 .7.7 1.8.7 2.5 0 .7.7 1.8.7 2.5 0 .7.7 1.8.7 2.4 0 .7.3 1.5.1 2-.5.4-.5.4-1.5.1-2.4-.3-.9-1.7-2.5-2.5-3C18 3.2 16.5 3 12 3s-6 .2-8.3.4zM4 11.3c-.3 1.9-.4 5.6-.2 6.9.3 1.5 1.3 2.4 2.9 2.6 1.4.2 3.6.2 5.3.2s3.9 0 5.3-.2c1.6-.2 2.6-1.1 2.9-2.6.2-1.3.1-5-.2-6.9-.5.4-1.2.6-1.9.5-.7 0-1.4-.3-1.9-.7-.5.4-1.2.7-1.9.7s-1.4-.3-1.9-.7c-.5.4-1.2.7-1.9.7l-.3-.1c-.6.5-1.4.8-2.2.8-.7 0-1.3-.2-1.8-.6-.6.4-1.3.6-2 .6l-.5-.2zm5.3 2.3h5.4c.6 0 .9.4 1.2 1 .3.7.6 1.4.6 2 0 .8-.7 1.2-1.5 1.2-1.1 0-1.7-.8-2-1.8h-2c-.3 1-.9 1.8-2 1.8-.8 0-1.5-.4-1.5-1.2 0-.6.3-1.3.6-2 .3-.6.6-1 1.2-1z"/></svg>
+          </a>
+          <a href="#top" aria-label="Pixelforge on Mastodon" title="Mastodon">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.3 8.2c0-3.4-2.2-4.4-2.2-4.4C17.9 3.2 15.9 3 13.8 3h-.1c-2.1 0-4 .2-5.2.8 0 0-2.2 1-2.2 4.4v3.6c0 3.4.3 4.9.6 5.9.5 1.7 3.3 2.6 5.6 2.7 1.6.1 3-.4 3-.4v-2c-1.1.2-2.3.2-3.3.1-1.9-.2-2.4-.9-2.5-2 0 0-.1-.4-.1-.8 3.5.9 6.6.4 7-.1 2.4-.3 4-1.8 4.2-3.6.3-2.8.3-3.1.3-3.1zm-3.3 4.7h-2.1v-5c0-1-.5-1.6-1.4-1.6s-1.4.6-1.4 1.7v2.8h-2v-2.8c0-1.1-.5-1.7-1.4-1.7s-1.4.6-1.4 1.6v5H6.1V7.7C6.1 6.7 6.4 6 7 5.4c.6-.5 1.4-.8 2.3-.8 1.1 0 1.9.4 2.4 1.2l.5.9.5-.9c.5-.8 1.3-1.2 2.4-1.2.9 0 1.7.3 2.3.8.6.6.9 1.3.9 2.3z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="foot-col">
+        <h4>Games</h4>
+        <ul>
+          <li><a href="#games">Nova Ronin</a></li>
+          <li><a href="#games">Bramblewick</a></li>
+          <li><a href="#games">Hollow Circuit</a></li>
+          <li><a href="#news">Press kit</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#studio">About us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#news">Devlog</a></li>
+          <li><a href="#news">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#top">Privacy policy</a></li>
+          <li><a href="#top">Terms of use</a></li>
+          <li><a href="#top">Cookie settings</a></li>
+          <li><a href="#top">EULA</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>&copy; 2019&ndash;2026 Pixelforge AB. All games and characters are trademarks of Pixelforge AB.</span>
+      <span class="mono">Bergsgatan 24, 214 22 Malmö, Sweden</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile navigation toggle
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var links = document.getElementById('navLinks');
+    if (btn && links) {
+      btn.addEventListener('click', function () {
+        var open = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          links.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  })();
+
+  // Newsletter form (client-side only, no network)
+  (function () {
+    var form = document.getElementById('signupForm');
+    var input = document.getElementById('email');
+    var note = document.getElementById('formNote');
+    if (!form) return;
+    input.addEventListener('input', function () {
+      input.removeAttribute('aria-invalid');
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = (input.value || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+        input.setAttribute('aria-invalid', 'true');
+        input.focus();
+        return;
+      }
+      input.removeAttribute('aria-invalid');
+      note.classList.add('show');
+      form.reset();
+    });
+  })();
+
+  // Elevate header once the page is scrolled
+  (function () {
+    var header = document.querySelector('header');
+    if (!header) return;
+    var onScroll = function () {
+      header.classList.toggle('scrolled', window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  // Scroll entrance reveal
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
